@@ -1,0 +1,18 @@
+# darwincore.py (fathomnet-py)
+from typing import List
+
+from . import EndpointManager
+
+
+class DarwinCore(EndpointManager):
+    PATH = 'darwincore'
+
+
+def index() -> str:
+    res = DarwinCore.get('', parse_json=False)
+    return res.text
+
+
+def find_owner_institution_codes() -> List[str]:
+    res_json = DarwinCore.get('list/ownerinstitutions')
+    return res_json
