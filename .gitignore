@@ -1,0 +1,7 @@
+# Caches
+*__pycache__/
+.pytest_cache/
+
+# Distribution
+dist/
+*.egg-info/
