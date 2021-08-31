@@ -1,0 +1,41 @@
+# GitHub action for linting and testing the FathomNet Python client API
+
+name: api-ci
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9, 3.10]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install flake8 and pytest
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install flake8 pytest
+      
+      - name: Lint with flake8
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --ignore=E501 --exit-zero --max-complexity=10 --max-line-length=127 --show-source --statistics
+
+      - name: Test with pytest
+        run: |
+          pytest -v test
