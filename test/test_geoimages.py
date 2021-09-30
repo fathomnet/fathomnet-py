@@ -31,7 +31,7 @@ class TestGeoImagesAPI(TestCase):
         self.assertGreater(len(results), 0)
 
     def test_find_by_image_set_upload_uuid(self):
-        image_set_upload_uuid = '1b9aef97-13c1-43f0-b267-c386b5b38f94'
+        image_set_upload_uuid = '9c891f7a-976b-4376-acf9-31681e1b3a15'
         results = geoimages.find_by_image_set_upload_uuid(image_set_upload_uuid)
         self.assertIsNotNone(results)
         self.assertGreater(len(results), 0)

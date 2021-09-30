@@ -38,7 +38,7 @@ class TestImagesAPI(TestCase):
     def test_list_imaging_types(self):
         imaging_types = images.list_imaging_types()
         self.assertIsNotNone(imaging_types)
-        self.assertIn(None, imaging_types)
+        self.assertIn('ROV', imaging_types)
 
     def test_find(self):
         geo_image_constraints = models.GeoImageConstraints(
@@ -118,18 +118,18 @@ class TestImagesAPI(TestCase):
 
     def test_find_by_uuid_in_list(self):
         uuids = [
-            '86a7993e-c997-44b3-9f03-043049822dce',
-            'b614d4e6-a0fb-43e9-abca-d0a496564393',
-            '0b8bb542-6192-4e46-b077-cbb6fe2e33f8',
-            '32a784ed-5d6c-4bc3-abf7-88b4cacb097e',
-            '09911749-6480-4dfe-9632-01d678c207ba'
+            'b7736c31-0b78-4761-840c-e3781d6845be', 
+            '9b0bc09b-85b2-4b72-99db-bf91b36a9f89', 
+            '8bf45f3c-4d11-418c-b384-2dfdc2e6c01c', 
+            'bfa62293-1723-4643-8954-a60786f10ad5', 
+            'a1b4d4ff-a22c-417b-921f-a1dd98c21f7a'
         ]
         results = images.find_by_uuid_in_list(uuids)
         self.assertIsNotNone(results)
         self.assertSetEqual(set(image.uuid for image in results), set(uuids))
 
     def test_find_by_uuid(self):
-        uuid = '4f5265f7-31cd-490d-a807-bc350356435d'
+        uuid = 'b7736c31-0b78-4761-840c-e3781d6845be'
         image = images.find_by_uuid(uuid)
         self.assertIsNotNone(image)
         self.assertEqual(image.uuid, uuid)

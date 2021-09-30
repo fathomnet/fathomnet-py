@@ -48,7 +48,7 @@ class TestImageSetUploadsAPI(TestCase):
         self.assertEqual(stats.imageSetUploadUuid, image_set_upload_uuid)
 
     def test_find_by_uuid(self):
-        uuid = '9da52a10-f7db-4897-a886-2e3fbf6b9d36'
+        uuid = '9c891f7a-976b-4376-acf9-31681e1b3a15'
         image_set = imagesetuploads.find_by_uuid(uuid)
         self.assertIsNotNone(image_set)
         self.assertEqual(image_set.uuid, uuid)

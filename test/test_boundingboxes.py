@@ -56,7 +56,7 @@ class TestBoundingBoxesAPI(TestCase):
         raise SkipTest('Write tests not yet implemented')  # TODO upload_csv test
 
     def test_find_by_uuid(self):
-        uuid = 'aed5704b-be1f-4f5d-84c3-acd1b8b13c52'
+        uuid = 'eb05c713-9cd9-4cd9-bcaa-71f8e500825d'
         box = boundingboxes.find_by_uuid(uuid)
         self.assertIsNotNone(box)
         self.assertEqual(box.uuid, uuid)
