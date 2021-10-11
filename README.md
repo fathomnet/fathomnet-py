@@ -5,7 +5,7 @@
 ```python
 >>> from fathomnet.api import boundingboxes
 >>> boundingboxes.find_concepts()
-['2G Robotics structured light laser', '55-gallon drum', 'Abraliopsis (Boreabraliopsis) felis', 'Abyssocucumis abyssorum', 'Acanthamunnopsis', ...]
+['2G Robotics structured light laser', '55-gallon drum', ...]
 >>> from fathomnet.api import images
 >>> images.find_by_concept('Nanomia')
 [
