@@ -4,6 +4,9 @@ from dataclasses_json import dataclass_json
 from enum import Enum
 from typing import List, Optional
 from requests.auth import AuthBase
+from lxml import etree
+from lxml.builder import E
+import os
 
 
 @dataclass_json
@@ -34,6 +37,56 @@ class AImageDTO:
     boundingBoxes: Optional[List['ABoundingBoxDTO']] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
+    
+    def to_pascal_voc(self, path: Optional[str] = None, pretty_print: bool = False):
+        """Convert to Pascal VOC"""
+        if path is None:  # If no path provided, use URL
+            if self.url is None:
+                raise ValueError('Either the path argument or the image URL must be specified.')
+            path = self.url
+        
+        # Parse the folder name and file name
+        dir_path, base_name = os.path.split(path)
+        folder_name = os.path.basename(dir_path)
+        
+        # Encode bounding box data into object tags
+        boxes = self.boundingBoxes or []
+        objects = [
+            E.object(
+                E.name(box.concept + (' {}'.format(box.altConcept) if box.altConcept is not None else '')),
+                E.pose('Unspecified'),
+                E.truncated(str(int(box.truncated) if box.truncated is not None else 0)),
+                E.difficult('0'),
+                E.occluded(str(int(box.occluded) if box.occluded is not None else 0)),
+                E.bndbox(
+                    E.xmin(str(box.x)),
+                    E.xmax(str(box.x + box.width)),
+                    E.ymin(str(box.y)),
+                    E.ymax(str(box.y + box.height))
+                )
+            )
+            for box in boxes
+        ]
+        
+        # Encode annotation data
+        annotation = E.annotation(
+            E.folder(folder_name),
+            E.filename(base_name),
+            E.path(path),
+            E.source(
+                E.database('FathomNet')
+            ),
+            E.size(
+                E.width(str(self.width)),
+                E.height(str(self.height)),
+                E.depth('3')
+            ),
+            E.segmented('0'),
+            *objects
+        )
+        
+        return etree.tostring(annotation, pretty_print=pretty_print).decode()
+        
 
 
 @dataclass_json
