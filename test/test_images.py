@@ -118,10 +118,10 @@ class TestImagesAPI(TestCase):
 
     def test_find_by_uuid_in_list(self):
         uuids = [
-            'b7736c31-0b78-4761-840c-e3781d6845be', 
-            '9b0bc09b-85b2-4b72-99db-bf91b36a9f89', 
-            '8bf45f3c-4d11-418c-b384-2dfdc2e6c01c', 
-            'bfa62293-1723-4643-8954-a60786f10ad5', 
+            'b7736c31-0b78-4761-840c-e3781d6845be',
+            '9b0bc09b-85b2-4b72-99db-bf91b36a9f89',
+            '8bf45f3c-4d11-418c-b384-2dfdc2e6c01c',
+            'bfa62293-1723-4643-8954-a60786f10ad5',
             'a1b4d4ff-a22c-417b-921f-a1dd98c21f7a'
         ]
         results = images.find_by_uuid_in_list(uuids)

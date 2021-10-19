@@ -37,18 +37,27 @@ class AImageDTO:
     boundingBoxes: Optional[List['ABoundingBoxDTO']] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
-    
-    def to_pascal_voc(self, path: Optional[str] = None, pretty_print: bool = False):
-        """Convert to Pascal VOC"""
+
+    def to_pascal_voc(self, path: Optional[str] = None, pretty_print: bool = False) -> str:
+        """Convert to a Pascal VOC.
+
+        :param path: Path to the image file, defaults to using the image URL if available
+        :type path: Optional[str], optional
+        :param pretty_print: Set true to add indentation and newlines in XML, defaults to False
+        :type pretty_print: bool, optional
+        :raises ValueError: Raised if both the path and image URL are unspecified
+        :return: Pascal VOC encoded string
+        :rtype: str
+        """
         if path is None:  # If no path provided, use URL
             if self.url is None:
                 raise ValueError('Either the path argument or the image URL must be specified.')
             path = self.url
-        
+
         # Parse the folder name and file name
         dir_path, base_name = os.path.split(path)
         folder_name = os.path.basename(dir_path)
-        
+
         # Encode bounding box data into object tags
         boxes = self.boundingBoxes or []
         objects = [
@@ -67,7 +76,7 @@ class AImageDTO:
             )
             for box in boxes
         ]
-        
+
         # Encode annotation data
         annotation = E.annotation(
             E.folder(folder_name),
@@ -84,9 +93,8 @@ class AImageDTO:
             E.segmented('0'),
             *objects
         )
-        
+
         return etree.tostring(annotation, pretty_print=pretty_print).decode()
-        
 
 
 @dataclass_json
