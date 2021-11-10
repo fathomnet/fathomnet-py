@@ -2,6 +2,13 @@
 *__pycache__/
 .pytest_cache/
 
+# Build
+build/
+
 # Distribution
 dist/
 *.egg-info/
+
+# MISC
+.vscode/settings.json
+.gitignore
