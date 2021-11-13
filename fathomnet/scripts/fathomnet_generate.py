@@ -21,6 +21,8 @@ class Arguments:
     output_dir: str
     concepts: List[str]
     base_constraints: GeoImageConstraints
+    include_all: bool
+    count_only: bool
 
 
 def find_images_paged(constraints: GeoImageConstraints, page_size: int = 100) -> Iterable[AImageDTO]:
@@ -66,6 +68,31 @@ def generate_voc_dataset(args: Arguments):
     
     logging.info('Found {} images'.format(len(image_uuid_dict)))
     
+    # Remove any unspecified bounding boxes from the images
+    if not args.include_all:
+        for image in image_uuid_dict.values():
+            image.boundingBoxes = [box for box in image.boundingBoxes if box.concept in args.concepts]
+            
+    # Compute counts
+    # TODO: compute counts for each concept
+    concept_counts = {}
+    for image in image_uuid_dict.values():
+        image_concepts = set(box.concept for box in image.boundingBoxes)
+        for concept in image_concepts:
+            if concept not in concept_counts:
+                concept_counts[concept] = 0
+            concept_counts[concept] += 1
+    
+    for concept, count in concept_counts.items():
+        msg = '{}: {} images'.format(concept, count)
+        if args.count_only:
+            print(msg)
+        else:
+            logging.info(msg)
+    
+    if args.count_only:  # If we're only counting, we're done
+        return
+    
     # Write images to output directory
     for uuid, image in image_uuid_dict.items():
         filename = '{}.{}'.format(uuid, 'xml')
@@ -101,6 +128,7 @@ def parse_args() -> Arguments:
     )
     
     # Taxonomy provider (for including descendants)
+    logging.debug('Getting taxa providers')
     valid_taxa_providers = taxa.list_taxa_providers()
     parser.add_argument(
         '-t', '--taxa',
@@ -135,6 +163,7 @@ def parse_args() -> Arguments:
     )
     
     # Imaging types (as comma-separated list)
+    logging.debug('Getting imaging types')
     valid_imaging_types = [t for t in images.list_imaging_types() if t is not None]
     parser.add_argument(
         '--imaging-types',
@@ -216,6 +245,22 @@ def parse_args() -> Arguments:
         help='Comma-separated list of owner institution codes to include'
     )
     
+    # All flag: include all bounding boxes of other concepts in specified images
+    parser.add_argument(
+        '-a', '--all',
+        dest='all',
+        action='store_true',
+        help='Flag to include all bounding boxes of other concepts in specified images'
+    )
+    
+    # Count flag: only count images and bounding boxes, don't generate a dataset
+    parser.add_argument(
+        '--count',
+        dest='count',
+        action='store_true',
+        help='Flag to count images and bounding boxes instead of generating a dataset'
+    )
+    
     # Parse arguments
     args = parser.parse_args()
     
@@ -233,7 +278,7 @@ def parse_args() -> Arguments:
     if not concepts:
         parser.error('No concepts specified')
     
-    # Parse taxonomy provider
+    # Parse taxonomy provider, updating concepts if necessary
     taxa_provider = args.taxa
     if taxa_provider is not None:
         taxa_provider_lower = taxa_provider.lower()
@@ -242,6 +287,19 @@ def parse_args() -> Arguments:
             parser.error('Invalid taxonomy provider: {}'.format(taxa_provider))
         else:
             taxa_provider = valid_taxa_providers[idx]
+        
+        # Update concepts with all descendants
+        new_concepts = []
+        for concept in concepts:
+            logging.debug('Finding taxa for {}'.format(concept))
+            concept_taxa = taxa.find_taxa(taxa_provider, concept)  # Includes the concept itself
+            for new_concept in concept_taxa:
+                if new_concept not in new_concepts:
+                    new_concepts.append(new_concept)
+        
+        logging.debug('Old concepts: {}'.format(concepts))
+        logging.debug('New concepts: {}'.format(new_concepts))
+        concepts = new_concepts
     
     # Parse contributor email
     contributor_email = args.contributor_email
@@ -293,7 +351,6 @@ def parse_args() -> Arguments:
             
     # Pack specified constraints into base constraint instance
     base_constraints = GeoImageConstraints(
-        taxaProviderName=taxa_provider,
         contributorsEmail=contributor_email,
         startTimestamp=start_timestamp_str,
         endTimestamp=end_timestamp_str,
@@ -323,7 +380,9 @@ def parse_args() -> Arguments:
     return Arguments(
         output_dir=output_dir,
         concepts=concepts,
-        base_constraints=base_constraints
+        base_constraints=base_constraints,
+        include_all=args.all,
+        count_only=args.count
     )
 
 
