@@ -2,11 +2,18 @@
 name = "fathomnet"
 version = "0.1.0"
 description = "fathomnet-py is a client-side API to help scientists, researchers, and developers interact with FathomNet data."
+license = "MIT"
 authors = ["Kevin Barnard <kbarnard@mbari.org>"]
 maintainers = ["Kevin Barnard <kbarnard@mbari.org>"]
 readme = "README.md"
+homepage = "https://github.com/fathomnet/fathomnet-py"
 repository = "https://github.com/fathomnet/fathomnet-py"
-license = "MIT"
+documentation = "https://fathomnet-py.readthedocs.io"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
 
 [tool.poetry.dependencies]
 python = "^3.6"
@@ -18,6 +25,9 @@ lxml = "^4.6.0"
 
 [tool.poetry.scripts]
 fathomnet-generate = 'fathomnet.scripts.fathomnet_generate:main'
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/fathomnet/fathomnet-py/issues"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
