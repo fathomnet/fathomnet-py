@@ -90,23 +90,26 @@ def get_images(args: Arguments) -> Optional[List[AImageDTO]]:
     
     # Print table of bounding box counts for each concept
     if counting:
-        longest_concept = max(concept_counts.keys(), key=len)
-        concept_header = 'concept'
-        concept_len = len(longest_concept) + 1
-        concept_len = max(concept_len, len(concept_header) + 1)
-        
-        count_header = '# boxes'
-        count_len = 9
-        count_len = max(count_len, len(count_header) + 1)
-        
-        format_str = '{:<' + str(concept_len) + '}|{:>' + str(count_len) + '}'
-        
-        print(format_str.format(concept_header, count_header))
-        print(format_str.format('-' * concept_len, '-' * 9))
-        for concept in sorted(concept_counts.keys()):
-            count = concept_counts[concept]
-            print(format_str.format(concept, count))
-        
+        if not concept_counts:
+            print('No bounding boxes found')
+        else:
+            longest_concept = max(concept_counts.keys(), key=len)
+            concept_header = 'concept'
+            concept_len = len(longest_concept) + 1
+            concept_len = max(concept_len, len(concept_header) + 1)
+            
+            count_header = '# boxes'
+            count_len = 9
+            count_len = max(count_len, len(count_header) + 1)
+            
+            format_str = '{:<' + str(concept_len) + '}|{:>' + str(count_len) + '}'
+            
+            print(format_str.format(concept_header, count_header))
+            print(format_str.format('-' * concept_len, '-' * 9))
+            for concept in sorted(concept_counts.keys()):
+                count = concept_counts[concept]
+                print(format_str.format(concept, count))
+            
         return None
     else:
         return list(image_uuid_dict.values())
@@ -311,7 +314,7 @@ def parse_args() -> Arguments:
     if start_timestamp is not None:
         if start_timestamp > datetime.datetime.now():
             parser.error('Start timestamp cannot be in the future')
-        start_timestamp_str = start_timestamp.isoformat()
+        start_timestamp_str = start_timestamp.isoformat(timespec='milliseconds') + 'Z'
     
     # Parse end timestamp
     end_timestamp = args.end_timestamp
@@ -319,7 +322,7 @@ def parse_args() -> Arguments:
     if end_timestamp is not None:
         if end_timestamp > datetime.datetime.now():
             parser.error('End timestamp cannot be in the future')
-        end_timestamp_str = end_timestamp.isoformat()
+        end_timestamp_str = end_timestamp.isoformat(timespec='milliseconds') + 'Z'
     
     # Parse imaging types
     imaging_types = args.imaging_types

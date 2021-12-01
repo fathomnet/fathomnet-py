@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fathomnet"
-version = "0.2.0"
+version = "0.2.1"
 description = "fathomnet-py is a client-side API to help scientists, researchers, and developers interact with FathomNet data."
 license = "MIT"
 authors = ["Kevin Barnard <kbarnard@mbari.org>"]
