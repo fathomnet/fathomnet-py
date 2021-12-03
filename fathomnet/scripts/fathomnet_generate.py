@@ -277,7 +277,7 @@ def parse_args() -> Arguments:
     # Parse list of concepts
     if args.concepts:
         concepts = args.concepts
-    elif args.concepts_list:
+    elif args.concepts_file:
         if os.path.isfile(args.concepts_file):
             with open(args.concepts_file, 'r') as ff:
                 concepts = list(ff)
