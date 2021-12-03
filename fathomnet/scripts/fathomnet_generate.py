@@ -241,7 +241,7 @@ def parse_args() -> Arguments:
     parser.add_argument('-v', action='count', default=0, help='Increase verbosity')
     parser.add_argument('-t', '--taxa', dest='taxa', type=str, help='Taxonomy provider (to include descendants). Options: {}'.format(', '.join(valid_taxa_providers)))
     parser.add_argument('-c', '--concepts', dest='concepts', type=comma_list, help='Comma-separated list of concepts to include')
-    parser.add_argument('--concept-file', dest='concepts_file', type=str, help='File containing comma-separated list of concepts to include')
+    parser.add_argument('--concepts-file', dest='concepts_file', type=str, help='File containing comma-separated list of concepts to include')
     parser.add_argument('--contributor-email', dest='contributor_email', type=str, help='Contributor email')
     parser.add_argument('--start', dest='start_timestamp', type=datetime.datetime.fromisoformat, help='Start timestamp (formatted as ISO-8601)')
     parser.add_argument('--end', dest='end_timestamp', type=datetime.datetime.fromisoformat, help='End timestamp (formatted as ISO-8601)')
