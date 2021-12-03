@@ -278,8 +278,8 @@ def parse_args() -> Arguments:
     if args.concepts:
         concepts = args.concepts
     elif args.concepts_list:
-        if os.path.isfile(args.concepts_list):
-            with open(args.concepts_list, 'r') as ff:
+        if os.path.isfile(args.concepts_file):
+            with open(args.concepts_file, 'r') as ff:
                 concepts = list(ff)
                 ff.close()
             concepts = [line.strip() for line in concepts]  # remove string format
