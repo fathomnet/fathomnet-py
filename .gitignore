@@ -12,3 +12,4 @@ dist/
 # MISC
 .vscode/settings.json
 .gitignore
+.idea
