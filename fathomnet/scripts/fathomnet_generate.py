@@ -61,26 +61,36 @@ def get_images(args: Arguments) -> Optional[List[AImageDTO]]:
     # Are we counting only?
     counting = args.output == None
     
-    # Print concepts specified
-    logging.info('Concept(s) specified:')
-    for concept in args.concepts:
-        logging.info('- {}'.format(concept))
-    
-    # Get the image data
-    logging.info('Fetching image records for {} concept(s)...'.format(len(args.concepts)))
     image_uuid_dict = {}
-    for constraints in generate_constraints(args.concepts, args.base_constraints):
-        logging.debug('Constraints: {}'.format(constraints.to_json(indent=2)))
-        concept_images = find_images_paged(constraints)
-        for image in concept_images:
+    if args.concepts:  # Concepts specified, generate constraints for each
+        # Print concepts specified
+        logging.info('Concept(s) specified:')
+        for concept in args.concepts:
+            logging.info('- {}'.format(concept))
+        
+        # Get the image data
+        logging.info('Fetching image records for {} concept(s)...'.format(len(args.concepts)))
+        for constraints in generate_constraints(args.concepts, args.base_constraints):
+            logging.debug('Constraints: {}'.format(constraints.to_json(indent=2)))
+            concept_images = find_images_paged(constraints)
+            for image in concept_images:
+                image_uuid_dict[image.uuid] = image
+        
+        # Remove any unspecified bounding boxes from the images
+        if not args.include_all:
+            for image in image_uuid_dict.values():
+                if image.boundingBoxes:
+                    image.boundingBoxes = [box for box in image.boundingBoxes if box.concept in args.concepts]
+    else:  # No concepts specified, use the base constraints
+        logging.info('Fetching image records...')
+        noconcept_images = find_images_paged(args.base_constraints)
+        for image in noconcept_images:
             image_uuid_dict[image.uuid] = image
     
-    logging.info('Found {} unique images'.format(len(image_uuid_dict)))
+    # Remove any images that don't have bounding boxes
+    image_uuid_dict = {uuid: image for uuid, image in image_uuid_dict.items() if image.boundingBoxes}
     
-    # Remove any unspecified bounding boxes from the images
-    if not args.include_all:
-        for image in image_uuid_dict.values():
-            image.boundingBoxes = [box for box in image.boundingBoxes if box.concept in args.concepts]
+    logging.info('Found {} unique images with bounding boxes'.format(len(image_uuid_dict)))
     
     # Compute the number of bounding boxes per concept
     concept_counts = {}
@@ -256,7 +266,7 @@ def parse_args() -> Arguments:
     parser.add_argument('-a', '--all', dest='all', action='store_true', help='Flag to include all bounding boxes of other concepts in specified images')
     parser.add_argument('--format', dest='format', type=lowercase_str, default='voc', choices=valid_dataset_formats, help='Dataset format. Options: {}'.format(', '.join(valid_dataset_formats)))
     
-    list_or_file = parser.add_mutually_exclusive_group(required=True)
+    list_or_file = parser.add_mutually_exclusive_group(required=False)
     list_or_file.add_argument('-c', '--concepts', dest='concepts', type=comma_list, help='Comma-separated list of concepts to include')
     list_or_file.add_argument('--concepts-file', dest='concepts_file', type=str, help='File containing newline-delimited list of concepts to include')
     
@@ -277,6 +287,7 @@ def parse_args() -> Arguments:
     logging.basicConfig(level=level)
     
     # Parse list of concepts
+    concepts = []
     if args.concepts:
         concepts = args.concepts
     elif args.concepts_file:
@@ -286,7 +297,7 @@ def parse_args() -> Arguments:
             concepts = [line.strip() for line in concepts]  # remove string format
 
     if not concepts:
-        parser.error('No concepts specified')
+        concepts = []
     
     # Parse taxonomy provider, updating concepts if necessary
     taxa_provider = args.taxa
