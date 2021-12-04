@@ -240,8 +240,6 @@ def parse_args() -> Arguments:
     
     parser.add_argument('-v', action='count', default=0, help='Increase verbosity')
     parser.add_argument('-t', '--taxa', dest='taxa', type=str, help='Taxonomy provider (to include descendants). Options: {}'.format(', '.join(valid_taxa_providers)))
-    parser.add_argument('-c', '--concepts', dest='concepts', type=comma_list, help='Comma-separated list of concepts to include')
-    parser.add_argument('--concepts-file', dest='concepts_file', type=str, help='File containing comma-separated list of concepts to include')
     parser.add_argument('--contributor-email', dest='contributor_email', type=str, help='Contributor email')
     parser.add_argument('--start', dest='start_timestamp', type=datetime.datetime.fromisoformat, help='Start timestamp (formatted as ISO-8601)')
     parser.add_argument('--end', dest='end_timestamp', type=datetime.datetime.fromisoformat, help='End timestamp (formatted as ISO-8601)')
@@ -257,6 +255,10 @@ def parse_args() -> Arguments:
     parser.add_argument('--institutions', dest='owner_institution_codes', type=comma_list, help='Comma-separated list of owner institution codes to include')
     parser.add_argument('-a', '--all', dest='all', action='store_true', help='Flag to include all bounding boxes of other concepts in specified images')
     parser.add_argument('--format', dest='format', type=lowercase_str, default='voc', choices=valid_dataset_formats, help='Dataset format. Options: {}'.format(', '.join(valid_dataset_formats)))
+    
+    list_or_file = parser.add_mutually_exclusive_group(required=True)
+    list_or_file.add_argument('-c', '--concepts', dest='concepts', type=comma_list, help='Comma-separated list of concepts to include')
+    list_or_file.add_argument('--concepts-file', dest='concepts_file', type=str, help='File containing newline-delimited list of concepts to include')
     
     count_or_output = parser.add_mutually_exclusive_group(required=True)
     count_or_output.add_argument('--count', dest='count', action='store_true', help='Count images and bounding boxes instead of generating a dataset')
@@ -279,9 +281,8 @@ def parse_args() -> Arguments:
         concepts = args.concepts
     elif args.concepts_file:
         if os.path.isfile(args.concepts_file):
-            with open(args.concepts_file, 'r') as ff:
-                concepts = list(ff)
-                ff.close()
+            with open(args.concepts_file, 'r') as f:
+                concepts = f.read().splitlines()
             concepts = [line.strip() for line in concepts]  # remove string format
 
     if not concepts:
