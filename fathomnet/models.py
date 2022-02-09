@@ -209,7 +209,7 @@ class ByContributorCount:
 
 @dataclass_json
 @dataclass
-class CDarwinCore:
+class BDarwinCore:
     uuid: Optional[str] = None
     recordType: Optional[str] = None
     basisOfRecord: Optional[str] = None
@@ -246,7 +246,7 @@ class CImageSetUploadDTO:
     statusUpdateTimestamp: Optional[str] = None
     rejectionReason: Optional[str] = None
     rejectionDetails: Optional[str] = None
-    darwinCore: Optional[CDarwinCore] = None
+    darwinCore: Optional[BDarwinCore] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
 
