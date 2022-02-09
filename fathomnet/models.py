@@ -165,7 +165,7 @@ class Authentication:
 
 @dataclass_json
 @dataclass
-class BBoundingBoxDTO(ABoundingBoxDTO):
+class BoundingBoxDTO(ABoundingBoxDTO):
     imageUuid: Optional[str] = None
 
 

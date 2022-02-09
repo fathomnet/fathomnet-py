@@ -9,12 +9,12 @@ class BoundingBoxes(EndpointManager):
     PATH = 'boundingboxes'
 
 
-def create_with_dto(bounding_box: models.BBoundingBoxDTO, auth_header: Optional[models.AuthHeader] = None) -> models.BBoundingBoxDTO:
+def create_with_dto(bounding_box: models.BoundingBoxDTO, auth_header: Optional[models.AuthHeader] = None) -> models.BoundingBoxDTO:
     """Create a bounding box."""
     res_json = BoundingBoxes.post('',
                                   json=bounding_box.to_dict(),
                                   auth=auth_header)
-    return models.BBoundingBoxDTO.from_dict(res_json)
+    return models.BoundingBoxDTO.from_dict(res_json)
 
 
 def count_all() -> models.Count:
@@ -47,10 +47,10 @@ def count_by_concept(concept: str) -> models.ByConceptCount:
     return models.ByConceptCount.from_dict(res_json)
 
 
-def find_by_user_defined_key(user_defined_key: str) -> List[models.BBoundingBoxDTO]:
+def find_by_user_defined_key(user_defined_key: str) -> List[models.BoundingBoxDTO]:
     """Get a list of bounding boxes by a user-defined key."""
     res_json = BoundingBoxes.get('query/userdefinedkey/{}'.format(user_defined_key))
-    return list(map(models.BBoundingBoxDTO.from_dict, res_json))
+    return list(map(models.BoundingBoxDTO.from_dict, res_json))
 
 
 def find_all_user_defined_keys() -> List[str]:
@@ -67,18 +67,18 @@ def upload_csv(csv_fp: BinaryIO, auth_header: Optional[models.AuthHeader] = None
     return models.Message.from_dict(res_json)
 
 
-def find_by_uuid(uuid: str) -> models.BBoundingBoxDTO:
+def find_by_uuid(uuid: str) -> models.BoundingBoxDTO:
     """Get a bounding box by UUID."""
     res_json = BoundingBoxes.get(uuid)
-    return models.BBoundingBoxDTO.from_dict(res_json)
+    return models.BoundingBoxDTO.from_dict(res_json)
 
 
-def update(uuid: str, bounding_box: models.ABoundingBoxDTO, auth_header: Optional[models.AuthHeader] = None) -> models.BBoundingBoxDTO:
+def update(uuid: str, bounding_box: models.ABoundingBoxDTO, auth_header: Optional[models.AuthHeader] = None) -> models.BoundingBoxDTO:
     """Update a bounding box."""
     res_json = BoundingBoxes.put(uuid,
                                  json=bounding_box.to_dict(),
                                  auth=auth_header)
-    return models.BBoundingBoxDTO.from_dict(res_json)
+    return models.BoundingBoxDTO.from_dict(res_json)
 
 
 def delete(uuid: str, auth_header: Optional[models.AuthHeader] = None):
