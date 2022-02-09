@@ -234,7 +234,7 @@ class BDarwinCore:
 
 @dataclass_json
 @dataclass
-class CImageSetUploadDTO:
+class BImageSetUploadDTO:
     uuid: Optional[str] = None
     localPath: Optional[str] = None
     remoteUri: Optional[str] = None

@@ -15,12 +15,12 @@ def count_all() -> models.Count:
     return models.Count.from_dict(res_json)
 
 
-def find_collections(pageable: models.Pageable) -> List[models.CImageSetUploadDTO]:
+def find_collections(pageable: models.Pageable) -> List[models.BImageSetUploadDTO]:
     """Get a paged list of all image set uploads."""
     res_json = ImageSetUploads.get('list/all',
                                    params=pageable.to_params())
     # Note: schema inconsistent with response, need to grab the 'content' object
-    return list(map(models.CImageSetUploadDTO.from_dict, res_json['content']))
+    return list(map(models.BImageSetUploadDTO.from_dict, res_json['content']))
 
 
 def find_contributors() -> List[str]:
@@ -35,16 +35,16 @@ def find_rejection_reasons() -> List[str]:
     return res_json
 
 
-def find_by_contributor(contributors_email: str) -> List[models.CImageSetUploadDTO]:
+def find_by_contributor(contributors_email: str) -> List[models.BImageSetUploadDTO]:
     """Get a list of image set uploads by contributor."""
     res_json = ImageSetUploads.get('query/contributor/{}'.format(contributors_email))
-    return list(map(models.CImageSetUploadDTO.from_dict, res_json))
+    return list(map(models.BImageSetUploadDTO.from_dict, res_json))
 
 
-def find_by_image_uuid(image_uuid: str) -> List[models.CImageSetUploadDTO]:
+def find_by_image_uuid(image_uuid: str) -> List[models.BImageSetUploadDTO]:
     """Get an image set upload by UUID."""
     res_json = ImageSetUploads.get('query/image/{}'.format(image_uuid))
-    return list(map(models.CImageSetUploadDTO.from_dict, res_json))
+    return list(map(models.BImageSetUploadDTO.from_dict, res_json))
 
 
 def stats(image_set_upload_uuid: str) -> models.ImageSetUploadStats:
@@ -53,7 +53,7 @@ def stats(image_set_upload_uuid: str) -> models.ImageSetUploadStats:
     return models.ImageSetUploadStats.from_dict(res_json)
 
 
-def find_by_uuid(uuid: str) -> models.CImageSetUploadDTO:
+def find_by_uuid(uuid: str) -> models.BImageSetUploadDTO:
     """Get an image set upload by UUID."""
     res_json = ImageSetUploads.get(uuid)
-    return models.CImageSetUploadDTO.from_dict(res_json)
+    return models.BImageSetUploadDTO.from_dict(res_json)
