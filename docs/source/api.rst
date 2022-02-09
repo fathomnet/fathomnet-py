@@ -187,7 +187,7 @@ Tags
 
 .. note:: Tags API added in v0.4.0
 
-The ``fathomnet.api.stats`` module supports tag operations.
+The ``fathomnet.api.tags`` module supports tag operations.
 
 Create, update, & delete
 ^^^^^^^^^^^^^^^^^^^^^^^^
