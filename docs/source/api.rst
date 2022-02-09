@@ -93,7 +93,7 @@ Images
 The ``fathomnet.api.images`` module supports image operations.
 
 Create, update, & delete
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autofunction:: create_if_not_exists
 .. autofunction:: update
@@ -177,6 +177,30 @@ The ``fathomnet.api.stats`` module supports summary statistic operations.
 .. automodule:: fathomnet.api.stats
     :members:
     :noindex:
+
+----
+
+Tags
+----
+
+.. module:: fathomnet.api.tags
+
+.. note:: Tags API added in v0.4.0
+
+The ``fathomnet.api.stats`` module supports tag operations.
+
+Create, update, & delete
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. autofunction:: create_with_dto
+.. autofunction:: update
+.. autofunction:: delete
+
+Find
+^^^^
+
+.. autofunction:: find_by_uuid
+.. autofunction:: find_by_image_uuid_and_key
 
 ----
 

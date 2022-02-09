@@ -112,6 +112,12 @@ class ATagDTO:
 
 @dataclass_json
 @dataclass
+class TagDTO(ATagDTO):
+    imageUuid: Optional[str] = None
+
+
+@dataclass_json
+@dataclass
 class ABoundingBoxDTO:
     id: Optional[int] = None
     uuid: Optional[str] = None
