@@ -8,6 +8,8 @@ import logging
 import datetime
 from typing import Iterable, List, Optional
 from dataclasses import dataclass, replace
+import requests
+from shutil import copyfileobj
 
 from coco_lib.common import Info as COCOInfo, Image as COCOImage, License as COCOLicense
 from coco_lib.objectdetection import ObjectDetectionAnnotation, ObjectDetectionCategory, ObjectDetectionDataset
@@ -54,6 +56,17 @@ def write_voc(image: AImageDTO, filename: str):
     """Write a single image to a file"""
     with open(filename, 'w') as f:
         f.write(image.to_pascal_voc(pretty_print=True))
+
+
+def download(image: AImageDTO, outdir: str):
+    """Download a single image to an output dir"""
+    file_name = os.path.join(outdir, f"{image.uuid}.{image.url.split('.')[-1]}")
+
+    # only download if the image does not exist in the outdir
+    if not os.path.exists(file_name):
+        resp = requests.get(image.url, stream=True)
+        resp.raw.decode_content = true
+        copyfileobj(resp.raw, open(file_name), 'wb')
 
 
 def get_images(args: Arguments) -> Optional[List[AImageDTO]]:
