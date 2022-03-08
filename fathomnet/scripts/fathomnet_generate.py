@@ -182,7 +182,7 @@ def generate_coco_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
             id=image_id,
             width=image.width,
             height=image.height,
-            file_name=image.url.split('/')[-1],
+            file_name=f"{image.uuid}.{image.url.split('.')[-1]}",
             license=fathomnet_license.id,
             flickr_url=image.url,
             coco_url=image.url,
