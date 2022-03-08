@@ -58,15 +58,20 @@ def write_voc(image: AImageDTO, filename: str):
         f.write(image.to_pascal_voc(pretty_print=True))
 
 
-def download(image: AImageDTO, outdir: str):
-    """Download a single image to an output dir"""
-    file_name = os.path.join(outdir, f"{image.uuid}.{image.url.split('.')[-1]}")
+def download_imgs(args: Arguments, ims: list[AImageDTO]):
+    """Download a images to an output dir"""
+    for image in ims:
+        file_name = os.path.join(args.img_outdir, f"{image.uuid}.{image.url.split('.')[-1]}")
 
-    # only download if the image does not exist in the outdir
-    if not os.path.exists(file_name):
-        resp = requests.get(image.url, stream=True)
-        resp.raw.decode_content = true
-        copyfileobj(resp.raw, open(file_name), 'wb')
+        # only download if the image does not exist in the outdir
+        flag = 0
+        if not os.path.exists(file_name):
+            resp = requests.get(image.url, stream=True)
+            resp.raw.decode_content = True
+            copyfileobj(resp.raw, open(file_name), 'wb')
+            flag += 1
+
+    logging.info(f"Downloaded {flag} new images to {args.img_outdir}")
 
 
 def get_images(args: Arguments) -> Optional[List[AImageDTO]]:
