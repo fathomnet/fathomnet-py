@@ -70,7 +70,8 @@ def download_imgs(args: Arguments, ims: list[AImageDTO]):
         if not os.path.exists(file_name):
             resp = requests.get(image.url, stream=True)
             resp.raw.decode_content = True
-            copyfileobj(resp.raw, open(file_name, 'wb'))
+            with open(file_name, 'wb') as f:
+                copyfileobj(resp.raw, f)
             flag += 1
 
     logging.info(f"Downloaded {flag} new images to {args.img_dir}")
