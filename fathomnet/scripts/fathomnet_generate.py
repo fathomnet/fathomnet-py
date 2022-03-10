@@ -8,6 +8,9 @@ import logging
 import datetime
 from typing import Iterable, List, Optional
 from dataclasses import dataclass, replace
+import requests
+from shutil import copyfileobj
+import progressbar
 
 from coco_lib.common import Info as COCOInfo, Image as COCOImage, License as COCOLicense
 from coco_lib.objectdetection import ObjectDetectionAnnotation, ObjectDetectionCategory, ObjectDetectionDataset
@@ -27,6 +30,7 @@ class Arguments:
     base_constraints: GeoImageConstraints
     include_all: bool
     format: str
+    img_dir: str
 
 
 def find_images_paged(constraints: GeoImageConstraints, page_size: int = 100) -> Iterable[AImageDTO]:
@@ -54,6 +58,23 @@ def write_voc(image: AImageDTO, filename: str):
     """Write a single image to a file"""
     with open(filename, 'w') as f:
         f.write(image.to_pascal_voc(pretty_print=True))
+
+
+def download_imgs(args: Arguments, ims: list[AImageDTO]):
+    """Download a images to an output dir"""
+    flag = 0  # keep track of how many image downloaded
+    for image in progressbar.progressbar(ims):
+        file_name = os.path.join(args.img_dir, f"{image.uuid}.{image.url.split('.')[-1]}")
+
+        # only download if the image does not exist in the outdir
+        if not os.path.exists(file_name):
+            resp = requests.get(image.url, stream=True)
+            resp.raw.decode_content = True
+            with open(file_name, 'wb') as f:
+                copyfileobj(resp.raw, f)
+            flag += 1
+
+    logging.info(f"Downloaded {flag} new images to {args.img_dir}")
 
 
 def get_images(args: Arguments) -> Optional[List[AImageDTO]]:
@@ -182,7 +203,7 @@ def generate_coco_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
             id=image_id,
             width=image.width,
             height=image.height,
-            file_name=image.url.split('/')[-1],
+            file_name=f"{image.uuid}.{image.url.split('.')[-1]}",
             license=fathomnet_license.id,
             flickr_url=image.url,
             coco_url=image.url,
@@ -265,7 +286,8 @@ def parse_args() -> Arguments:
     parser.add_argument('--institutions', dest='owner_institution_codes', type=comma_list, help='Comma-separated list of owner institution codes to include')
     parser.add_argument('-a', '--all', dest='all', action='store_true', help='Flag to include all bounding boxes of other concepts in specified images')
     parser.add_argument('--format', dest='format', type=lowercase_str, default='voc', choices=valid_dataset_formats, help='Dataset format. Options: {}'.format(', '.join(valid_dataset_formats)))
-    
+    parser.add_argument('--img-download', dest='img_dir', default=None, type=str, help='Local directory to download images')
+
     list_or_file = parser.add_mutually_exclusive_group(required=False)
     list_or_file.add_argument('-c', '--concepts', dest='concepts', type=comma_list, help='Comma-separated list of concepts to include')
     list_or_file.add_argument('--concepts-file', dest='concepts_file', type=str, help='File containing newline-delimited list of concepts to include')
@@ -396,6 +418,15 @@ def parse_args() -> Arguments:
             os.makedirs(output)
         elif not os.path.isdir(output):
             parser.error('Output directory {} exists and is not a directory'.format(output))
+
+    # Create image output directory (if it doesn't exist)
+    img_dir = args.img_dir  # None if --img_download flag is not called
+    if img_dir is not None:
+        if not os.path.exists(img_dir):
+            logging.info('Creating output directory {}'.format(img_dir))
+            os.makedirs(img_dir)
+        elif not os.path.isdir(img_dir):
+            parser.error('Image download output directory {} exists and is not a directory'.format(img_dir))
             
     logging.info('Successfully parsed flags')
     
@@ -405,14 +436,14 @@ def parse_args() -> Arguments:
         concepts=concepts,
         base_constraints=base_constraints,
         include_all=args.all,
-        format=args.format
+        format=args.format,
+        img_dir=args.img_dir
     )
 
 
 def main():
     """Entry point for the script."""
     args = parse_args()  # Will exit the script on error
-    
     try:
         dataset_images = get_images(args)  # Get the images
     except KeyboardInterrupt:
@@ -426,6 +457,15 @@ def main():
         error = generate_dataset(args, dataset_images)  # Generate the dataset
     except KeyboardInterrupt:
         logging.info('Dataset generation interrupted by user')
+        exit(0)
+
+    if args.img_dir:
+        try:
+            download_imgs(args, dataset_images)  # download the images to specified output directory
+        except KeyboardInterrupt:
+            logging.info('Image download interrupted by user')
+            exit(0)
+    else:
         exit(0)
     
     if error:
