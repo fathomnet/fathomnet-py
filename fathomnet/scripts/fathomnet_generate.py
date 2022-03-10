@@ -443,7 +443,6 @@ def parse_args() -> Arguments:
 def main():
     """Entry point for the script."""
     args = parse_args()  # Will exit the script on error
-    print(args)
     try:
         dataset_images = get_images(args)  # Get the images
     except KeyboardInterrupt:
