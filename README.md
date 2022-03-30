@@ -37,7 +37,6 @@ The `fathomnet-py` API offers native Python interaction with the FathomNet REST 
 [![tests](https://github.com/fathomnet/fathomnet-py/actions/workflows/tests.yml/badge.svg)](https://github.com/fathomnet/fathomnet-py/actions/workflows/tests.yml)
 [![Documentation Status](https://readthedocs.org/projects/fathomnet-py/badge/?version=latest)](https://fathomnet-py.readthedocs.io/en/latest/?badge=latest)
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fathomnet/fathomnet-py/blob/develop/tutorial.ipynb)
-<!-- TODO: Change Colab link to main branch after merge -->
 
 ## Installing `fathomnet-py`
 
