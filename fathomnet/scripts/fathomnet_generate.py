@@ -60,7 +60,7 @@ def write_voc(image: AImageDTO, filename: str):
         f.write(image.to_pascal_voc(pretty_print=True))
 
 
-def download_imgs(args: Arguments, ims: list[AImageDTO]):
+def download_imgs(args: Arguments, ims: List[AImageDTO]):
     """Download a images to an output dir"""
     flag = 0  # keep track of how many image downloaded
     for image in progressbar.progressbar(ims):
