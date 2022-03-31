@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fathomnet"
-version = "0.4.2"
+version = "0.5.0"
 description = "fathomnet-py is a client-side API to help scientists, researchers, and developers interact with FathomNet data."
 license = "MIT"
 authors = ["Kevin Barnard <kbarnard@mbari.org>"]
@@ -19,7 +19,7 @@ python = "^3.7"
 dataclasses-json = "^0.5.4"
 requests = "^2.20.0"
 lxml = "^4.6.0"
-coco-lib = "^0.1.1"
+coco-lib = "^0.1.2"
 progressbar2 = "^3.37.0"
 
 [tool.poetry.dev-dependencies]
