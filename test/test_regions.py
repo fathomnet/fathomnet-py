@@ -24,3 +24,15 @@ class TestRegionsAPI(TestCase):
     @skipIfNoAuth
     def test_sync(self):
         raise SkipTest('Sync endpoint not yet implemented')  # TODO sync test
+
+    def test_find_at(self):
+        latitude = 35.6
+        longitude = -121.3
+        results = regions.find_at(latitude, longitude)
+        self.assertIsNotNone(results)
+        self.assertGreaterEqual(len(results), 10)
+        for region in results:
+            self.assertLessEqual(latitude, region.maxLatitude)
+            self.assertGreaterEqual(latitude, region.minLatitude)
+            self.assertLessEqual(longitude, region.maxLongitude)
+            self.assertGreaterEqual(longitude, region.minLongitude)
