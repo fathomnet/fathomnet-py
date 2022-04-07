@@ -23,8 +23,7 @@ def count_all() -> int:
 
 def find_all_paged(pageable: models.Pageable) -> List[models.MarineRegion]:
     """Get a paged list of all marine regions."""
-    res_json = Regions.get('list/all',
-                           params=pageable.to_params())
+    res_json = Regions.get('list/all', params=pageable.to_params())
     return list(map(models.MarineRegion.from_dict, res_json['content']))
 
 
@@ -32,3 +31,9 @@ def sync(auth_header: Optional[models.AuthHeader] = None) -> int:
     """Synchronize."""
     res = Regions.get('sync', parse_json=False, auth=auth_header)
     return int(res.content)
+
+
+def find_at(latitude: float, longitude: float) -> List[models.MarineRegion]:
+    """Get the marine regions at the given latitude and longitude."""
+    res_json = Regions.get('at', params={'latitude': latitude, 'longitude': longitude})
+    return list(map(models.MarineRegion.from_dict, res_json))
