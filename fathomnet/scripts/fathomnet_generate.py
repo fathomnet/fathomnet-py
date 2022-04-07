@@ -35,6 +35,16 @@ class Arguments:
     img_dir: str
 
 
+def comma_list(s: str) -> List[str]:
+    """Parse a comma-separated list of strings"""
+    return s.split(',')
+
+
+def lowercase_str(s: str) -> str:
+    """Convert a string to lowercase"""
+    return s.lower()
+
+
 def find_images_paged(
     constraints: GeoImageConstraints, page_size: int = 100
 ) -> Iterable[AImageDTO]:
