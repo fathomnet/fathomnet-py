@@ -3,7 +3,7 @@ from typing import Union
 
 import requests
 
-from ..util import debug_format_response
+# from ..util import debug_format_response
 
 session = requests.Session()
 
@@ -31,7 +31,7 @@ class EndpointManager:
         elif res.status_code < 500:  # User error
             raise ValueError('Bad request: {} {}'.format(method, url))
         else:  # Server error, debug the response
-            print(debug_format_response(res))
+            # print(debug_format_response(res))
             raise ValueError('Server error, please contact the FathomNet administrators.')
 
     @classmethod
