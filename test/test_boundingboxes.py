@@ -68,13 +68,13 @@ class TestBoundingBoxesAPI(TestCase):
     @skipIfNoAuth
     def test_delete(self):
         raise SkipTest('Write tests not yet implemented')  # TODO delete test
-    
+
     def test_audit_by_uuid(self):
         uuid = '9f31b626-b118-4819-860c-3c1cfc04be3f'
         boxes = boundingboxes.audit_by_uuid(uuid)
         self.assertIsNotNone(boxes)
         self.assertEqual(boxes[0].uuid, uuid)
-    
+
     def test_audit_by_user_defined_key(self):
         user_defined_key = '285aa889-f771-46c0-6763-c0398712ba1e'
         boxes = boundingboxes.audit_by_user_defined_key(user_defined_key)
