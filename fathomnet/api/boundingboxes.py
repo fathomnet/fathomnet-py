@@ -84,3 +84,15 @@ def update(uuid: str, bounding_box: models.ABoundingBoxDTO, auth_header: Optiona
 def delete(uuid: str, auth_header: Optional[models.AuthHeader] = None):
     """Delete a bounding box."""
     BoundingBoxes.delete(uuid, auth=auth_header)
+
+
+def audit_by_uuid(uuid: str) -> List[models.BoundingBoxDTO]:
+    """Get an audit of a bounding box by UUID."""
+    res_json = BoundingBoxes.get('audit/uuid/{}'.format(uuid))
+    return list(map(models.BoundingBoxDTO.from_dict, res_json))
+
+
+def audit_by_user_defined_key(user_defined_key: str) -> List[models.BoundingBoxDTO]:
+    """Get an audit of a bounding box by user-defined key."""
+    res_json = BoundingBoxes.get('audit/userdefinedkey/{}'.format(user_defined_key))
+    return list(map(models.BoundingBoxDTO.from_dict, res_json))
