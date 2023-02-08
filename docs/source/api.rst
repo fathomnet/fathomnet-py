@@ -40,6 +40,12 @@ List & count
 .. autofunction:: count_by_concept
 .. autofunction:: count_total_by_concept
 
+Audit
+^^^^^
+
+.. autofunction:: audit_by_uuid
+.. autofunction:: audit_by_user_defined_key
+
 ----
 
 Darwin Core
