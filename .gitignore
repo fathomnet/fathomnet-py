@@ -13,4 +13,4 @@ dist/
 .vscode/settings.json
 .gitignore
 .idea
-demo_dataset*
+demo*
