@@ -1,14 +1,14 @@
 from unittest import TestCase, SkipTest
 
 from . import skipIfNoAuth
-from fathomnet import models
+from fathomnet import dto
 from fathomnet.api import images
 
 
 class TestImagesAPI(TestCase):
     def test_find_all_alt(self):
         n_images = 5
-        pageable = models.Pageable(size=n_images)
+        pageable = dto.Pageable(size=n_images)
         results = images.find_all_alt(pageable)
         self.assertIsNotNone(results)
         self.assertEqual(len(results), n_images)
@@ -25,7 +25,7 @@ class TestImagesAPI(TestCase):
 
     def test_find_all(self):
         n_images = 5
-        pageable = models.Pageable(size=n_images)
+        pageable = dto.Pageable(size=n_images)
         results = images.find_all(pageable)
         self.assertIsNotNone(results)
         self.assertEqual(len(results), n_images)
@@ -41,7 +41,7 @@ class TestImagesAPI(TestCase):
         self.assertIn('ROV', imaging_types)
 
     def test_find(self):
-        geo_image_constraints = models.GeoImageConstraints(
+        geo_image_constraints = dto.GeoImageConstraints(
             concept='Bathochordaeus charon',
             taxaProviderName='mbari',
             limit=10

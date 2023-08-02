@@ -1,19 +1,19 @@
 from unittest import TestCase
 
-from fathomnet import models
+from fathomnet import dto
 from fathomnet.api import geoimages
 
 
 class TestGeoImagesAPI(TestCase):
     def test_find_all(self):
         n_images = 5
-        pageable = models.Pageable(size=n_images)
+        pageable = dto.Pageable(size=n_images)
         results = geoimages.find_all(pageable)
         self.assertIsNotNone(results)
         self.assertEqual(len(results), n_images)
 
     def test_count(self):
-        geo_image_constraints = models.GeoImageConstraints(
+        geo_image_constraints = dto.GeoImageConstraints(
             concept='Bathochordaeus',
             limit=10
         )
@@ -22,7 +22,7 @@ class TestGeoImagesAPI(TestCase):
         self.assertGreater(count.count, 0)
 
     def test_find(self):
-        geo_image_constraints = models.GeoImageConstraints(
+        geo_image_constraints = dto.GeoImageConstraints(
             concept='Bathochordaeus',
             limit=10
         )

@@ -20,7 +20,7 @@ from coco_lib.objectdetection import (
 )
 
 from ..api import images, taxa, darwincore
-from ..models import AImageDTO, GeoImageConstraints
+from ..dto import AImageDTO, GeoImageConstraints
 
 
 @dataclass

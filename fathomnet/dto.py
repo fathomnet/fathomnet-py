@@ -1,4 +1,4 @@
-# models.py (fathomnet-py)
+# dto.py (fathomnet-py)
 from dataclasses import dataclass
 from dataclasses_json import dataclass_json
 from enum import Enum

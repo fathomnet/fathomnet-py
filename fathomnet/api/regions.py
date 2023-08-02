@@ -1,7 +1,7 @@
 # regions.py (fathomnet-py)
 from typing import List, Optional
 
-from .. import models
+from .. import dto
 from . import EndpointManager
 
 
@@ -9,10 +9,10 @@ class Regions(EndpointManager):
     PATH = 'regions'
 
 
-def find_all() -> List[models.MarineRegion]:
+def find_all() -> List[dto.MarineRegion]:
     """Get a list of all marine regions."""
     res_json = Regions.get('')
-    return list(map(models.MarineRegion.from_dict, res_json))
+    return list(map(dto.MarineRegion.from_dict, res_json))
 
 
 def count_all() -> int:
@@ -21,19 +21,19 @@ def count_all() -> int:
     return int(res.content)
 
 
-def find_all_paged(pageable: models.Pageable) -> List[models.MarineRegion]:
+def find_all_paged(pageable: dto.Pageable) -> List[dto.MarineRegion]:
     """Get a paged list of all marine regions."""
     res_json = Regions.get('list/all', params=pageable.to_params())
-    return list(map(models.MarineRegion.from_dict, res_json['content']))
+    return list(map(dto.MarineRegion.from_dict, res_json['content']))
 
 
-def sync(auth_header: Optional[models.AuthHeader] = None) -> int:
+def sync(auth_header: Optional[dto.AuthHeader] = None) -> int:
     """Synchronize."""
     res = Regions.get('sync', parse_json=False, auth=auth_header)
     return int(res.content)
 
 
-def find_at(latitude: float, longitude: float) -> List[models.MarineRegion]:
+def find_at(latitude: float, longitude: float) -> List[dto.MarineRegion]:
     """Get the marine regions at the given latitude and longitude."""
     res_json = Regions.get('at', params={'latitude': latitude, 'longitude': longitude})
-    return list(map(models.MarineRegion.from_dict, res_json))
+    return list(map(dto.MarineRegion.from_dict, res_json))

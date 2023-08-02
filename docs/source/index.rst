@@ -63,7 +63,7 @@ Installing fathomnet-py
    :caption: API Documentation
 
    api
-   models
+   dto
 
 .. Indices and tables
 .. ==================

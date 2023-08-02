@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from fathomnet import models
+from fathomnet import dto
 from fathomnet.api import imagesetuploads
 
 
@@ -13,7 +13,7 @@ class TestImageSetUploadsAPI(TestCase):
 
     def test_find_collections(self):
         n_image_sets = 3
-        pageable = models.Pageable(size=n_image_sets)
+        pageable = dto.Pageable(size=n_image_sets)
         results = imagesetuploads.find_collections(pageable)
         self.assertIsNotNone(results)
         self.assertEqual(len(results), n_image_sets)

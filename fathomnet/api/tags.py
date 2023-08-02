@@ -1,7 +1,7 @@
 # tags.py (fathomnet-py)
 from typing import List, Optional
 
-from .. import models
+from .. import dto
 from . import EndpointManager
 
 
@@ -9,34 +9,34 @@ class Tags(EndpointManager):
     PATH = 'tags'
 
 
-def create_with_dto(tag: models.TagDTO, auth_header: Optional[models.AuthHeader] = None) -> models.TagDTO:
+def create_with_dto(tag: dto.TagDTO, auth_header: Optional[dto.AuthHeader] = None) -> dto.TagDTO:
     """Create a tag."""
     res_json = Tags.post('',
                          json=tag.to_dict(),
                          auth=auth_header)
-    return models.TagDTO.from_dict(res_json)
+    return dto.TagDTO.from_dict(res_json)
 
 
-def find_by_uuid(uuid: str) -> models.TagDTO:
+def find_by_uuid(uuid: str) -> dto.TagDTO:
     """Get a tag by UUID."""
     res_json = Tags.get(uuid)
-    return models.TagDTO.from_dict(res_json)
+    return dto.TagDTO.from_dict(res_json)
 
 
-def find_by_image_uuid_and_key(image_uuid: str, key: str) -> List[models.TagDTO]:
+def find_by_image_uuid_and_key(image_uuid: str, key: str) -> List[dto.TagDTO]:
     """Get a tag by image UUID and key."""
     res_json = Tags.get('query/bykey/{}/{}'.format(image_uuid, key))
-    return list(map(models.TagDTO.from_dict, res_json))
+    return list(map(dto.TagDTO.from_dict, res_json))
 
 
-def update(uuid: str, tag: models.TagDTO, auth_header: Optional[models.AuthHeader] = None) -> models.TagDTO:
+def update(uuid: str, tag: dto.TagDTO, auth_header: Optional[dto.AuthHeader] = None) -> dto.TagDTO:
     """Update a tag."""
     res_json = Tags.put(uuid,
                         json=tag.to_dict(),
                         auth=auth_header)
-    return models.TagDTO.from_dict(res_json)
+    return dto.TagDTO.from_dict(res_json)
 
 
-def delete(uuid: str, auth_header: Optional[models.AuthHeader] = None):
+def delete(uuid: str, auth_header: Optional[dto.AuthHeader] = None):
     """Delete a tag."""
     Tags.delete(uuid, auth=auth_header)

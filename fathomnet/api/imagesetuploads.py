@@ -1,7 +1,7 @@
 # imagesetuploads.py (fathomnet-py)
 from typing import List
 
-from .. import models
+from .. import dto
 from . import EndpointManager
 
 
@@ -9,18 +9,18 @@ class ImageSetUploads(EndpointManager):
     PATH = 'imagesetuploads'
 
 
-def count_all() -> models.Count:
+def count_all() -> dto.Count:
     """Count all image set uploads."""
     res_json = ImageSetUploads.get('count')
-    return models.Count.from_dict(res_json)
+    return dto.Count.from_dict(res_json)
 
 
-def find_collections(pageable: models.Pageable) -> List[models.BImageSetUploadDTO]:
+def find_collections(pageable: dto.Pageable) -> List[dto.BImageSetUploadDTO]:
     """Get a paged list of all image set uploads."""
     res_json = ImageSetUploads.get('list/all',
                                    params=pageable.to_params())
     # Note: schema inconsistent with response, need to grab the 'content' object
-    return list(map(models.BImageSetUploadDTO.from_dict, res_json['content']))
+    return list(map(dto.BImageSetUploadDTO.from_dict, res_json['content']))
 
 
 def find_contributors() -> List[str]:
@@ -35,25 +35,25 @@ def find_rejection_reasons() -> List[str]:
     return res_json
 
 
-def find_by_contributor(contributors_email: str) -> List[models.BImageSetUploadDTO]:
+def find_by_contributor(contributors_email: str) -> List[dto.BImageSetUploadDTO]:
     """Get a list of image set uploads by contributor."""
     res_json = ImageSetUploads.get('query/contributor/{}'.format(contributors_email))
-    return list(map(models.BImageSetUploadDTO.from_dict, res_json))
+    return list(map(dto.BImageSetUploadDTO.from_dict, res_json))
 
 
-def find_by_image_uuid(image_uuid: str) -> List[models.BImageSetUploadDTO]:
+def find_by_image_uuid(image_uuid: str) -> List[dto.BImageSetUploadDTO]:
     """Get an image set upload by UUID."""
     res_json = ImageSetUploads.get('query/image/{}'.format(image_uuid))
-    return list(map(models.BImageSetUploadDTO.from_dict, res_json))
+    return list(map(dto.BImageSetUploadDTO.from_dict, res_json))
 
 
-def stats(image_set_upload_uuid: str) -> models.ImageSetUploadStats:
+def stats(image_set_upload_uuid: str) -> dto.ImageSetUploadStats:
     """Get image set upload statistics for a corresponding image set upload UUID."""
     res_json = ImageSetUploads.get('stats/{}'.format(image_set_upload_uuid))
-    return models.ImageSetUploadStats.from_dict(res_json)
+    return dto.ImageSetUploadStats.from_dict(res_json)
 
 
-def find_by_uuid(uuid: str) -> models.BImageSetUploadDTO:
+def find_by_uuid(uuid: str) -> dto.BImageSetUploadDTO:
     """Get an image set upload by UUID."""
     res_json = ImageSetUploads.get(uuid)
-    return models.BImageSetUploadDTO.from_dict(res_json)
+    return dto.BImageSetUploadDTO.from_dict(res_json)

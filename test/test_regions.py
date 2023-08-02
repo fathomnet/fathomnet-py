@@ -1,7 +1,7 @@
 from unittest import TestCase, SkipTest
 
 from . import skipIfNoAuth
-from fathomnet import models
+from fathomnet import dto
 from fathomnet.api import regions
 
 
@@ -16,7 +16,7 @@ class TestRegionsAPI(TestCase):
 
     def test_find_all_paged(self):
         n_regions = 10
-        pageable = models.Pageable(size=n_regions)
+        pageable = dto.Pageable(size=n_regions)
         results = regions.find_all_paged(pageable)
         self.assertIsNotNone(results)
         self.assertEqual(len(results), n_regions)
