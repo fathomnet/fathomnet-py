@@ -15,14 +15,28 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 dataclasses-json = "^0.5.4"
 requests = "^2.20.0"
 lxml = "^4.6.0"
 coco-lib = "^0.1.2"
 progressbar2 = "^3.37.0"
+appdirs = {version = "^1.4.4", optional = true}
+torch = {version = "^2.0.1", optional = true}
+opencv-python = {version = "^4.7.0", optional = true}
+pandas = {version = "^2.0.3", optional = true}
+pillow = {version = "^10.0.0", optional = true}
+psutil = {version = "^5.9.5", optional = true}
+torchvision = {version = "^0.15.2", optional = true}
+pyyaml = {version = "^6.0.1", optional = true}
+tqdm = {version = "^4.65.0", optional = true}
+ultralytics = {version = "^8.0.146", optional = true}
+gitpython = {version = "^3.1.32", optional = true}
 
 [tool.poetry.dev-dependencies]
+
+[tool.poetry.extras]
+models = ["appdirs", "torch", "opencv-python", "pandas", "pillow", "psutil", "torchvision", "pyyaml", "tqdm", "ultralytics", "gitpython"]
 
 [tool.poetry.scripts]
 fathomnet-generate = 'fathomnet.scripts.fathomnet_generate:main'
