@@ -1,8 +1,8 @@
 # tags.py (fathomnet-py)
 from typing import List, Optional
 
-from .. import dto
-from . import EndpointManager
+from fathomnet import dto
+from fathomnet.api import EndpointManager
 
 
 class Tags(EndpointManager):

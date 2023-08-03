@@ -1,8 +1,8 @@
 # firebase.py (fathomnet-py)
 from typing import Optional
 
-from .. import dto
-from . import EndpointManager
+from fathomnet import dto
+from fathomnet.api import EndpointManager
 
 
 class Firebase(EndpointManager):

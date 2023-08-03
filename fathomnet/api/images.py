@@ -2,8 +2,8 @@
 from typing import List, Optional
 from urllib.parse import quote_plus
 
-from .. import dto
-from . import EndpointManager
+from fathomnet import dto
+from fathomnet.api import EndpointManager
 
 
 class Images(EndpointManager):

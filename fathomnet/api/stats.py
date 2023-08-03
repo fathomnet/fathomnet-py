@@ -1,7 +1,7 @@
 # stats.py (fathomnet-py)
 from typing import List
 
-from . import EndpointManager
+from fathomnet.api import EndpointManager
 
 
 class Stats(EndpointManager):

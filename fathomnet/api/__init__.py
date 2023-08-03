@@ -3,9 +3,7 @@ from typing import Union
 
 import requests
 
-# from ..util import debug_format_response
-
-session = requests.Session()
+SESSION = requests.Session()
 
 
 class EndpointManager:
@@ -21,7 +19,7 @@ class EndpointManager:
     @classmethod
     def request(cls, method: str, endpoint: str, parse_json: bool = True, **kwargs) -> Union[requests.Response, dict, list]:
         url = cls.url(endpoint)
-        res = session.request(method, url, **kwargs)
+        res = SESSION.request(method, url, **kwargs)
         if res.ok:  # Status code < 400
             return res.json() if parse_json else res
         elif res.status_code == 401:  # Not authorized, need to authenticate
