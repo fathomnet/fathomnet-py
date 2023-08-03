@@ -10,10 +10,10 @@ class Images(EndpointManager):
     PATH = 'images'
 
 
-def find_all_alt(pageable: dto.Pageable) -> List[dto.AImageDTO]:
+def find_all_alt(pageable: Optional[dto.Pageable] = None) -> List[dto.AImageDTO]:
     """Get a paged list of all images. (alternative endpoint)"""
     res_json = Images.get('',
-                          params=pageable.to_params())
+                          params=pageable.to_params() if pageable else None)
     return list(map(dto.AImageDTO.from_dict, res_json['content']))
 
 
@@ -31,10 +31,10 @@ def count_all() -> dto.Count:
     return dto.Count.from_dict(res_json)
 
 
-def find_all(pageable: dto.Pageable) -> List[dto.AImageDTO]:
+def find_all(pageable: Optional[dto.Pageable] = None) -> List[dto.AImageDTO]:
     """Get a paged list of all images."""
     res_json = Images.get('list/all',
-                          params=pageable.to_params())
+                          params=pageable.to_params() if pageable else None)
     # Note: schema inconsistent with response, need to grab the 'content' object
     return list(map(dto.AImageDTO.from_dict, res_json['content']))
 

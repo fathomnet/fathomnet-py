@@ -328,6 +328,7 @@ class FathomnetIdentity:
     expertiseRank: Optional[str] = None
     displayName: Optional[str] = None
     roles: Optional[List['Roles']] = None
+    orcid: Optional[str] = None
 
 
 @dataclass_json
@@ -543,3 +544,11 @@ class Tag:
 class Taxa:
     name: Optional[str] = None
     rank: Optional[str] = None
+
+
+@dataclass_json
+@dataclass
+class Badge:
+    name: Optional[str] = None
+    since: Optional[str] = None
+    data: Optional[dict] = None

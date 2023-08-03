@@ -96,3 +96,21 @@ def audit_by_user_defined_key(user_defined_key: str) -> List[dto.BoundingBoxDTO]
     """Get an audit of a bounding box by user-defined key."""
     res_json = BoundingBoxes.get('audit/userdefinedkey/{}'.format(user_defined_key))
     return list(map(dto.BoundingBoxDTO.from_dict, res_json))
+
+
+def find_searchable_concepts() -> List[str]:
+    """Get a list of searchable concepts."""
+    res_json = BoundingBoxes.get('list/searchable')
+    return res_json
+
+
+def find_by_observer_uuid(uuid: str, pageable: Optional[dto.Pageable] = None) -> List[dto.BoundingBoxDTO]:
+    """Get a list of bounding boxes by observer UUID."""
+    res_json = BoundingBoxes.get('query/observer/{}'.format(uuid), params=pageable.to_params() if pageable else None)
+    return list(map(dto.BoundingBoxDTO.from_dict, res_json['content']))
+
+
+def find_by_verifier_uuid(uuid: str, pageable: Optional[dto.Pageable] = None) -> List[dto.BoundingBoxDTO]:
+    """Get a list of bounding boxes by verifier UUID."""
+    res_json = BoundingBoxes.get('query/verifier/{}'.format(uuid), params=pageable.to_params() if pageable else None)
+    return list(map(dto.BoundingBoxDTO.from_dict, res_json['content']))

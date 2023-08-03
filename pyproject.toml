@@ -15,7 +15,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.8.1"
 dataclasses-json = "^0.5.4"
 requests = "^2.20.0"
 lxml = "^4.6.0"
@@ -43,6 +43,10 @@ fathomnet-generate = 'fathomnet.scripts.fathomnet_generate:main'
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/fathomnet/fathomnet-py/issues"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^6.1.0"
+pytest = "^7.4.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

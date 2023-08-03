@@ -11,8 +11,8 @@ class Users(EndpointManager):
 
 def find_all(pageable: Optional[dto.Pageable] = None, auth_header: Optional[dto.AuthHeader] = None) -> List[dto.FathomnetIdentity]:
     """Get a paged list of all users."""
-    res_json = Users.get('', params=pageable.to_params(), auth=auth_header)
-    return list(map(dto.FathomnetIdentity.from_dict, res_json))
+    res_json = Users.get('', params=pageable.to_params() if pageable else None, auth=auth_header)
+    return list(map(dto.FathomnetIdentity.from_dict, res_json['content']))
 
 
 def update_user_data(fathomnet_id_mutation: dto.FathomnetIdMutation, auth_header: Optional[dto.AuthHeader] = None) -> dto.FathomnetIdentity:
@@ -96,3 +96,28 @@ def verify(auth_header: Optional[dto.AuthHeader] = None) -> dto.Authentication:
     """Get the contents of an authorization token."""
     res_json = Users.get('verification', auth=auth_header)
     return dto.Authentication.from_dict(res_json)
+
+
+def find_by_display_name(display_name: str, pageable: Optional[dto.Pageable] = None) -> List[dto.FathomnetIdentity]:
+    """Find a user by display name."""
+    res_json = Users.get('query/name/{}'.format(display_name), params=pageable.to_params() if pageable else None)
+    print(res_json)
+    return list(map(dto.FathomnetIdentity.from_dict, res_json))
+
+
+def find_by_organization(organization: str, pageable: Optional[dto.Pageable] = None) -> List[dto.FathomnetIdentity]:
+    """Find a user by organization."""
+    res_json = Users.get('query/org/{}'.format(organization), params=pageable.to_params() if pageable else None)
+    return list(map(dto.FathomnetIdentity.from_dict, res_json))
+
+
+def find_by_uuid(uuid: str) -> dto.FathomnetIdentity:
+    """Find a user by UUID."""
+    res_json = Users.get('query/uuid/{}'.format(uuid))
+    return dto.FathomnetIdentity.from_dict(res_json)
+
+
+def find_badges_by_uuid(uuid: str) -> List[dto.Badge]:
+    """Find a user's badges by UUID."""
+    res_json = Users.get('badges/{}'.format(uuid))
+    return list(map(dto.Badge.from_dict, res_json))

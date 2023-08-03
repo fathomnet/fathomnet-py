@@ -9,10 +9,10 @@ class GeoImages(EndpointManager):
     PATH = 'geoimages'
 
 
-def find_all(pageable: dto.Pageable) -> List[dto.GeoImage]:
+def find_all(pageable: Optional[dto.Pageable] = None) -> List[dto.GeoImage]:
     """Get a paged list of all geo images."""
     res_json = GeoImages.get('',
-                             params=pageable.to_params())
+                             params=pageable.to_params() if pageable else None)
     # Note: schema inconsistent with response, need to grab the 'content' object
     return list(map(dto.GeoImage.from_dict, res_json['content']))
 

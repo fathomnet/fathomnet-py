@@ -1,5 +1,5 @@
 # imagesetuploads.py (fathomnet-py)
-from typing import List
+from typing import List, Optional
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
@@ -15,10 +15,10 @@ def count_all() -> dto.Count:
     return dto.Count.from_dict(res_json)
 
 
-def find_collections(pageable: dto.Pageable) -> List[dto.BImageSetUploadDTO]:
+def find_collections(pageable: Optional[dto.Pageable] = None) -> List[dto.BImageSetUploadDTO]:
     """Get a paged list of all image set uploads."""
     res_json = ImageSetUploads.get('list/all',
-                                   params=pageable.to_params())
+                                   params=pageable.to_params() if pageable else None)
     # Note: schema inconsistent with response, need to grab the 'content' object
     return list(map(dto.BImageSetUploadDTO.from_dict, res_json['content']))
 
