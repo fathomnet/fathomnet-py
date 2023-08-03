@@ -95,3 +95,18 @@ class TestBoundingBoxesAPI(TestCase):
         verifier_uuid = '9dba65e1-5974-46df-9276-98c461beba9f'
         boxes = boundingboxes.find_by_verifier_uuid(verifier_uuid)
         self.assertIsNotNone(boxes)
+
+    def test_audit_by_concepts(self):
+        concepts = ['Bathochordaeus']
+        boxes = boundingboxes.audit_by_concepts(concepts)
+        self.assertIsNotNone(boxes)
+
+    def test_audit_by_verifier(self):
+        verifier = 'brian@mbari.org'
+        boxes = boundingboxes.audit_by_verifier(verifier)
+        self.assertIsNotNone(boxes)
+    
+    def test_audit_by_observer(self):
+        observer = 'brian@mbari.org'
+        boxes = boundingboxes.audit_by_observer(observer)
+        self.assertIsNotNone(boxes)

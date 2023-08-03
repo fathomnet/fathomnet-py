@@ -114,3 +114,54 @@ def find_by_verifier_uuid(uuid: str, pageable: Optional[dto.Pageable] = None) ->
     """Get a list of bounding boxes by verifier UUID."""
     res_json = BoundingBoxes.get('query/verifier/{}'.format(uuid), params=pageable.to_params() if pageable else None)
     return list(map(dto.BoundingBoxDTO.from_dict, res_json['content']))
+
+
+def audit_by_concepts(concepts: List[str],
+                      start_timestamp: Optional[str] = None, end_timestamp: Optional[str] = None,
+                      limit: Optional[int] = None, offset: Optional[int] = None) -> List[dto.BoundingBoxDTO]:
+    """Get an audit of bounding boxes by concepts."""
+    params = {}
+    if start_timestamp:
+        params['startTimestamp'] = start_timestamp
+    if end_timestamp:
+        params['endTimestamp'] = end_timestamp
+    if limit:
+        params['limit'] = limit
+    if offset:
+        params['offset'] = offset
+    res_json = BoundingBoxes.get('audit/concepts/{}'.format(','.join(concepts)), params=params)
+    return list(map(dto.BoundingBoxDTO.from_dict, res_json))
+
+
+def audit_by_verifier(uuid: str,
+                      start_timestamp: Optional[str] = None, end_timestamp: Optional[str] = None,
+                      limit: Optional[int] = None, offset: Optional[int] = None) -> List[dto.BoundingBoxDTO]:
+    """Get an audit of bounding boxes by verifier UUID."""
+    params = {}
+    if start_timestamp:
+        params['startTimestamp'] = start_timestamp
+    if end_timestamp:
+        params['endTimestamp'] = end_timestamp
+    if limit:
+        params['limit'] = limit
+    if offset:
+        params['offset'] = offset
+    res_json = BoundingBoxes.get('audit/verifier/{}'.format(uuid), params=params)
+    return list(map(dto.BoundingBoxDTO.from_dict, res_json))
+
+
+def audit_by_observer(observer: str,
+                      start_timestamp: Optional[str] = None, end_timestamp: Optional[str] = None,
+                      limit: Optional[int] = None, offset: Optional[int] = None) -> List[dto.BoundingBoxDTO]:
+    """Get an audit of bounding boxes by observer."""
+    params = {}
+    if start_timestamp:
+        params['startTimestamp'] = start_timestamp
+    if end_timestamp:
+        params['endTimestamp'] = end_timestamp
+    if limit:
+        params['limit'] = limit
+    if offset:
+        params['offset'] = offset
+    res_json = BoundingBoxes.get('audit/observer/{}'.format(observer), params=params)
+    return list(map(dto.BoundingBoxDTO.from_dict, res_json))
