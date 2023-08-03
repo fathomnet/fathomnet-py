@@ -7,7 +7,7 @@ from fathomnet import dto
 
 
 class Comments(EndpointManager):
-    PATH = '/comments'
+    PATH = 'comments'
 
 
 def create(uuid: str, comment_content: dto.BoundingBoxCommentContent, auth_header: Optional[dto.AuthHeader] = None) -> dto.BoundingBoxComment:
@@ -42,7 +42,10 @@ def find_by_bounding_box_uuid(uuid: str, auth_header: Optional[dto.AuthHeader] =
 
 def find_by_email(email: str, pageable: Optional[dto.Pageable] = None, auth_header: Optional[dto.AuthHeader] = None) -> List[dto.BoundingBoxComment]:
     """Get a list of comments by email."""
-    res_json = Comments.get('query/email/{}'.format(email), params=pageable.to_dict() if pageable else None, auth=auth_header)
+    params = {'email': email}
+    if pageable:
+        params.update(pageable.to_dict())
+    res_json = Comments.get('query/email', params=params, auth=auth_header)
     return list(map(dto.BoundingBoxComment.from_dict, res_json['content']))
 
 
