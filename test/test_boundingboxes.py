@@ -80,17 +80,17 @@ class TestBoundingBoxesAPI(TestCase):
         boxes = boundingboxes.audit_by_user_defined_key(user_defined_key)
         self.assertIsNotNone(boxes)
         self.assertEqual(boxes[0].userDefinedKey, user_defined_key)
-    
+
     def test_find_searchable_concepts(self):
         searchable_concepts = boundingboxes.find_searchable_concepts()
         self.assertIsNotNone(searchable_concepts)
         self.assertIn('Bathochordaeus', searchable_concepts)
-    
+
     def test_find_by_observer_uuid(self):
         observer_uuid = '9dba65e1-5974-46df-9276-98c461beba9f'
         boxes = boundingboxes.find_by_observer_uuid(observer_uuid)
         self.assertIsNotNone(boxes)
-    
+
     def test_find_by_verifier_uuid(self):
         verifier_uuid = '9dba65e1-5974-46df-9276-98c461beba9f'
         boxes = boundingboxes.find_by_verifier_uuid(verifier_uuid)

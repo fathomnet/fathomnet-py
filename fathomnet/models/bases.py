@@ -19,13 +19,13 @@ class ImageModel(ABC):
     @abstractmethod
     def _predict(self, image: Union[np.ndarray, Path]) -> T:
         raise NotImplementedError
-    
+
     def predict(self, image: Union[np.ndarray, Path]) -> T:
         return self._predict(self._load(image))
-    
+
     def _load(self, image: Union[np.ndarray, Path]) -> np.ndarray:
         if isinstance(image, Path):
             image = cv2.imread(str(image))
             return image
-        
+
         return image

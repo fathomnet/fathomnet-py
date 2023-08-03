@@ -19,12 +19,12 @@ class YOLOv5Model(ImageModel):
     """
     def __init__(self, weights: Path) -> None:
         super().__init__()
-        
+
         self._model = load("ultralytics/yolov5", "custom", path=weights)
-    
+
     def _predict(self, image: np.ndarray) -> Iterable[BoundingBox]:
         detections = self._model(image)
-        
+
         for detection in detections.xyxy[0]:
             x1, y1, x2, y2, confidence, class_id = detection
             yield BoundingBox(
@@ -41,7 +41,7 @@ class MBARIMBBenthicModel(YOLOv5Model):
     MBARI Monterey Bay Benthic Object Detector.
     """
     WEIGHTS_URL = "https://zenodo.org/record/5539915/files/mbari-mb-benthic-33k.pt"
-    
+
     def __init__(self) -> None:
         cache_dir = Path(user_cache_dir("fathomnet"))
         mbari_mb_benthic_dir = cache_dir / "mbari-mb-benthic"
@@ -54,5 +54,5 @@ class MBARIMBBenthicModel(YOLOv5Model):
                 with weights.open("wb") as f:
                     for chunk in r.iter_content(chunk_size=8192):
                         f.write(chunk)
-        
+
         super().__init__(weights)
