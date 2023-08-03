@@ -107,7 +107,7 @@ def find_by_display_name(display_name: str, pageable: Optional[dto.Pageable] = N
 
 def find_by_organization(organization: str, pageable: Optional[dto.Pageable] = None) -> List[dto.FathomnetIdentity]:
     """Find a user by organization."""
-    res_json = Users.get('query/org/{}'.format(organization), params=pageable.to_params() if pageable else None)
+    res_json = Users.get('query/organization/{}'.format(organization), params=pageable.to_params() if pageable else None)
     return list(map(dto.FathomnetIdentity.from_dict, res_json))
 
 

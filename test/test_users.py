@@ -12,7 +12,7 @@ class TestUsersAPI(TestCase):
 
     @skipIfNoAuth
     def test_find_all(self):
-        pageable = Pageable(number=5)
+        pageable = Pageable(size=5)
         res_users = users.find_all(pageable)
         self.assertIsNotNone(res_users)
 
@@ -78,7 +78,7 @@ class TestUsersAPI(TestCase):
 
     @skipIfNoAuth
     def test_find_by_organization(self):
-        res_users = users.find_by_organization('MBARI')
+        res_users = users.find_by_organization('mbari')
         self.assertIsNotNone(res_users)
 
     def test_find_by_uuid(self):
