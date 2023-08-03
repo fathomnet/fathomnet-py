@@ -329,6 +329,7 @@ class FathomnetIdentity:
     displayName: Optional[str] = None
     roles: Optional[List['Roles']] = None
     orcid: Optional[str] = None
+    notificationFrequency: Optional[str] = None
 
 
 @dataclass_json

@@ -17,6 +17,10 @@ class TestUsersAPI(TestCase):
         self.assertIsNotNone(res_users)
 
     @skipIfNoAuth
+    def test_find_all_admin(self):
+        raise SkipTest('Not implemented')
+
+    @skipIfNoAuth
     def test_update_user_data(self):
         raise SkipTest('Write tests not yet implemented')
 
