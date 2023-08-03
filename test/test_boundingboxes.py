@@ -105,7 +105,7 @@ class TestBoundingBoxesAPI(TestCase):
         verifier = 'brian@mbari.org'
         boxes = boundingboxes.audit_by_verifier(verifier)
         self.assertIsNotNone(boxes)
-    
+
     def test_audit_by_observer(self):
         observer = 'brian@mbari.org'
         boxes = boundingboxes.audit_by_observer(observer)
