@@ -572,3 +572,30 @@ class BoundingBoxComment:
     flagged: Optional[bool] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
+
+
+@dataclass_json
+@dataclass
+class Topic:
+    topic: Optional[str] = None
+    target: Optional[str] = None
+    notification: Optional[bool] = None
+
+
+@dataclass_json
+@dataclass
+class Activity:
+    topic: Optional[Topic] = None
+    attributedTo: Optional[str] = None
+    lastUpdated: Optional[str] = None
+    content: Optional[str] = None
+    data: Optional[dict] = None
+
+
+@dataclass_json
+@dataclass
+class FollowedTopic(Topic):
+    uuid: Optional[str] = None
+    email: Optional[str] = None
+    createdTimestamp: Optional[str] = None
+    lastUpdatedTimestamp: Optional[str] = None
