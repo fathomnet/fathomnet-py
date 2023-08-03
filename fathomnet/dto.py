@@ -552,3 +552,23 @@ class Badge:
     name: Optional[str] = None
     since: Optional[str] = None
     data: Optional[dict] = None
+
+
+@dataclass_json
+@dataclass
+class BoundingBoxCommentContent:
+    text: Optional[str] = None
+    alternateConcept: Optional[str] = None
+
+
+@dataclass_json
+@dataclass
+class BoundingBoxComment:
+    uuid: Optional[str] = None
+    boundingBoxUuid: Optional[str] = None
+    email: Optional[str] = None
+    text: Optional[str] = None
+    alternateConcept: Optional[str] = None
+    flagged: Optional[bool] = None
+    createdTimestamp: Optional[str] = None
+    lastUpdatedTimestamp: Optional[str] = None
