@@ -5,7 +5,7 @@ from fathomnet.api import users
 from fathomnet.dto import Pageable
 
 
-class TestBoundingBoxesAPI(TestCase):
+class TestUsersAPI(TestCase):
     @skipIfNoAuth
     def test_create_with_dto(self):
         raise SkipTest('Write tests not yet implemented')  # TODO create_with_dto test
