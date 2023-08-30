@@ -14,7 +14,7 @@ def find_all_alt(pageable: Optional[dto.Pageable] = None) -> List[dto.AImageDTO]
     """Get a paged list of all images. (alternative endpoint)"""
     res_json = Images.get('',
                           params=pageable.to_params() if pageable else None)
-    return list(map(dto.AImageDTO.from_dict, res_json['content']))
+    return list(map(dto.AImageDTO.from_dict, res_json.get('content', [])))
 
 
 def create_if_not_exists(images: List[dto.Image], auth_header: Optional[dto.AuthHeader] = None) -> List[dto.AImageDTO]:
@@ -36,7 +36,7 @@ def find_all(pageable: Optional[dto.Pageable] = None) -> List[dto.AImageDTO]:
     res_json = Images.get('list/all',
                           params=pageable.to_params() if pageable else None)
     # Note: schema inconsistent with response, need to grab the 'content' object
-    return list(map(dto.AImageDTO.from_dict, res_json['content']))
+    return list(map(dto.AImageDTO.from_dict, res_json.get('content', [])))
 
 
 def find_distinct_submitter() -> List[str]:

@@ -12,13 +12,13 @@ class Users(EndpointManager):
 def find_all(pageable: Optional[dto.Pageable] = None, auth_header: Optional[dto.AuthHeader] = None) -> List[dto.FathomnetIdentity]:
     """Get a paged list of all users."""
     res_json = Users.get('list/users', params=pageable.to_params() if pageable else None, auth=auth_header)
-    return list(map(dto.FathomnetIdentity.from_dict, res_json['content']))
+    return list(map(dto.FathomnetIdentity.from_dict, res_json.get('content', [])))
 
 
 def find_all_admin(pageable: Optional[dto.Pageable] = None, auth_header: Optional[dto.AuthHeader] = None) -> List[dto.FathomnetIdentity]:
     """(Admin) Get a paged list of all users."""
     res_json = Users.get('', params=pageable.to_params() if pageable else None, auth=auth_header)
-    return list(map(dto.FathomnetIdentity.from_dict, res_json['content']))
+    return list(map(dto.FathomnetIdentity.from_dict, res_json.get('content', [])))
 
 
 def update_user_data(fathomnet_id_mutation: dto.FathomnetIdMutation, auth_header: Optional[dto.AuthHeader] = None) -> dto.FathomnetIdentity:

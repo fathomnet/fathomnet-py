@@ -107,13 +107,13 @@ def find_searchable_concepts() -> List[str]:
 def find_by_observer_uuid(uuid: str, pageable: Optional[dto.Pageable] = None) -> List[dto.BoundingBoxDTO]:
     """Get a list of bounding boxes by observer UUID."""
     res_json = BoundingBoxes.get('query/observer/{}'.format(uuid), params=pageable.to_params() if pageable else None)
-    return list(map(dto.BoundingBoxDTO.from_dict, res_json['content']))
+    return list(map(dto.BoundingBoxDTO.from_dict, res_json.get('content', [])))
 
 
 def find_by_verifier_uuid(uuid: str, pageable: Optional[dto.Pageable] = None) -> List[dto.BoundingBoxDTO]:
     """Get a list of bounding boxes by verifier UUID."""
     res_json = BoundingBoxes.get('query/verifier/{}'.format(uuid), params=pageable.to_params() if pageable else None)
-    return list(map(dto.BoundingBoxDTO.from_dict, res_json['content']))
+    return list(map(dto.BoundingBoxDTO.from_dict, res_json.get('content', [])))
 
 
 def audit_by_concepts(concepts: List[str],

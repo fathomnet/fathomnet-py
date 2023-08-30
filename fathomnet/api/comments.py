@@ -46,7 +46,7 @@ def find_by_email(email: str, pageable: Optional[dto.Pageable] = None, auth_head
     if pageable:
         params.update(pageable.to_dict())
     res_json = Comments.get('query/email', params=params, auth=auth_header)
-    return list(map(dto.BoundingBoxComment.from_dict, res_json['content']))
+    return list(map(dto.BoundingBoxComment.from_dict, res_json.get('content', [])))
 
 
 def flag(uuid: str, value: bool, auth_header: Optional[dto.AuthHeader] = None) -> dto.BoundingBoxComment:

@@ -20,7 +20,7 @@ def find_collections(pageable: Optional[dto.Pageable] = None) -> List[dto.BImage
     res_json = ImageSetUploads.get('list/all',
                                    params=pageable.to_params() if pageable else None)
     # Note: schema inconsistent with response, need to grab the 'content' object
-    return list(map(dto.BImageSetUploadDTO.from_dict, res_json['content']))
+    return list(map(dto.BImageSetUploadDTO.from_dict, res_json.get('content', [])))
 
 
 def find_contributors() -> List[str]:

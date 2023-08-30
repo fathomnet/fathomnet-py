@@ -24,7 +24,7 @@ def count_all() -> int:
 def find_all_paged(pageable: Optional[dto.Pageable]) -> List[dto.MarineRegion]:
     """Get a paged list of all marine regions."""
     res_json = Regions.get('list/all', params=pageable.to_params() if pageable else None)
-    return list(map(dto.MarineRegion.from_dict, res_json['content']))
+    return list(map(dto.MarineRegion.from_dict, res_json.get('content', [])))
 
 
 def sync(auth_header: Optional[dto.AuthHeader] = None) -> int:

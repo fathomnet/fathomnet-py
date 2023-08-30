@@ -14,7 +14,7 @@ def find_all(pageable: Optional[dto.Pageable] = None) -> List[dto.GeoImage]:
     res_json = GeoImages.get('',
                              params=pageable.to_params() if pageable else None)
     # Note: schema inconsistent with response, need to grab the 'content' object
-    return list(map(dto.GeoImage.from_dict, res_json['content']))
+    return list(map(dto.GeoImage.from_dict, res_json.get('content', [])))
 
 
 def count(geo_image_constraints: dto.GeoImageConstraints) -> dto.GeoImageConstraintsCount:
