@@ -44,7 +44,7 @@ class TestUsersAPI(TestCase):
     def test_count_all(self):
         count = users.count_all()
         self.assertIsNotNone(count)
-        self.assertEqual(count.objectType, 'FathomnetIdentity')
+        self.assertEqual(count.objectType, 'FathomnetIdentityEntity')
         self.assertGreater(count.count, 0)
 
     @skipIfNoAuth

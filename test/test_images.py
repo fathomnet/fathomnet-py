@@ -20,7 +20,7 @@ class TestImagesAPI(TestCase):
     def test_count_all(self):
         count = images.count_all()
         self.assertIsNotNone(count)
-        self.assertEqual(count.objectType, 'Image')
+        self.assertEqual(count.objectType, 'ImageEntity')
         self.assertGreater(count.count, 0)
 
     def test_find_all(self):
