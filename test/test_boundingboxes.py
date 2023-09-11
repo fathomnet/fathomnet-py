@@ -12,7 +12,7 @@ class TestBoundingBoxesAPI(TestCase):
     def test_count_all(self):
         count = boundingboxes.count_all()
         self.assertIsNotNone(count)
-        self.assertEqual(count.objectType, 'BoundingBox')
+        self.assertEqual(count.objectType, 'BoundingBoxEntity')
         self.assertGreater(count.count, 0)
 
     def test_find_concepts(self):

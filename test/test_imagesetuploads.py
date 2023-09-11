@@ -8,7 +8,7 @@ class TestImageSetUploadsAPI(TestCase):
     def test_count_all(self):
         count = imagesetuploads.count_all()
         self.assertIsNotNone(count)
-        self.assertEqual(count.objectType, 'ImageSetUpload')
+        self.assertEqual(count.objectType, 'ImageSetUploadEntity')
         self.assertGreater(count.count, 0)
 
     def test_find_collections(self):
