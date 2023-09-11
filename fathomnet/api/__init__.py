@@ -3,6 +3,8 @@ from typing import Union
 
 import requests
 
+from fathomnet.util import debug_format_response
+
 SESSION = requests.Session()
 
 
@@ -29,8 +31,7 @@ class EndpointManager:
         elif res.status_code < 500:  # User error
             raise ValueError('Bad request: {} {}'.format(method, url))
         else:  # Server error, debug the response
-            # print(debug_format_response(res))
-            raise ValueError('Server error, please contact the FathomNet administrators.')
+            raise ValueError('Server error, please contact the FathomNet administrators with the details below.\n\n{}'.format(debug_format_response(res)))
 
     @classmethod
     def get(cls, endpoint: str, parse_json: bool = True, **kwargs) -> Union[requests.Response, dict, list]:
