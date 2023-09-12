@@ -2,7 +2,16 @@
 
 
 
-## v1.1.1 (2023-09-12)
+## v1.1.2 (2023-09-12)
+
+### Fix
+
+* fix: Add condition to CD workflow ([`df3432d`](https://github.com/fathomnet/fathomnet-py/commit/df3432d1b5685414c64d6a8a21b020497d1b6313))
+
+* fix: Add CD ([`8979d75`](https://github.com/fathomnet/fathomnet-py/commit/8979d75b049d39c673feb0d78153d4e5a4de11c5))
+
+
+## v1.1.1 (2023-09-13)
 
 ### Fix
 
