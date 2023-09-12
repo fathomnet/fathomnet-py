@@ -2,7 +2,16 @@
 
 
 
-## v1.1.0 (2023-09-12)
+## v1.1.1 (2023-09-12)
+
+### Fix
+
+* fix: Remove publish step from CI (for now) ([`3ba596b`](https://github.com/fathomnet/fathomnet-py/commit/3ba596b2b240ba841cecf98f20c74d30a5e386a5))
+
+* fix: Version in pyproject.toml ([`dd2d9a2`](https://github.com/fathomnet/fathomnet-py/commit/dd2d9a2d3e9a27610e17c119337e821fcea8bcbc))
+
+
+## v1.1.0 (2023-09-13)
 
 ### Feature
 
