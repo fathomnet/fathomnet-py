@@ -1,4 +1,4 @@
-# GitHub action for CI: linting, testing, releasing, and publishing to PyPI
+# GitHub action for CI: linting, testing, and releasing
 
 name: ci
 
