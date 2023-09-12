@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fathomnet"
-version = "1.0.2"
+version = "1.1.0"
 description = "fathomnet-py is a client-side API to help scientists, researchers, and developers interact with FathomNet data."
 license = "MIT"
 authors = ["Kevin Barnard <kbarnard@mbari.org>"]
@@ -55,7 +55,7 @@ commit_parser = "angular"
 logging_use_named_masks = false
 major_on_zero = true
 tag_format = "v{version}"
-version_variables = [
+version_toml = [
     "pyproject.toml:tool.poetry.version",
 ]
 
