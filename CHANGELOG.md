@@ -2,6 +2,22 @@
 
 
 
+## v1.1.3 (2023-09-13)
+
+### Documentation
+
+* docs: Add script documentation
+
+Closes #5 ([`1eadc8f`](https://github.com/fathomnet/fathomnet-py/commit/1eadc8ff627307fec7cefde19918da45c086195e))
+
+### Fix
+
+* fix(api): Improve client error exception
+
+Add the fathomnet.util.debug_format_response to the ValueError exception
+ raised when a status code &lt; 500 and != 401 / 403 is returned. Fixes #16 ([`6b0b911`](https://github.com/fathomnet/fathomnet-py/commit/6b0b91110be90d7e41e7c2a8dab87cd29b331395))
+
+
 ## v1.1.2 (2023-09-12)
 
 ### Fix
