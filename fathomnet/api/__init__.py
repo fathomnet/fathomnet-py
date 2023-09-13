@@ -29,9 +29,9 @@ class EndpointManager:
         elif res.status_code == 403:  # Forbidden, can't access this endpoint with given authentication
             raise ValueError('Forbidden: you cannot access this resource.')
         elif res.status_code < 500:  # User error
-            raise ValueError('Bad request: {} {}'.format(method, url))
+            raise ValueError('Client error ({}), please check your usage (docs: https://fathomnet-py.rtfd.io/) or open an issue at https://github.com/fathomnet/fathomnet-py/issues/new with the details below.\n{}'.format(res.status_code, debug_format_response(res)))
         else:  # Server error, debug the response
-            raise ValueError('Server error, please contact the FathomNet administrators with the details below.\n\n{}'.format(debug_format_response(res)))
+            raise ValueError('Server error ({}), please contact the FathomNet administrators with the details below.\n\n{}'.format(res.status_code, debug_format_response(res)))
 
     @classmethod
     def get(cls, endpoint: str, parse_json: bool = True, **kwargs) -> Union[requests.Response, dict, list]:
