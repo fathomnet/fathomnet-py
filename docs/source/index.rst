@@ -64,6 +64,7 @@ Installing fathomnet-py
 
    api
    dto
+   scripts
 
 .. Indices and tables
 .. ==================

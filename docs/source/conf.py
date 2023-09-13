@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'fathomnet-py'
-copyright = '2022, Monterey Bay Aquarium Research Institute'
+copyright = '2022-2023, Monterey Bay Aquarium Research Institute'
 author = 'Kevin Barnard'
 
 
