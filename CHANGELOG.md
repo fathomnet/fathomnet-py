@@ -2,6 +2,21 @@
 
 
 
+## v1.1.4 (2024-01-09)
+
+### Documentation
+
+* docs: fix broken tests badge ([`dbfbea8`](https://github.com/fathomnet/fathomnet-py/commit/dbfbea8ab261d285a691c6f92a740ce8ba893166))
+
+### Fix
+
+* fix: quote concept in images.find_by_concept, add test ([`33aa430`](https://github.com/fathomnet/fathomnet-py/commit/33aa4301a30dd15f64aebfef57dd21914ed060e1))
+
+### Unknown
+
+* Merge branch &#39;develop&#39; ([`14988d6`](https://github.com/fathomnet/fathomnet-py/commit/14988d63186d5c60e78c9e5039b1b2ca16d03dd0))
+
+
 ## v1.1.3 (2023-09-13)
 
 ### Documentation
