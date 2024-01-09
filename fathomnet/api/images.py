@@ -1,6 +1,6 @@
 # images.py (fathomnet-py)
 from typing import List, Optional
-from urllib.parse import quote_plus
+from urllib.parse import quote, quote_plus
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
@@ -60,7 +60,7 @@ def find(geo_image_constraints: dto.GeoImageConstraints) -> List[dto.AImageDTO]:
 
 def find_by_concept(concept: str, taxa: Optional[str] = None) -> List[dto.AImageDTO]:
     """Get a list of images by concept (and optionally taxa provider)."""
-    res_json = Images.get('query/concept/{}'.format(concept),
+    res_json = Images.get('query/concept/{}'.format(quote(concept)),
                           params={'taxa': taxa} if taxa else None)
     return list(map(dto.AImageDTO.from_dict, res_json))
 

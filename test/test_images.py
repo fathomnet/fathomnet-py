@@ -56,15 +56,15 @@ class TestImagesAPI(TestCase):
                 self.fail()
 
     def test_find_by_concept(self):
-        concept = 'Bathochordaeus'
-        results = images.find_by_concept(concept)
-        self.assertIsNotNone(results)
-        for image in results:
-            for bounding_box in image.boundingBoxes:
-                if bounding_box.concept == concept:
-                    break
-            else:
-                self.fail()
+        for concept in ('Bathochordaeus', "a'a", 'Abraliopsis (Boreabrealiopsis) felis'):
+            results = images.find_by_concept(concept)
+            self.assertIsNotNone(results)
+            for image in results:
+                for bounding_box in image.boundingBoxes:
+                    if bounding_box.concept == concept:
+                        break
+                else:
+                    self.fail()
 
     def test_find_by_contributors_email(self):
         contributors_email = 'kbarnard@mbari.org'
