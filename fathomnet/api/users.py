@@ -1,5 +1,6 @@
 # users.py (fathomnet-py)
 from typing import List, Optional
+from urllib.parse import quote
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
@@ -106,14 +107,14 @@ def verify(auth_header: Optional[dto.AuthHeader] = None) -> dto.Authentication:
 
 def find_by_display_name(display_name: str, pageable: Optional[dto.Pageable] = None) -> List[dto.FathomnetIdentity]:
     """Find a user by display name."""
-    res_json = Users.get('query/name/{}'.format(display_name), params=pageable.to_params() if pageable else None)
+    res_json = Users.get('query/name/{}'.format(quote(display_name)), params=pageable.to_params() if pageable else None)
     print(res_json)
     return list(map(dto.FathomnetIdentity.from_dict, res_json))
 
 
 def find_by_organization(organization: str, pageable: Optional[dto.Pageable] = None) -> List[dto.FathomnetIdentity]:
     """Find a user by organization."""
-    res_json = Users.get('query/organization/{}'.format(organization), params=pageable.to_params() if pageable else None)
+    res_json = Users.get('query/organization/{}'.format(quote(organization)), params=pageable.to_params() if pageable else None)
     return list(map(dto.FathomnetIdentity.from_dict, res_json))
 
 
