@@ -45,7 +45,7 @@ def find_by_email(email: str,
     if offset:
         params['offset'] = offset
     res_json = Activity.get('query/email/{}'.format(email), params=params, auth=auth_header)
-    return list(map(dto.Activity.from_dict, res_json.get('content', [])))
+    return list(map(dto.Activity.from_dict, res_json))
 
 
 def find_by_email_admin(email: str,
@@ -63,4 +63,4 @@ def find_by_email_admin(email: str,
     if offset:
         params['offset'] = offset
     res_json = Activity.get('admin/query/email/{}'.format(email), params=params, auth=auth_header)
-    return list(map(dto.Activity.from_dict, res_json.get('content', [])))
+    return list(map(dto.Activity.from_dict, res_json))
