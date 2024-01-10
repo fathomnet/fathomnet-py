@@ -1,5 +1,6 @@
 # boundingboxes.py (fathomnet-py)
 from typing import List, BinaryIO, Optional
+from urllib.parse import quote
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
@@ -129,7 +130,7 @@ def audit_by_concepts(concepts: List[str],
         params['limit'] = limit
     if offset:
         params['offset'] = offset
-    res_json = BoundingBoxes.get('audit/concepts/{}'.format(','.join(concepts)), params=params)
+    res_json = BoundingBoxes.get('audit/concepts/{}'.format(quote(','.join(concepts))), params=params)
     return list(map(dto.BoundingBoxDTO.from_dict, res_json))
 
 

@@ -97,7 +97,7 @@ class TestBoundingBoxesAPI(TestCase):
         self.assertIsNotNone(boxes)
 
     def test_audit_by_concepts(self):
-        concepts = ['Bathochordaeus']
+        concepts = ['Bathochordaeus', "a'a", 'Abraliopsis (Boreabraliopsis) felis']
         boxes = boundingboxes.audit_by_concepts(concepts)
         self.assertIsNotNone(boxes)
 
