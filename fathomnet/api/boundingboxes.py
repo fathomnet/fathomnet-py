@@ -164,5 +164,5 @@ def audit_by_observer(observer: str,
         params['limit'] = limit
     if offset:
         params['offset'] = offset
-    res_json = BoundingBoxes.get('audit/observer/{}'.format(observer), params=params)
+    res_json = BoundingBoxes.get('audit/observer/{}'.format(quote(observer)), params=params)
     return list(map(dto.BoundingBoxDTO.from_dict, res_json))
