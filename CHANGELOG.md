@@ -2,6 +2,21 @@
 
 
 
+## v1.1.5 (2024-01-10)
+
+### Fix
+
+* fix: quote display/org names in users find functions ([`591e67a`](https://github.com/fathomnet/fathomnet-py/commit/591e67a3e43af9e15ca0a0140de465a1da8018f3))
+
+* fix: quote provider name and concept in taxa find functions, remove print from test ([`dde9eb5`](https://github.com/fathomnet/fathomnet-py/commit/dde9eb51a5da79a07a94fe5d93a7604681c035d6))
+
+* fix: quote observer name in boundingboxes.audit_by_observer ([`b94c87e`](https://github.com/fathomnet/fathomnet-py/commit/b94c87e9351fbde116dc8ef22c58867059999bec))
+
+* fix: quote boundingboxes.audit_by_concepts URL fragment, add test case ([`5ea7b45`](https://github.com/fathomnet/fathomnet-py/commit/5ea7b459278c540a31fbe63e263f9208c234e123))
+
+* fix: update activity find functions for new DTO ([`cdf5617`](https://github.com/fathomnet/fathomnet-py/commit/cdf56179cc802085ff1f8adbba2f717be550f08b))
+
+
 ## v1.1.4 (2024-01-09)
 
 ### Documentation
