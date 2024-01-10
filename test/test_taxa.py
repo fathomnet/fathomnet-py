@@ -32,6 +32,5 @@ class TestTaxaAPI(TestCase):
         for taxa_item in results:
             if taxa_item.name == concept and taxa_item.rank == rank:
                 break
-            print(taxa_item)
         else:
             self.fail()
