@@ -40,9 +40,9 @@ fathomnet-py
 
 The ``fathomnet-py`` API offers native Python interaction with the FathomNet REST API, abstracting away the underlying HTTP requests.
 
-.. image:: https://github.com/fathomnet/fathomnet-py/actions/workflows/ci.yml/badge.svg
-   :target: https://github.com/fathomnet/fathomnet-py/actions/workflows/ci.yml
-   :alt: ci
+.. image:: https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml/badge.svg
+   :target: https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml
+   :alt: cicd
 
 .. image:: https://readthedocs.org/projects/fathomnet-py/badge/?version=latest
    :target: https://fathomnet-py.readthedocs.io/en/latest/?badge=latest
