@@ -47,6 +47,7 @@ fathomnet-generate = 'fathomnet.scripts.fathomnet_generate:main'
 [tool.poetry.group.dev.dependencies]
 flake8 = "^6.1.0"
 pytest = "^7.4.0"
+sphinx-rtd-theme = "^2.0.0"
 
 [tool.semantic_release]
 assets = []
