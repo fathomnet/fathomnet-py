@@ -2,6 +2,23 @@
 
 
 
+## v1.2.1 (2024-02-06)
+
+### Chore
+
+* chore: use released ref for publish in CI/CD pipeline ([`d39c482`](https://github.com/fathomnet/fathomnet-py/commit/d39c4827ea612c6ea7e8b3eabfea4f08638c98e8))
+
+### Fix
+
+* fix: use worms API directly for fathomnet taxa provider
+
+This is a temporary workaround for a bug in Micronaut that causes the fathomnet taxa provider to fail for large trees (e.g., Scleractinia). ([`f887a95`](https://github.com/fathomnet/fathomnet-py/commit/f887a950cfe4741869b667410a1ceee9c92a11c9))
+
+### Unknown
+
+* Merge branch &#39;main&#39; into develop ([`86c574e`](https://github.com/fathomnet/fathomnet-py/commit/86c574e89fba7a858a9ca7abf1ff208c6829d8ae))
+
+
 ## v1.2.0 (2024-02-06)
 
 ### Chore
