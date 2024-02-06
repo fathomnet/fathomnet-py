@@ -600,3 +600,13 @@ class FollowedTopic(Topic):
     email: Optional[str] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
+
+
+@dataclass_json
+@dataclass
+class WormsNode:
+    name: Optional[str] = None
+    rank: Optional[str] = None
+    apiaId: Optional[int] = None
+    alternateNames: Optional[List[str]] = None
+    children: Optional[List['WormsNode']] = None
