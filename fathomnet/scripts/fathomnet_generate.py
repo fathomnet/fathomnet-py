@@ -19,7 +19,7 @@ from coco_lib.objectdetection import (
     ObjectDetectionDataset,
 )
 
-from ..api import images, taxa, darwincore
+from ..api import images, taxa, darwincore, worms
 from ..dto import AImageDTO, GeoImageConstraints
 
 
@@ -450,13 +450,19 @@ def parse_args() -> Arguments:
         new_concepts = []
         for concept in concepts:
             logging.debug('Finding taxa for {}'.format(concept))
-            concept_taxa = taxa.find_taxa(
-                taxa_provider, concept
-            )  # Includes the concept itself
-            for new_taxa in concept_taxa:
-                new_concept = new_taxa.name
-                if new_concept not in new_concepts:
-                    new_concepts.append(new_concept)
+            if taxa_provider == "fathomnet":  # SPECIAL CASE: due to a bug in Micronaut, the fast worms provider is used directly for now
+                descendants_names = worms.get_descendants_names(concept)
+                for new_concept in descendants_names:
+                    if new_concept not in new_concepts:
+                        new_concepts.append(new_concept)
+            else:
+                concept_taxa = taxa.find_taxa(
+                    taxa_provider, concept
+                )  # Includes the concept itself
+                for new_taxa in concept_taxa:
+                    new_concept = new_taxa.name
+                    if new_concept not in new_concepts:
+                        new_concepts.append(new_concept)
 
         logging.debug('Old concepts: {}'.format(concepts))
         logging.debug('New concepts: {}'.format(new_concepts))
