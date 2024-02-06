@@ -2,6 +2,31 @@
 
 
 
+## v1.2.0 (2024-02-06)
+
+### Chore
+
+* chore: merge CI/CD workflows ([`8e0d760`](https://github.com/fathomnet/fathomnet-py/commit/8e0d76006cec956cab009bf330a068f6e7a6adf4))
+
+### Documentation
+
+* docs: add Sphinx RTD theme build requirement ([`fccd808`](https://github.com/fathomnet/fathomnet-py/commit/fccd8086997330059094baeadac5162b1d17a7e4))
+
+* docs: update copyright year to 2024 ([`1650bc5`](https://github.com/fathomnet/fathomnet-py/commit/1650bc5d836d80c6b6d8e2238e184834952cdf20))
+
+* docs: add sphinx-rtd-theme as a dev dependency ([`9be9dee`](https://github.com/fathomnet/fathomnet-py/commit/9be9deeb42636a17f0d36d37100e5406dd0778f6))
+
+* docs: update Python version and build configuration for readthedocs ([`ef96d8d`](https://github.com/fathomnet/fathomnet-py/commit/ef96d8d46cbf83c9c5d5d0eb03b8b927be487383))
+
+### Feature
+
+* feat: add functions to call fast WoRMS API directly ([`21942b8`](https://github.com/fathomnet/fathomnet-py/commit/21942b837b817de9aea02d4abc399802aa55ce8f))
+
+### Fix
+
+* fix: make the linter happy ([`6cc52f6`](https://github.com/fathomnet/fathomnet-py/commit/6cc52f6b6abbd1cbe1b14a435d82a9acb91e4f58))
+
+
 ## v1.1.5 (2024-01-10)
 
 ### Fix
