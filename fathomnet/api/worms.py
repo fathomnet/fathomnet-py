@@ -93,5 +93,5 @@ def find_taxa_by_prefix(prefix: str, rank: str = None, parent: str = None) -> Li
     if parent is not None:
         params['parent'] = parent
 
-    res_json =  Worms.get(f'taxa/query/startswith/{prefix}', params=params)
+    res_json = Worms.get(f'taxa/query/startswith/{prefix}', params=params)
     return [WormsNode.from_dict(item) for item in res_json]

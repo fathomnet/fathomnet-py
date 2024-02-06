@@ -17,7 +17,7 @@ def check_for_name(node: WormsNode, name: str) -> bool:
 
 
 class TestWormsAPI(TestCase):
-    
+
     def test_count_names(self):
         count = worms.count_names()
         self.assertIsNotNone(count)
