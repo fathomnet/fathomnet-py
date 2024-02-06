@@ -66,6 +66,7 @@ jobs:
     
     outputs:
       released: ${{ steps.semantic_release.outputs.released }}
+      version: ${{ steps.semantic_release.outputs.version }}
   
   publish:
     needs: release
@@ -75,6 +76,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.release.outputs.version }}
       
       - name: Set up Python 3.9
         uses: actions/setup-python@v3
