@@ -264,6 +264,19 @@ Admin only
 
 ----
 
+WoRMS
+-----
+
+.. module:: fathomnet.api.worms
+
+The ``fathomnet.api.worms`` module supports World Register of Marine Species (WoRMS) lookup operations via the `fast WoRMS name service <https://github.com/fathomnet/worms-server>`_.
+
+.. automodule:: fathomnet.api.worms
+    :members:
+    :noindex:
+
+----
+
 X-API-Key
 ---------
 
