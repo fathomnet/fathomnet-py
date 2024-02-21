@@ -607,6 +607,6 @@ class FollowedTopic(Topic):
 class WormsNode:
     name: Optional[str] = None
     rank: Optional[str] = None
-    apiaId: Optional[int] = None
+    aphiaId: Optional[int] = None
     alternateNames: Optional[List[str]] = None
     children: Optional[List['WormsNode']] = None
