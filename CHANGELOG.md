@@ -2,6 +2,23 @@
 
 
 
+## v1.2.2 (2024-02-21)
+
+### Chore
+
+* chore: add missing v for ref spec ([`3212b13`](https://github.com/fathomnet/fathomnet-py/commit/3212b13afcb285bb7fea482c16150bbd1971cb4c))
+
+### Documentation
+
+* docs: add worms API module documentation ([`11c0112`](https://github.com/fathomnet/fathomnet-py/commit/11c0112e08afc4050bce8877cf43e1bb47419e63))
+
+### Fix
+
+* fix: correct typo in WormsNode.aphiaId
+
+Fixes #25 ([`5feeeb0`](https://github.com/fathomnet/fathomnet-py/commit/5feeeb0fa5fd95efd22fdc0e67e5dd69b9302408))
+
+
 ## v1.2.1 (2024-02-06)
 
 ### Chore
