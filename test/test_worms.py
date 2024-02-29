@@ -27,6 +27,11 @@ class TestWormsAPI(TestCase):
         names = worms.get_all_names()
         self.assertIsNotNone(names)
 
+    def test_get_names_by_aphia_id(self):
+        names_obj = worms.get_names_by_aphia_id(2)
+        self.assertIsNotNone(names_obj)
+        self.assertEqual(2, names_obj.aphiaId)
+
     def test_get_ancestors_names(self):
         ancestors = worms.get_ancestors_names('Animalia')
         self.assertIsNotNone(ancestors)

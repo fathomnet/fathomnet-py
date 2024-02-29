@@ -608,5 +608,15 @@ class WormsNode:
     name: Optional[str] = None
     rank: Optional[str] = None
     aphiaId: Optional[int] = None
+    acceptedAphiaId: Optional[int] = None
     alternateNames: Optional[List[str]] = None
     children: Optional[List['WormsNode']] = None
+
+
+@dataclass_json
+@dataclass
+class WormsNames:
+    aphiaId: Optional[int] = None
+    name: Optional[str] = None
+    acceptedName: Optional[str] = None
+    alternateNames: Optional[List[str]] = None

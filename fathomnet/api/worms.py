@@ -1,7 +1,7 @@
 from typing import List
 
 from fathomnet.api import EndpointManager
-from fathomnet.dto import WormsNode
+from fathomnet.dto import WormsNames, WormsNode
 
 
 class Worms(EndpointManager):
@@ -18,6 +18,12 @@ def get_all_names(limit: int = 100, offset: int = 0) -> List[str]:
     """Get all names."""
     res_json = Worms.get('names', params={'limit': limit, 'offset': offset})
     return res_json['items']
+
+
+def get_names_by_aphia_id(aphia_id: int) -> WormsNames:
+    """Get the names data for a given Aphia ID."""
+    res_json = Worms.get(f'names/aphiaid/{aphia_id}')
+    return WormsNames.from_dict(res_json)
 
 
 def get_ancestors_names(name: str) -> List[str]:
