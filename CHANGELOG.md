@@ -2,6 +2,15 @@
 
 
 
+## v1.3.0 (2024-02-29)
+
+### Feature
+
+* feat: support worms-server 0.5.1
+
+Add support for worms-server 0.5.1. This adds the `acceptedAphiaId` field to the `WormsNode` DTOs as well as a new endpoint for getting a `WormsNames` DTO by Aphia ID. ([`f1989bc`](https://github.com/fathomnet/fathomnet-py/commit/f1989bcfea8225d38749241709b9c98a9e47bae0))
+
+
 ## v1.2.2 (2024-02-21)
 
 ### Chore
