@@ -36,9 +36,9 @@ def get_children_names(name: str) -> List[str]:
     return Worms.get(f'children/{name}')
 
 
-def get_descendants_names(name: str) -> List[str]:
+def get_descendants_names(name: str, accepted: bool = False) -> List[str]:
     """Get all descendants' names of a given name."""
-    return Worms.get(f'descendants/{name}')
+    return Worms.get(f'descendants/{name}', params={'accepted': accepted})
 
 
 def get_parent_name(name: str) -> str:
