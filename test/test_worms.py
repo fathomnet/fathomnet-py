@@ -46,6 +46,12 @@ class TestWormsAPI(TestCase):
         descendants = worms.get_descendants_names('Bathochordaeus')
         self.assertIsNotNone(descendants)
         self.assertIn('Bathochordaeus charon', descendants)
+        
+        siph_all_descendants = worms.get_descendants_names('Siphonophorae', accepted=False)
+        siph_accepted_descendants = worms.get_descendants_names('Siphonophorae', accepted=True)
+        self.assertIsNotNone(siph_all_descendants)
+        self.assertIsNotNone(siph_accepted_descendants)
+        self.assertGreater(len(siph_all_descendants), len(siph_accepted_descendants))
 
     def test_get_parent_name(self):
         parent = worms.get_parent_name('Bathochordaeus charon')
