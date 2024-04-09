@@ -2,6 +2,15 @@
 
 
 
+## v1.4.0 (2024-04-09)
+
+### Feature
+
+* feat: add accepted flag to `worms.get_descendants_names`
+
+Add support for worms-server 0.5.2 ([`de0aec2`](https://github.com/fathomnet/fathomnet-py/commit/de0aec2e04915a922b7026189e7cfc0b55aabfd6))
+
+
 ## v1.3.0 (2024-02-29)
 
 ### Feature
@@ -125,7 +134,7 @@ Add the fathomnet.util.debug_format_response to the ValueError exception
 * fix: Add CD ([`8979d75`](https://github.com/fathomnet/fathomnet-py/commit/8979d75b049d39c673feb0d78153d4e5a4de11c5))
 
 
-## v1.1.1 (2023-09-13)
+## v1.1.1 (2023-09-12)
 
 ### Fix
 
@@ -134,14 +143,14 @@ Add the fathomnet.util.debug_format_response to the ValueError exception
 * fix: Version in pyproject.toml ([`dd2d9a2`](https://github.com/fathomnet/fathomnet-py/commit/dd2d9a2d3e9a27610e17c119337e821fcea8bcbc))
 
 
-## v1.1.0 (2023-09-13)
+## v1.1.0 (2023-09-12)
 
 ### Feature
 
 * feat: Set up python-semantic-release ([`4019f18`](https://github.com/fathomnet/fathomnet-py/commit/4019f1811cabc207f5972eb39b8a9a7720345f95))
 
 
-## v1.0.2 (2023-09-13)
+## v1.0.2 (2023-09-12)
 
 ### Unknown
 
@@ -154,7 +163,7 @@ Add the fathomnet.util.debug_format_response to the ValueError exception
 * Add req/response to server error exception message ([`00f2ff6`](https://github.com/fathomnet/fathomnet-py/commit/00f2ff64bd0b19cae74042287023d5802aee7165))
 
 
-## v1.0.1 (2023-08-30)
+## v1.0.1 (2023-08-29)
 
 ### Unknown
 
@@ -167,7 +176,7 @@ Add the fathomnet.util.debug_format_response to the ValueError exception
 * Fix taxa tests for fathomnet provider ([`dfe44fe`](https://github.com/fathomnet/fathomnet-py/commit/dfe44fe2771e6a4f962525d6f689ffa901487df2))
 
 
-## v1.0.0 (2023-08-04)
+## v1.0.0 (2023-08-03)
 
 ### Unknown
 
@@ -190,7 +199,7 @@ Add the fathomnet.util.debug_format_response to the ValueError exception
 * Bounding box comments ([`7aa63fd`](https://github.com/fathomnet/fathomnet-py/commit/7aa63fd5c68369b87bffb3a136fea1170973c78e))
 
 
-## v0.7.0 (2023-08-04)
+## v0.7.0 (2023-08-03)
 
 ### Unknown
 
@@ -221,7 +230,7 @@ Slight tweaks to GH action linting ([`8db72d3`](https://github.com/fathomnet/fat
 * Add coco download section to tutorial notebook ([`40369e3`](https://github.com/fathomnet/fathomnet-py/commit/40369e387144ac8ab90b61343eef0be47c2a6262))
 
 
-## v0.6.0 (2023-02-08)
+## v0.6.0 (2023-02-07)
 
 ### Unknown
 
@@ -242,7 +251,7 @@ Slight tweaks to GH action linting ([`8db72d3`](https://github.com/fathomnet/fat
 * Removed forced debug print statement ([`3ae2f69`](https://github.com/fathomnet/fathomnet-py/commit/3ae2f694c2a83688572254ca49a1954ee65fa420))
 
 
-## v0.5.2 (2022-04-08)
+## v0.5.2 (2022-04-07)
 
 ### Unknown
 
@@ -261,7 +270,7 @@ Slight tweaks to GH action linting ([`8db72d3`](https://github.com/fathomnet/fat
 * Cleaned up fathomnet_generate formatting ([`2aad07b`](https://github.com/fathomnet/fathomnet-py/commit/2aad07bdf4ae6499a094eb9f70c9dc2c9ea1d0df))
 
 
-## v0.5.1 (2022-04-01)
+## v0.5.1 (2022-03-31)
 
 ### Unknown
 
@@ -270,7 +279,7 @@ Slight tweaks to GH action linting ([`8db72d3`](https://github.com/fathomnet/fat
 * Fix fathomnet-generate bug in Python 3.7 ([`df8e25a`](https://github.com/fathomnet/fathomnet-py/commit/df8e25a5e3c77508191478d88a2fe735446124b6))
 
 
-## v0.5.0 (2022-04-01)
+## v0.5.0 (2022-03-31)
 
 ### Unknown
 
@@ -299,7 +308,7 @@ Changed CoLab link in README to open main instead of dev branch notebook. ([`9c5
 * add tutorial notebook ([`60dfa5f`](https://github.com/fathomnet/fathomnet-py/commit/60dfa5f54cb5af9854a84235d0675781ac38ce0b))
 
 
-## v0.4.2 (2022-03-10)
+## v0.4.2 (2022-03-09)
 
 ### Unknown
 
@@ -334,7 +343,7 @@ Co-authored-by: Kevin Barnard &lt;kbarnard@mbari.org&gt; ([`25bc618`](https://gi
 * updated filename to image uuid in generate coco ([`bb71d64`](https://github.com/fathomnet/fathomnet-py/commit/bb71d6499cec0c81c8cda092b2a4fd864ba85bff))
 
 
-## v0.4.1 (2022-02-10)
+## v0.4.1 (2022-02-09)
 
 ### Unknown
 
@@ -343,7 +352,7 @@ Co-authored-by: Kevin Barnard &lt;kbarnard@mbari.org&gt; ([`25bc618`](https://gi
 * Tags API doc typo ([`aa33b81`](https://github.com/fathomnet/fathomnet-py/commit/aa33b81f0d71415275425c2f1d202c346fb0fd4a))
 
 
-## v0.4.0 (2022-02-10)
+## v0.4.0 (2022-02-09)
 
 ### Unknown
 
@@ -360,7 +369,7 @@ Co-authored-by: Kevin Barnard &lt;kbarnard@mbari.org&gt; ([`25bc618`](https://gi
 * Removed Python 3.6 from automated tests ([`ba34e25`](https://github.com/fathomnet/fathomnet-py/commit/ba34e25871234415848ab795c1c040c76daf8cfc))
 
 
-## v0.3.0 (2022-02-09)
+## v0.3.0 (2022-02-08)
 
 ### Unknown
 
@@ -385,14 +394,14 @@ Co-authored-by: Kevin Barnard &lt;kbarnard@mbari.org&gt; ([`25bc618`](https://gi
 Co-authored-by: ecor &lt;eorenstein@mbari.org&gt; ([`5c1e799`](https://github.com/fathomnet/fathomnet-py/commit/5c1e7999859ed1afdc30fbcdb687910768c2e4e6))
 
 
-## v0.2.1 (2021-12-01)
+## v0.2.1 (2021-11-30)
 
 ### Unknown
 
 * Fixed ISO8601 encoding and count on empty ([`b271f42`](https://github.com/fathomnet/fathomnet-py/commit/b271f424c947276393ab1ac6c13240931a279340))
 
 
-## v0.2.0 (2021-11-30)
+## v0.2.0 (2021-11-29)
 
 ### Unknown
 
@@ -407,7 +416,7 @@ Co-authored-by: ecor &lt;eorenstein@mbari.org&gt; ([`5c1e799`](https://github.co
 * Added example fathomnet-generate script ([`ab5445c`](https://github.com/fathomnet/fathomnet-py/commit/ab5445c4062fd09aeaa4acd5331f5c20ca8582b7))
 
 
-## v0.1.0 (2021-10-20)
+## v0.1.0 (2021-10-19)
 
 ### Unknown
 
@@ -422,7 +431,7 @@ Co-authored-by: ecor &lt;eorenstein@mbari.org&gt; ([`5c1e799`](https://github.co
 * New test UUIDs due to data reload ([`d2b4f6d`](https://github.com/fathomnet/fathomnet-py/commit/d2b4f6d89d37aa84ee7dc195ba510d83eb74c961))
 
 
-## v0.0.2 (2021-09-30)
+## v0.0.2 (2021-09-29)
 
 ### Unknown
 
