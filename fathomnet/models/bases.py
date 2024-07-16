@@ -2,12 +2,10 @@
 
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Iterable, TypeVar, Union
+from typing import TypeVar, Union
 
 import cv2
 import numpy as np
-
-from fathomnet.dto import BoundingBox
 
 T = TypeVar("T")
 
@@ -16,6 +14,7 @@ class ImageModel(ABC):
     """
     Abstract base class for image models. Defines the interface for models that can be used to predict on images.
     """
+
     @abstractmethod
     def _predict(self, image: Union[np.ndarray, Path]) -> T:
         raise NotImplementedError

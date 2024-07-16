@@ -1,8 +1,9 @@
-from unittest import TestCase, SkipTest
+from unittest import SkipTest, TestCase
 
-from . import skipIfNoAuth
 from fathomnet import dto
 from fathomnet.api import regions
+
+from . import skipIfNoAuth
 
 
 class TestRegionsAPI(TestCase):
@@ -23,7 +24,7 @@ class TestRegionsAPI(TestCase):
 
     @skipIfNoAuth
     def test_sync(self):
-        raise SkipTest('Sync endpoint not yet implemented')  # TODO sync test
+        raise SkipTest("Sync endpoint not yet implemented")  # TODO sync test
 
     def test_find_at(self):
         latitude = 35.6

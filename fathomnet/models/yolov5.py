@@ -6,8 +6,8 @@ from typing import Iterable
 
 import numpy as np
 import requests
-from torch.hub import load
 from appdirs import user_cache_dir
+from torch.hub import load
 
 from fathomnet.dto import BoundingBox
 from fathomnet.models.bases import ImageModel
@@ -17,6 +17,7 @@ class YOLOv5Model(ImageModel):
     """
     YOLOv5 object detection model. Uses a .pt file and performs object detection on images.
     """
+
     def __init__(self, weights: Path) -> None:
         super().__init__()
 
@@ -32,7 +33,7 @@ class YOLOv5Model(ImageModel):
                 x=int(x1),
                 y=int(y1),
                 width=int(x2 - x1),
-                height=int(y2 - y1)
+                height=int(y2 - y1),
             )
 
 
@@ -40,6 +41,7 @@ class MBARIMBBenthicModel(YOLOv5Model):
     """
     MBARI Monterey Bay Benthic Object Detector.
     """
+
     WEIGHTS_URL = "https://zenodo.org/record/5539915/files/mbari-mb-benthic-33k.pt"
 
     def __init__(self) -> None:
@@ -47,7 +49,11 @@ class MBARIMBBenthicModel(YOLOv5Model):
         mbari_mb_benthic_dir = cache_dir / "mbari-mb-benthic"
         weights = mbari_mb_benthic_dir / "mbari-mb-benthic-33k.pt"
         if not weights.exists():
-            print("Downloading MBARI Monterey Bay Benthic Object Detector weights to {}".format(weights))
+            print(
+                "Downloading MBARI Monterey Bay Benthic Object Detector weights to {}".format(
+                    weights
+                )
+            )
             weights.parent.mkdir(parents=True, exist_ok=True)
             with requests.get(self.WEIGHTS_URL, stream=True) as r:
                 r.raise_for_status()

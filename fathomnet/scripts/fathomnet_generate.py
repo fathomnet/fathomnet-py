@@ -3,24 +3,26 @@ fathomnet-generate: Generate a dataset from FathomNet localizations.
 """
 
 import argparse
-import os
-import logging
 import datetime
-from typing import Iterable, List, Optional
+import logging
+import os
 from dataclasses import dataclass, replace
-import requests
 from shutil import copyfileobj
-import progressbar
+from typing import Iterable, List, Optional
 
-from coco_lib.common import Info as COCOInfo, Image as COCOImage, License as COCOLicense
+import progressbar
+import requests
+import yaml
+from coco_lib.common import Image as COCOImage
+from coco_lib.common import Info as COCOInfo
+from coco_lib.common import License as COCOLicense
 from coco_lib.objectdetection import (
     ObjectDetectionAnnotation,
     ObjectDetectionCategory,
     ObjectDetectionDataset,
 )
-import yaml
 
-from ..api import images, taxa, darwincore, worms
+from ..api import darwincore, images, taxa, worms
 from ..dto import AImageDTO, GeoImageConstraints
 
 
@@ -38,7 +40,7 @@ class Arguments:
 
 def comma_list(s: str) -> List[str]:
     """Parse a comma-separated list of strings"""
-    return s.split(',')
+    return s.split(",")
 
 
 def lowercase_str(s: str) -> str:
@@ -73,7 +75,7 @@ def generate_constraints(
 
 def write_voc(image: AImageDTO, filename: str):
     """Write a single image to a file"""
-    with open(filename, 'w') as f:
+    with open(filename, "w") as f:
         f.write(image.to_pascal_voc(pretty_print=True))
 
 
@@ -89,7 +91,7 @@ def download_imgs(args: Arguments, ims: List[AImageDTO]):
         if not os.path.exists(file_name):
             resp = requests.get(image.url, stream=True)
             resp.raw.decode_content = True
-            with open(file_name, 'wb') as f:
+            with open(file_name, "wb") as f:
                 copyfileobj(resp.raw, f)
             flag += 1
 
@@ -104,16 +106,16 @@ def get_images(args: Arguments) -> Optional[List[AImageDTO]]:
     image_uuid_dict = {}
     if args.concepts:  # Concepts specified, generate constraints for each
         # Print concepts specified
-        logging.info('Concept(s) specified:')
+        logging.info("Concept(s) specified:")
         for concept in args.concepts:
-            logging.info('- {}'.format(concept))
+            logging.info("- {}".format(concept))
 
         # Get the image data
         logging.info(
-            'Fetching image records for {} concept(s)...'.format(len(args.concepts))
+            "Fetching image records for {} concept(s)...".format(len(args.concepts))
         )
         for constraints in generate_constraints(args.concepts, args.base_constraints):
-            logging.debug('Constraints: {}'.format(constraints.to_json(indent=2)))
+            logging.debug("Constraints: {}".format(constraints.to_json(indent=2)))
             concept_images = find_images_paged(constraints)
             for image in concept_images:
                 image_uuid_dict[image.uuid] = image
@@ -128,7 +130,7 @@ def get_images(args: Arguments) -> Optional[List[AImageDTO]]:
                         if box.concept in args.concepts
                     ]
     else:  # No concepts specified, use the base constraints
-        logging.info('Fetching image records...')
+        logging.info("Fetching image records...")
         noconcept_images = find_images_paged(args.base_constraints)
         for image in noconcept_images:
             image_uuid_dict[image.uuid] = image
@@ -139,7 +141,7 @@ def get_images(args: Arguments) -> Optional[List[AImageDTO]]:
     }
 
     logging.info(
-        'Found {} unique images with bounding boxes'.format(len(image_uuid_dict))
+        "Found {} unique images with bounding boxes".format(len(image_uuid_dict))
     )
 
     # Compute the number of bounding boxes per concept
@@ -151,21 +153,21 @@ def get_images(args: Arguments) -> Optional[List[AImageDTO]]:
     # Print table of bounding box counts for each concept
     if counting:
         if not concept_counts:
-            print('No bounding boxes found')
+            print("No bounding boxes found")
         else:
             longest_concept = max(concept_counts.keys(), key=len)
-            concept_header = 'concept'
+            concept_header = "concept"
             concept_len = len(longest_concept) + 1
             concept_len = max(concept_len, len(concept_header) + 1)
 
-            count_header = '# boxes'
+            count_header = "# boxes"
             count_len = 9
             count_len = max(count_len, len(count_header) + 1)
 
-            format_str = '{:<' + str(concept_len) + '}|{:>' + str(count_len) + '}'
+            format_str = "{:<" + str(concept_len) + "}|{:>" + str(count_len) + "}"
 
             print(format_str.format(concept_header, count_header))
-            print(format_str.format('-' * concept_len, '-' * 9))
+            print(format_str.format("-" * concept_len, "-" * 9))
             for concept in sorted(concept_counts.keys()):
                 count = concept_counts[concept]
                 print(format_str.format(concept, count))
@@ -181,15 +183,15 @@ def generate_voc_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
 
     # Write images to output directory
     for image in ims:
-        filename = '{}.{}'.format(image.uuid, 'xml')
+        filename = "{}.{}".format(image.uuid, "xml")
         filename = os.path.join(output_dir, filename)
-        logging.debug('Writing VOC {}'.format(filename))
+        logging.debug("Writing VOC {}".format(filename))
         try:
             write_voc(image, filename)
         except OSError as e:
-            logging.error('Error writing {}: {}'.format(filename, e))
+            logging.error("Error writing {}: {}".format(filename, e))
             error_flag = True
-    logging.info('Wrote {} VOC files to {}'.format(len(ims), output_dir))
+    logging.info("Wrote {} VOC files to {}".format(len(ims), output_dir))
 
     return error_flag
 
@@ -198,22 +200,22 @@ def generate_coco_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
     # Describe the dataset
     coco_info = COCOInfo(
         year=datetime.datetime.now().year,
-        version='0',
-        description='Generated by FathomNet',
-        contributor='FathomNet',
-        url='https://fathomnet.org',
+        version="0",
+        description="Generated by FathomNet",
+        contributor="FathomNet",
+        url="https://fathomnet.org",
         date_created=datetime.datetime.now(),
     )
 
     # Set the FathomNet license
     fathomnet_license = COCOLicense(
-        id=0, name='FathomNet', url='http://fathomnet.org/fathomnet/#/license'
+        id=0, name="FathomNet", url="http://fathomnet.org/fathomnet/#/license"
     )
 
     # Encode categories in sorted order
     concepts = sorted(set(box.concept for image in ims for box in image.boundingBoxes))
     coco_categories = [
-        ObjectDetectionCategory(id=idx, name=concept, supercategory='')
+        ObjectDetectionCategory(id=idx, name=concept, supercategory="")
         for idx, concept in enumerate(concepts, start=1)
     ]
 
@@ -230,7 +232,7 @@ def generate_coco_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
             license=fathomnet_license.id,
             flickr_url=image.url,
             coco_url=image.url,
-            date_captured=datetime.datetime.fromisoformat(image.timestamp.rstrip('Z'))
+            date_captured=datetime.datetime.fromisoformat(image.timestamp.rstrip("Z"))
             if image.timestamp is not None
             else None,
         )
@@ -259,12 +261,12 @@ def generate_coco_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
     )
 
     # Write
-    output_path = os.path.join(output_dir, 'dataset.json')
+    output_path = os.path.join(output_dir, "dataset.json")
     try:
         coco_dataset.save(output_path, indent=2)
-        logging.info('Wrote COCO dataset to {}'.format(output_path))
+        logging.info("Wrote COCO dataset to {}".format(output_path))
     except OSError as e:
-        logging.error('Error writing {}: {}'.format(output_path, e))
+        logging.error("Error writing {}: {}".format(output_path, e))
         return True
 
     return False
@@ -277,16 +279,16 @@ def generate_yolo_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
     # Create the concept -> index mapping
     concepts = sorted(set(box.concept for image in ims for box in image.boundingBoxes))
     concept_to_index = {concept: idx for idx, concept in enumerate(concepts)}
-    
+
     labels_dir = os.path.join(output_dir, "labels")
     if not os.path.exists(labels_dir):
         os.makedirs(labels_dir)
-    
+
     # Assume images are in a directory called "images"
     images_dir = os.path.join(output_dir, "images")
     if not os.path.exists(images_dir):
         os.makedirs(images_dir)
-    
+
     # Write annotation YAML file to output directory
     yaml_data = {
         "path": output_dir,
@@ -299,17 +301,17 @@ def generate_yolo_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
         with open(yaml_path, "w") as f:
             f.write(yaml.dump(yaml_data, indent=2, sort_keys=False))
     except OSError as e:
-        logging.error('Error writing {}: {}'.format(yaml_path, e))
+        logging.error("Error writing {}: {}".format(yaml_path, e))
         return False
-    logging.info('Wrote dataset YAML to {}'.format(yaml_path))
+    logging.info("Wrote dataset YAML to {}".format(yaml_path))
 
     # Write annotation files to output directory
     for image in ims:
-        filename = '{}.{}'.format(image.uuid, 'txt')
+        filename = "{}.{}".format(image.uuid, "txt")
         filename = os.path.join(labels_dir, filename)
-        logging.debug('Writing YOLO {}'.format(filename))
+        logging.debug("Writing YOLO {}".format(filename))
         try:
-            with open(filename, 'w') as f:
+            with open(filename, "w") as f:
                 for box in image.boundingBoxes:
                     x_center = box.x + box.width / 2
                     y_center = box.y + box.height / 2
@@ -318,14 +320,18 @@ def generate_yolo_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
                     width_norm = box.width / image.width
                     height_norm = box.height / image.height
                     f.write(
-                        '{} {} {} {} {}\n'.format(
-                            concept_to_index[box.concept], x_center_norm, y_center_norm, width_norm, height_norm
+                        "{} {} {} {} {}\n".format(
+                            concept_to_index[box.concept],
+                            x_center_norm,
+                            y_center_norm,
+                            width_norm,
+                            height_norm,
                         )
                     )
         except OSError as e:
-            logging.error('Error writing {}: {}'.format(filename, e))
+            logging.error("Error writing {}: {}".format(filename, e))
             error_flag = True
-    logging.info('Wrote {} YOLO files to {}'.format(len(ims), labels_dir))
+    logging.info("Wrote {} YOLO files to {}".format(len(ims), labels_dir))
 
     return error_flag
 
@@ -333,9 +339,9 @@ def generate_yolo_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
 def generate_dataset(args: Arguments, ims: List[AImageDTO]) -> bool:
     """Call the specified dataset generation function according to the format specified"""
     dataset_func = {
-        'voc': generate_voc_dataset, 
-        'coco': generate_coco_dataset,
-        'yolo': generate_yolo_dataset,
+        "voc": generate_voc_dataset,
+        "coco": generate_coco_dataset,
+        "yolo": generate_yolo_dataset,
     }
 
     return dataset_func[args.format](ims, args.output)
@@ -353,128 +359,127 @@ def parse_args() -> Arguments:
     valid_taxa_providers = taxa.list_taxa_providers()
     valid_contributor_emails = images.find_distinct_submitter()
     valid_owner_institution_codes = darwincore.find_owner_institution_codes()
-    valid_dataset_formats = ['voc', 'coco', 'yolo']
+    valid_dataset_formats = ["voc", "coco", "yolo"]
 
-    parser.add_argument('-v', action='count', default=0, help='Increase verbosity')
+    parser.add_argument("-v", action="count", default=0, help="Increase verbosity")
     parser.add_argument(
-        '-t',
-        '--taxa',
-        dest='taxa',
+        "-t",
+        "--taxa",
+        dest="taxa",
         type=str,
-        help='Taxonomy provider (to include descendants). Options: {}'.format(
-            ', '.join(valid_taxa_providers)
+        help="Taxonomy provider (to include descendants). Options: {}".format(
+            ", ".join(valid_taxa_providers)
         ),
     )
     parser.add_argument(
-        '--contributor-email',
-        dest='contributor_email',
+        "--contributor-email",
+        dest="contributor_email",
         type=str,
-        help='Contributor email',
+        help="Contributor email",
     )
     parser.add_argument(
-        '--start',
-        dest='start_timestamp',
+        "--start",
+        dest="start_timestamp",
         type=datetime.datetime.fromisoformat,
-        help='Start timestamp (formatted as ISO-8601)',
+        help="Start timestamp (formatted as ISO-8601)",
     )
     parser.add_argument(
-        '--end',
-        dest='end_timestamp',
+        "--end",
+        dest="end_timestamp",
         type=datetime.datetime.fromisoformat,
-        help='End timestamp (formatted as ISO-8601)',
+        help="End timestamp (formatted as ISO-8601)",
     )
     parser.add_argument(
-        '--imaging-types',
-        dest='imaging_types',
+        "--imaging-types",
+        dest="imaging_types",
         type=comma_list,
-        help='Comma-separated list of imaging types to include. Options: {}'.format(
-            ', '.join(valid_imaging_types)
+        help="Comma-separated list of imaging types to include. Options: {}".format(
+            ", ".join(valid_imaging_types)
         ),
     )
     parser.add_argument(
-        '--exclude-unverified',
-        dest='include_unverified',
-        action='store_false',
-        help='Flag to exclude unverified images',
+        "--exclude-unverified",
+        dest="include_unverified",
+        action="store_false",
+        help="Flag to exclude unverified images",
     )
     parser.add_argument(
-        '--exclude-verified',
-        dest='include_verified',
-        action='store_false',
-        help='Flag to exclude verified images',
+        "--exclude-verified",
+        dest="include_verified",
+        action="store_false",
+        help="Flag to exclude verified images",
     )
     parser.add_argument(
-        '--min-longitude', dest='min_longitude', type=float, help='Minimum longitude'
+        "--min-longitude", dest="min_longitude", type=float, help="Minimum longitude"
     )
     parser.add_argument(
-        '--max-longitude', dest='max_longitude', type=float, help='Maximum longitude'
+        "--max-longitude", dest="max_longitude", type=float, help="Maximum longitude"
     )
     parser.add_argument(
-        '--min-latitude', dest='min_latitude', type=float, help='Minimum latitude'
+        "--min-latitude", dest="min_latitude", type=float, help="Minimum latitude"
     )
     parser.add_argument(
-        '--max-latitude', dest='max_latitude', type=float, help='Maximum latitude'
+        "--max-latitude", dest="max_latitude", type=float, help="Maximum latitude"
     )
     parser.add_argument(
-        '--min-depth', dest='min_depth', type=float, help='Minimum depth'
+        "--min-depth", dest="min_depth", type=float, help="Minimum depth"
     )
     parser.add_argument(
-        '--max-depth', dest='max_depth', type=float, help='Maximum depth'
+        "--max-depth", dest="max_depth", type=float, help="Maximum depth"
     )
     parser.add_argument(
-        '--institutions',
-        dest='owner_institution_codes',
+        "--institutions",
+        dest="owner_institution_codes",
         type=comma_list,
-        help='Comma-separated list of owner institution codes to include',
+        help="Comma-separated list of owner institution codes to include",
     )
     parser.add_argument(
-        '-a',
-        '--all',
-        dest='all',
-        action='store_true',
-        help='Flag to include all bounding boxes of other concepts in specified images',
+        "-a",
+        "--all",
+        dest="all",
+        action="store_true",
+        help="Flag to include all bounding boxes of other concepts in specified images",
     )
     parser.add_argument(
-        '-f'
-        '--format',
-        dest='format',
+        "-f" "--format",
+        dest="format",
         type=lowercase_str,
-        default='voc',
+        default="voc",
         choices=valid_dataset_formats,
-        help='Dataset format. Options: {}'.format(', '.join(valid_dataset_formats)),
+        help="Dataset format. Options: {}".format(", ".join(valid_dataset_formats)),
     )
     parser.add_argument(
-        '--img-download',
-        dest='img_dir',
+        "--img-download",
+        dest="img_dir",
         default=None,
         type=str,
-        help='Local directory to download images',
+        help="Local directory to download images",
     )
 
     list_or_file = parser.add_mutually_exclusive_group(required=False)
     list_or_file.add_argument(
-        '-c',
-        '--concepts',
-        dest='concepts',
+        "-c",
+        "--concepts",
+        dest="concepts",
         type=comma_list,
-        help='Comma-separated list of concepts to include',
+        help="Comma-separated list of concepts to include",
     )
     list_or_file.add_argument(
-        '--concepts-file',
-        dest='concepts_file',
+        "--concepts-file",
+        dest="concepts_file",
         type=str,
-        help='File containing newline-delimited list of concepts to include',
+        help="File containing newline-delimited list of concepts to include",
     )
 
     count_or_output = parser.add_mutually_exclusive_group(required=True)
     count_or_output.add_argument(
-        '--count',
-        dest='count',
-        action='store_true',
-        help='Count images and bounding boxes instead of generating a dataset',
+        "--count",
+        dest="count",
+        action="store_true",
+        help="Count images and bounding boxes instead of generating a dataset",
     )
     count_or_output.add_argument(
-        '-o', '--output', dest='output', type=str, help='Output directory'
+        "-o", "--output", dest="output", type=str, help="Output directory"
     )
 
     # Parse arguments
@@ -495,7 +500,7 @@ def parse_args() -> Arguments:
         concepts = args.concepts
     elif args.concepts_file:
         if os.path.isfile(args.concepts_file):
-            with open(args.concepts_file, 'r') as f:
+            with open(args.concepts_file, "r") as f:
                 concepts = f.read().splitlines()
             concepts = [line.strip() for line in concepts]  # remove string format
 
@@ -508,15 +513,17 @@ def parse_args() -> Arguments:
         taxa_provider_lower = taxa_provider.lower()
         idx = [p.lower() for p in valid_taxa_providers].index(taxa_provider_lower)
         if idx < 0:
-            parser.error('Invalid taxonomy provider: {}'.format(taxa_provider))
+            parser.error("Invalid taxonomy provider: {}".format(taxa_provider))
         else:
             taxa_provider = valid_taxa_providers[idx]
 
         # Update concepts with all descendants
         new_concepts = []
         for concept in concepts:
-            logging.debug('Finding taxa for {}'.format(concept))
-            if taxa_provider == "fathomnet":  # SPECIAL CASE: due to a bug in Micronaut, the fast worms provider is used directly for now
+            logging.debug("Finding taxa for {}".format(concept))
+            if (
+                taxa_provider == "fathomnet"
+            ):  # SPECIAL CASE: due to a bug in Micronaut, the fast worms provider is used directly for now
                 descendants_names = worms.get_descendants_names(concept)
                 for new_concept in descendants_names:
                     if new_concept not in new_concepts:
@@ -530,38 +537,38 @@ def parse_args() -> Arguments:
                     if new_concept not in new_concepts:
                         new_concepts.append(new_concept)
 
-        logging.debug('Old concepts: {}'.format(concepts))
-        logging.debug('New concepts: {}'.format(new_concepts))
+        logging.debug("Old concepts: {}".format(concepts))
+        logging.debug("New concepts: {}".format(new_concepts))
         concepts = new_concepts
 
     # Parse contributor email
     contributor_email = args.contributor_email
     if contributor_email is not None:
         if contributor_email not in valid_contributor_emails:
-            parser.error('Invalid contributor email: {}'.format(contributor_email))
+            parser.error("Invalid contributor email: {}".format(contributor_email))
 
     # Parse start timestamp
     start_timestamp = args.start_timestamp
     start_timestamp_str = None
     if start_timestamp is not None:
         if start_timestamp > datetime.datetime.now():
-            parser.error('Start timestamp cannot be in the future')
-        start_timestamp_str = start_timestamp.isoformat(timespec='milliseconds') + 'Z'
+            parser.error("Start timestamp cannot be in the future")
+        start_timestamp_str = start_timestamp.isoformat(timespec="milliseconds") + "Z"
 
     # Parse end timestamp
     end_timestamp = args.end_timestamp
     end_timestamp_str = None
     if end_timestamp is not None:
         if end_timestamp > datetime.datetime.now():
-            parser.error('End timestamp cannot be in the future')
-        end_timestamp_str = end_timestamp.isoformat(timespec='milliseconds') + 'Z'
+            parser.error("End timestamp cannot be in the future")
+        end_timestamp_str = end_timestamp.isoformat(timespec="milliseconds") + "Z"
 
     # Parse imaging types
     imaging_types = args.imaging_types
     if imaging_types:
         for imaging_type in imaging_types:
             if imaging_type not in valid_imaging_types:
-                parser.error('Invalid imaging type: {}'.format(imaging_type))
+                parser.error("Invalid imaging type: {}".format(imaging_type))
 
     # Parse unverified/verified flags
     include_unverified = args.include_unverified
@@ -581,7 +588,7 @@ def parse_args() -> Arguments:
         for owner_institution_code in owner_institution_codes:
             if owner_institution_code not in valid_owner_institution_codes:
                 parser.error(
-                    'Invalid owner institution code: {}'.format(owner_institution_code)
+                    "Invalid owner institution code: {}".format(owner_institution_code)
                 )
 
     # Pack specified constraints into base constraint instance
@@ -605,27 +612,27 @@ def parse_args() -> Arguments:
     output = args.output  # None if --count flag is set
     if output is not None:
         if not os.path.exists(output):
-            logging.info('Creating output directory {}'.format(output))
+            logging.info("Creating output directory {}".format(output))
             os.makedirs(output)
         elif not os.path.isdir(output):
             parser.error(
-                'Output directory {} exists and is not a directory'.format(output)
+                "Output directory {} exists and is not a directory".format(output)
             )
 
     # Create image output directory (if it doesn't exist)
     img_dir = args.img_dir  # None if --img_download flag is not called
     if img_dir is not None:
         if not os.path.exists(img_dir):
-            logging.info('Creating output directory {}'.format(img_dir))
+            logging.info("Creating output directory {}".format(img_dir))
             os.makedirs(img_dir)
         elif not os.path.isdir(img_dir):
             parser.error(
-                'Image download output directory {} exists and is not a directory'.format(
+                "Image download output directory {} exists and is not a directory".format(
                     img_dir
                 )
             )
 
-    logging.info('Successfully parsed flags')
+    logging.info("Successfully parsed flags")
 
     # Pack everything into an arguments instance
     return Arguments(
@@ -644,7 +651,7 @@ def main():
     try:
         dataset_images = get_images(args)  # Get the images
     except KeyboardInterrupt:
-        logging.info('Image querying interrupted by user')
+        logging.info("Image querying interrupted by user")
         exit(0)
 
     if not dataset_images:  # Ensure there are images to use
@@ -653,7 +660,7 @@ def main():
     try:
         error = generate_dataset(args, dataset_images)  # Generate the dataset
     except KeyboardInterrupt:
-        logging.info('Dataset generation interrupted by user')
+        logging.info("Dataset generation interrupted by user")
         exit(0)
 
     if args.img_dir:
@@ -662,11 +669,11 @@ def main():
                 args, dataset_images
             )  # download the images to specified output directory
         except KeyboardInterrupt:
-            logging.info('Image download interrupted by user')
+            logging.info("Image download interrupted by user")
             exit(0)
     else:
         exit(0)
 
     if error:
-        logging.error('Error generating dataset.')
+        logging.error("Error generating dataset.")
         exit(1)

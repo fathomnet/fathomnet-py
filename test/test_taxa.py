@@ -14,19 +14,19 @@ class TestTaxaAPI(TestCase):
         self.assertGreater(len(taxa_providers), 0)
 
     def test_find_children(self):
-        children = taxa.find_children('fathomnet', 'Bathochordaeus')
+        children = taxa.find_children("fathomnet", "Bathochordaeus")
         self.assertIsNotNone(children)
-        self.assertIn('Bathochordaeus mcnutti', set(child.name for child in children))
+        self.assertIn("Bathochordaeus mcnutti", set(child.name for child in children))
 
     def test_find_parent(self):
-        parent = taxa.find_parent('fathomnet', 'Bathochordaeus mcnutti')
+        parent = taxa.find_parent("fathomnet", "Bathochordaeus mcnutti")
         self.assertIsNotNone(parent)
-        self.assertEqual(parent.name, 'Bathochordaeus')
+        self.assertEqual(parent.name, "Bathochordaeus")
 
     def test_find_taxa(self):
-        concept = 'Bathochordaeus'
-        rank = 'Genus'
-        results = taxa.find_taxa('fathomnet', concept)
+        concept = "Bathochordaeus"
+        rank = "Genus"
+        results = taxa.find_taxa("fathomnet", concept)
         self.assertIsNotNone(results)
         self.assertGreater(len(results), 0)
         for taxa_item in results:

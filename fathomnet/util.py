@@ -16,7 +16,7 @@ def debug_format_response(response: requests.Response) -> str:
         A string representation of the response object.
     """
     request = response.request
-    formatted_str = '''REQUEST:
+    formatted_str = """REQUEST:
     Method: {}
     URL: {}
     Headers:
@@ -31,14 +31,18 @@ RESPONSE:
         {}
     Content:
     {}
-    '''.format(
+    """.format(
         request.method,
         request.url,
-        '\n\t'.join(['{}: {}'.format(key, val) for key, val in request.headers.items()]),
+        "\n\t".join(
+            ["{}: {}".format(key, val) for key, val in request.headers.items()]
+        ),
         request.body,
         response.status_code,
-        '\n\t'.join(['{}: {}'.format(key, val) for key, val in response.headers.items()]),
-        response.content
+        "\n\t".join(
+            ["{}: {}".format(key, val) for key, val in response.headers.items()]
+        ),
+        response.content,
     )
 
     return formatted_str

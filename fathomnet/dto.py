@@ -1,12 +1,13 @@
 # dto.py (fathomnet-py)
+import os
 from dataclasses import dataclass
-from dataclasses_json import dataclass_json
 from enum import Enum
 from typing import List, Optional
-from requests.auth import AuthBase
+
+from dataclasses_json import dataclass_json
 from lxml import etree
 from lxml.builder import E
-import os
+from requests.auth import AuthBase
 
 
 @dataclass_json
@@ -31,14 +32,16 @@ class AImageDTO:
     modified: Optional[str] = None
     sha256: Optional[str] = None
     contributorsEmail: Optional[str] = None
-    tags: Optional[List['ATagDTO']] = None
+    tags: Optional[List["ATagDTO"]] = None
     timestamp: Optional[str] = None
     width: Optional[int] = None
-    boundingBoxes: Optional[List['ABoundingBoxDTO']] = None
+    boundingBoxes: Optional[List["ABoundingBoxDTO"]] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
 
-    def to_pascal_voc(self, path: Optional[str] = None, pretty_print: bool = False) -> str:
+    def to_pascal_voc(
+        self, path: Optional[str] = None, pretty_print: bool = False
+    ) -> str:
         """Convert to a Pascal VOC.
 
         :param path: Path to the image file, defaults to using the image URL if available
@@ -51,7 +54,9 @@ class AImageDTO:
         """
         if path is None:  # If no path provided, use URL
             if self.url is None:
-                raise ValueError('Either the path argument or the image URL must be specified.')
+                raise ValueError(
+                    "Either the path argument or the image URL must be specified."
+                )
             path = self.url
 
         # Parse the folder name and file name
@@ -62,17 +67,26 @@ class AImageDTO:
         boxes = self.boundingBoxes or []
         objects = [
             E.object(
-                E.name(box.concept + (' {}'.format(box.altConcept) if box.altConcept is not None else '')),
-                E.pose('Unspecified'),
-                E.truncated(str(int(box.truncated) if box.truncated is not None else 0)),
-                E.difficult('0'),
+                E.name(
+                    box.concept
+                    + (
+                        " {}".format(box.altConcept)
+                        if box.altConcept is not None
+                        else ""
+                    )
+                ),
+                E.pose("Unspecified"),
+                E.truncated(
+                    str(int(box.truncated) if box.truncated is not None else 0)
+                ),
+                E.difficult("0"),
                 E.occluded(str(int(box.occluded) if box.occluded is not None else 0)),
                 E.bndbox(
                     E.xmin(str(box.x)),
                     E.xmax(str(box.x + box.width)),
                     E.ymin(str(box.y)),
-                    E.ymax(str(box.y + box.height))
-                )
+                    E.ymax(str(box.y + box.height)),
+                ),
             )
             for box in boxes
         ]
@@ -82,15 +96,9 @@ class AImageDTO:
             E.folder(folder_name),
             E.filename(base_name),
             E.path(path),
-            E.source(
-                E.database('FathomNet')
-            ),
-            E.size(
-                E.width(str(self.width)),
-                E.height(str(self.height)),
-                E.depth('3')
-            ),
-            E.segmented('0'),
+            E.source(E.database("FathomNet")),
+            E.size(E.width(str(self.width)), E.height(str(self.height)), E.depth("3")),
+            E.segmented("0"),
             *objects
         )
 
@@ -156,7 +164,7 @@ class AuthHeader(AuthBase):
 
     @property
     def auth_dict(self):
-        return {'Authorization': '{} {}'.format(self.type, self.token)}
+        return {"Authorization": "{} {}".format(self.type, self.token)}
 
     def __call__(self, r):
         r.headers.update(self.auth_dict)
@@ -183,7 +191,7 @@ class BoundingBox:
     userDefinedKey: Optional[str] = None
     concept: Optional[str] = None
     altConcept: Optional[str] = None
-    image: Optional['Image'] = None
+    image: Optional["Image"] = None
     groupOf: Optional[bool] = None
     height: Optional[int] = None
     occluded: Optional[bool] = None
@@ -245,9 +253,9 @@ class BImageSetUploadDTO:
     localPath: Optional[str] = None
     remoteUri: Optional[str] = None
     sha256: Optional[str] = None
-    format: Optional['ImageSetUpload.UploadFormat'] = None
+    format: Optional["ImageSetUpload.UploadFormat"] = None
     contributorsEmail: Optional[str] = None
-    status: Optional['ImageSetUpload.Status'] = None
+    status: Optional["ImageSetUpload.Status"] = None
     statusUpdaterEmail: Optional[str] = None
     statusUpdateTimestamp: Optional[str] = None
     rejectionReason: Optional[str] = None
@@ -288,7 +296,7 @@ class DarwinCore:
     institutionID: Optional[str] = None
     recordReferences: Optional[str] = None
     rightsHolder: Optional[str] = None
-    imageSetUpload: Optional['ImageSetUpload'] = None
+    imageSetUpload: Optional["ImageSetUpload"] = None
 
 
 @dataclass_json
@@ -327,7 +335,7 @@ class FathomnetIdentity:
     disabled: Optional[bool] = None
     expertiseRank: Optional[str] = None
     displayName: Optional[str] = None
-    roles: Optional[List['Roles']] = None
+    roles: Optional[List["Roles"]] = None
     orcid: Optional[str] = None
     notificationFrequency: Optional[str] = None
 
@@ -399,24 +407,24 @@ class Image:
     contributorsEmail: Optional[str] = None
     timestamp: Optional[str] = None
     width: Optional[int] = None
-    tags: Optional[List['Tag']] = None
+    tags: Optional[List["Tag"]] = None
     boundingBoxes: Optional[List[BoundingBox]] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
-    imageSetUploads: Optional[List['ImageSetUpload']] = None
+    imageSetUploads: Optional[List["ImageSetUpload"]] = None
 
 
 @dataclass_json
 @dataclass
 class ImageSetUpload:
     class Status(Enum):
-        PENDING = 'PENDING'
-        ACCEPTED = 'ACCEPTED'
-        REJECTED = 'REJECTED'
+        PENDING = "PENDING"
+        ACCEPTED = "ACCEPTED"
+        REJECTED = "REJECTED"
 
     class UploadFormat(Enum):
-        CSV = 'CSV'
-        UNSUPPORTED = 'UNSUPPORTED'
+        CSV = "CSV"
+        UNSUPPORTED = "UNSUPPORTED"
 
     id: Optional[int] = None
     uuid: Optional[str] = None
@@ -472,8 +480,8 @@ class Sort:
     @dataclass
     class Order:
         class Direction(Enum):
-            ASC = 'ASC'
-            DESC = 'DESC'
+            ASC = "ASC"
+            DESC = "DESC"
 
         ignoreCase: Optional[bool] = None
         direction: Optional[Direction] = None
@@ -497,16 +505,21 @@ class Pageable:
         """Make a list of paging parameters to be passed into a request."""
         params = []
         if self.size is not None:
-            params.append(('size', self.size))
+            params.append(("size", self.size))
         if self.number is not None:
-            params.append(('page', self.number))
+            params.append(("page", self.number))
         if self.sort is not None:
             for order in self.sort.orderBy:
-                params.append(('sort', order.property))
+                params.append(("sort", order.property))
         return params
 
     @classmethod
-    def from_params(cls, size: Optional[int] = None, page: Optional[int] = None, sort_keys: Optional[List[str]] = None):
+    def from_params(
+        cls,
+        size: Optional[int] = None,
+        page: Optional[int] = None,
+        sort_keys: Optional[List[str]] = None,
+    ):
         """Make a Pageable instance from paging parameters."""
         pageable = cls()
         pageable.size = size
@@ -519,12 +532,12 @@ class Pageable:
 
 
 class Roles(Enum):
-    ADMIN = 'ADMIN'
-    MODERATOR = 'MODERATOR'
-    READ = 'READ'
-    UNKNOWN = 'UNKNOWN'
-    UPDATE = 'UPDATE'
-    WRITE = 'WRITE'
+    ADMIN = "ADMIN"
+    MODERATOR = "MODERATOR"
+    READ = "READ"
+    UNKNOWN = "UNKNOWN"
+    UPDATE = "UPDATE"
+    WRITE = "WRITE"
 
 
 @dataclass_json
@@ -610,7 +623,7 @@ class WormsNode:
     aphiaId: Optional[int] = None
     acceptedAphiaId: Optional[int] = None
     alternateNames: Optional[List[str]] = None
-    children: Optional[List['WormsNode']] = None
+    children: Optional[List["WormsNode"]] = None
 
 
 @dataclass_json

@@ -1,14 +1,15 @@
-from unittest import TestCase, SkipTest
+from unittest import SkipTest, TestCase
 
-from . import skipIfNoAuth
 from fathomnet.api import users
 from fathomnet.dto import Pageable
+
+from . import skipIfNoAuth
 
 
 class TestUsersAPI(TestCase):
     @skipIfNoAuth
     def test_create_with_dto(self):
-        raise SkipTest('Write tests not yet implemented')  # TODO create_with_dto test
+        raise SkipTest("Write tests not yet implemented")  # TODO create_with_dto test
 
     @skipIfNoAuth
     def test_find_all(self):
@@ -18,15 +19,15 @@ class TestUsersAPI(TestCase):
 
     @skipIfNoAuth
     def test_find_all_admin(self):
-        raise SkipTest('Not implemented')
+        raise SkipTest("Not implemented")
 
     @skipIfNoAuth
     def test_update_user_data(self):
-        raise SkipTest('Write tests not yet implemented')
+        raise SkipTest("Write tests not yet implemented")
 
     @skipIfNoAuth
     def test_update_user_data_admin(self):
-        raise SkipTest('Write tests not yet implemented')
+        raise SkipTest("Write tests not yet implemented")
 
     @skipIfNoAuth
     def test_get_api_key(self):
@@ -35,21 +36,21 @@ class TestUsersAPI(TestCase):
 
     @skipIfNoAuth
     def test_create_new_api_key(self):
-        raise SkipTest('Write tests not yet implemented')
+        raise SkipTest("Write tests not yet implemented")
 
     @skipIfNoAuth
     def test_delete_api_key(self):
-        raise SkipTest('Write tests not yet implemented')
+        raise SkipTest("Write tests not yet implemented")
 
     def test_count_all(self):
         count = users.count_all()
         self.assertIsNotNone(count)
-        self.assertEqual(count.objectType, 'FathomnetIdentityEntity')
+        self.assertEqual(count.objectType, "FathomnetIdentityEntity")
         self.assertGreater(count.count, 0)
 
     @skipIfNoAuth
     def test_disable_by_uuid(self):
-        raise SkipTest('Write tests not yet implemented')
+        raise SkipTest("Write tests not yet implemented")
 
     def test_find_expertise(self):
         expertise = users.find_expertise()
@@ -69,7 +70,7 @@ class TestUsersAPI(TestCase):
         self.assertIsNotNone(user)
 
     def test_find_by_firebase_uid(self):
-        raise SkipTest('Not yet implemented')
+        raise SkipTest("Not yet implemented")
 
     @skipIfNoAuth
     def test_verify(self):
@@ -77,18 +78,18 @@ class TestUsersAPI(TestCase):
         self.assertIsNotNone(auth)
 
     def test_find_by_display_name(self):
-        res_users = users.find_by_display_name('Brian')
+        res_users = users.find_by_display_name("Brian")
         self.assertIsNotNone(res_users)
 
     @skipIfNoAuth
     def test_find_by_organization(self):
-        res_users = users.find_by_organization('mbari')
+        res_users = users.find_by_organization("mbari")
         self.assertIsNotNone(res_users)
 
     def test_find_by_uuid(self):
-        res_user = users.find_by_uuid('9dba65e1-5974-46df-9276-98c461beba9f')
+        res_user = users.find_by_uuid("9dba65e1-5974-46df-9276-98c461beba9f")
         self.assertIsNotNone(res_user)
 
     def test_find_badges_by_uuid(self):
-        res_badges = users.find_badges_by_uuid('9dba65e1-5974-46df-9276-98c461beba9f')
+        res_badges = users.find_badges_by_uuid("9dba65e1-5974-46df-9276-98c461beba9f")
         self.assertIsNotNone(res_badges)
