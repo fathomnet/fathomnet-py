@@ -18,6 +18,7 @@ from coco_lib.objectdetection import (
     ObjectDetectionCategory,
     ObjectDetectionDataset,
 )
+import yaml
 
 from ..api import images, taxa, darwincore, worms
 from ..dto import AImageDTO, GeoImageConstraints
@@ -269,9 +270,73 @@ def generate_coco_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
     return False
 
 
+def generate_yolo_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
+    """Generate a YOLO dataset (folder of annotation TXTs)"""
+    error_flag = False
+
+    # Create the concept -> index mapping
+    concepts = sorted(set(box.concept for image in ims for box in image.boundingBoxes))
+    concept_to_index = {concept: idx for idx, concept in enumerate(concepts)}
+    
+    labels_dir = os.path.join(output_dir, "labels")
+    if not os.path.exists(labels_dir):
+        os.makedirs(labels_dir)
+    
+    # Assume images are in a directory called "images"
+    images_dir = os.path.join(output_dir, "images")
+    if not os.path.exists(images_dir):
+        os.makedirs(images_dir)
+    
+    # Write annotation YAML file to output directory
+    yaml_data = {
+        "path": output_dir,
+        "train": "images",
+        "val": "images",
+        "names": {idx: concept for idx, concept in enumerate(concepts)},
+    }
+    yaml_path = os.path.join(output_dir, "dataset.yaml")
+    try:
+        with open(yaml_path, "w") as f:
+            f.write(yaml.dump(yaml_data, indent=2, sort_keys=False))
+    except OSError as e:
+        logging.error('Error writing {}: {}'.format(yaml_path, e))
+        return False
+    logging.info('Wrote dataset YAML to {}'.format(yaml_path))
+
+    # Write annotation files to output directory
+    for image in ims:
+        filename = '{}.{}'.format(image.uuid, 'txt')
+        filename = os.path.join(labels_dir, filename)
+        logging.debug('Writing YOLO {}'.format(filename))
+        try:
+            with open(filename, 'w') as f:
+                for box in image.boundingBoxes:
+                    x_center = box.x + box.width / 2
+                    y_center = box.y + box.height / 2
+                    x_center_norm = x_center / image.width
+                    y_center_norm = y_center / image.height
+                    width_norm = box.width / image.width
+                    height_norm = box.height / image.height
+                    f.write(
+                        '{} {} {} {} {}\n'.format(
+                            concept_to_index[box.concept], x_center_norm, y_center_norm, width_norm, height_norm
+                        )
+                    )
+        except OSError as e:
+            logging.error('Error writing {}: {}'.format(filename, e))
+            error_flag = True
+    logging.info('Wrote {} YOLO files to {}'.format(len(ims), labels_dir))
+
+    return error_flag
+
+
 def generate_dataset(args: Arguments, ims: List[AImageDTO]) -> bool:
     """Call the specified dataset generation function according to the format specified"""
-    dataset_func = {'voc': generate_voc_dataset, 'coco': generate_coco_dataset}
+    dataset_func = {
+        'voc': generate_voc_dataset, 
+        'coco': generate_coco_dataset,
+        'yolo': generate_yolo_dataset,
+    }
 
     return dataset_func[args.format](ims, args.output)
 
@@ -288,7 +353,7 @@ def parse_args() -> Arguments:
     valid_taxa_providers = taxa.list_taxa_providers()
     valid_contributor_emails = images.find_distinct_submitter()
     valid_owner_institution_codes = darwincore.find_owner_institution_codes()
-    valid_dataset_formats = ['voc', 'coco']
+    valid_dataset_formats = ['voc', 'coco', 'yolo']
 
     parser.add_argument('-v', action='count', default=0, help='Increase verbosity')
     parser.add_argument(
@@ -370,6 +435,7 @@ def parse_args() -> Arguments:
         help='Flag to include all bounding boxes of other concepts in specified images',
     )
     parser.add_argument(
+        '-f'
         '--format',
         dest='format',
         type=lowercase_str,
