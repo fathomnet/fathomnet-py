@@ -441,7 +441,8 @@ def parse_args() -> Arguments:
         help="Flag to include all bounding boxes of other concepts in specified images",
     )
     parser.add_argument(
-        "-f" "--format",
+        "-f",
+        "--format",
         dest="format",
         type=lowercase_str,
         default="voc",
