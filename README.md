@@ -36,7 +36,7 @@ The `fathomnet-py` API offers native Python interaction with the FathomNet REST 
 
 [![CI/CD](https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml/badge.svg)](https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml)
 [![Documentation Status](https://readthedocs.org/projects/fathomnet-py/badge/?version=latest)](https://fathomnet-py.readthedocs.io/en/latest/?badge=latest)
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fathomnet/fathomnet-py/blob/main/tutorial.ipynb)
+[![Tutorial](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fathomnet/fathomnet-py/blob/main/examples/tutorial.ipynb)
 ## Installing `fathomnet-py`
 
 `fathomnet-py` is available on PyPI:
