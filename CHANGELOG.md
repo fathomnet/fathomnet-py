@@ -1,6 +1,45 @@
 # CHANGELOG
 
+## v1.5.0 (2024-07-16)
 
+### Chore
+
+* chore: apply pre-commit hook on all files ([`0190345`](https://github.com/fathomnet/fathomnet-py/commit/01903453d9e16c7716d91e7aacf165857c982dbf))
+
+* chore: add Python 3.12 to CI pipeline targets ([`cf979cf`](https://github.com/fathomnet/fathomnet-py/commit/cf979cf18d5db307f6adea5d7b632045e1c6e353))
+
+* chore: add formatting/linting pre-commit setup ([`ca07b19`](https://github.com/fathomnet/fathomnet-py/commit/ca07b193aa8562161fd02375641ea050d7d632d7))
+
+### Documentation
+
+* docs: move tutorial notebook into examples dir ([`c4db176`](https://github.com/fathomnet/fathomnet-py/commit/c4db176c211235a1ce7479dacba237c68c0da6fc))
+
+* docs: switch order of imports/pip install in tutorial notebook
+
+
+switched order of imports to avoid ipyleaflet error with fathomnet install and added explanation on running outside of colab. (#28) ([`48afc49`](https://github.com/fathomnet/fathomnet-py/commit/48afc496c0792d662709b2b9c28826afb78914b7))
+
+* docs: fix broken readthedocs build #27
+
+Install the current package (fathomnet-py) prior to building the Sphinx docs via RTD ([`3154b79`](https://github.com/fathomnet/fathomnet-py/commit/3154b790399aa7ce6def6c00b639679f6ac3bdb9))
+
+### Feature
+
+* feat: add YOLO dataset generation to fathomnet-generate ([`1bacb1f`](https://github.com/fathomnet/fathomnet-py/commit/1bacb1fbbaf8802de23351fdaa9af7e8de6df73c))
+
+### Fix
+
+* fix: make TEST_X_API_KEY use an environment variable of the same name ([`22508cf`](https://github.com/fathomnet/fathomnet-py/commit/22508cf16695621183c0a5f5fe76d14ffaf48bae))
+
+### Unknown
+
+* Merge branch &#39;develop&#39; ([`8202949`](https://github.com/fathomnet/fathomnet-py/commit/8202949e687c927fc18c0dc23097c7e52c6ab47b))
+
+* Merge branch &#39;main&#39; into develop ([`4a29a68`](https://github.com/fathomnet/fathomnet-py/commit/4a29a68528e1dbfe8e476a5dc3abf4da9604e243))
+
+* add accepted flag to `worms.get_descendants_names`
+
+Add support for worms-server 0.5.2 ([`0dc9ed8`](https://github.com/fathomnet/fathomnet-py/commit/0dc9ed8d902adb6ddfc4fbf88ad0c4a188a62ec1))
 
 ## v1.4.0 (2024-04-09)
 
@@ -10,7 +49,6 @@
 
 Add support for worms-server 0.5.2 ([`de0aec2`](https://github.com/fathomnet/fathomnet-py/commit/de0aec2e04915a922b7026189e7cfc0b55aabfd6))
 
-
 ## v1.3.0 (2024-02-29)
 
 ### Feature
@@ -18,7 +56,6 @@ Add support for worms-server 0.5.2 ([`de0aec2`](https://github.com/fathomnet/fat
 * feat: support worms-server 0.5.1
 
 Add support for worms-server 0.5.1. This adds the `acceptedAphiaId` field to the `WormsNode` DTOs as well as a new endpoint for getting a `WormsNames` DTO by Aphia ID. ([`f1989bc`](https://github.com/fathomnet/fathomnet-py/commit/f1989bcfea8225d38749241709b9c98a9e47bae0))
-
 
 ## v1.2.2 (2024-02-21)
 
@@ -36,27 +73,17 @@ Add support for worms-server 0.5.1. This adds the `acceptedAphiaId` field to the
 
 Fixes #25 ([`5feeeb0`](https://github.com/fathomnet/fathomnet-py/commit/5feeeb0fa5fd95efd22fdc0e67e5dd69b9302408))
 
-
 ## v1.2.1 (2024-02-06)
-
-### Chore
-
-* chore: use released ref for publish in CI/CD pipeline ([`d39c482`](https://github.com/fathomnet/fathomnet-py/commit/d39c4827ea612c6ea7e8b3eabfea4f08638c98e8))
-
-### Fix
-
-* fix: use worms API directly for fathomnet taxa provider
-
-This is a temporary workaround for a bug in Micronaut that causes the fathomnet taxa provider to fail for large trees (e.g., Scleractinia). ([`f887a95`](https://github.com/fathomnet/fathomnet-py/commit/f887a950cfe4741869b667410a1ceee9c92a11c9))
 
 ### Unknown
 
 * Merge branch &#39;main&#39; into develop ([`86c574e`](https://github.com/fathomnet/fathomnet-py/commit/86c574e89fba7a858a9ca7abf1ff208c6829d8ae))
 
-
 ## v1.2.0 (2024-02-06)
 
 ### Chore
+
+* chore: use released ref for publish in CI/CD pipeline ([`d39c482`](https://github.com/fathomnet/fathomnet-py/commit/d39c4827ea612c6ea7e8b3eabfea4f08638c98e8))
 
 * chore: merge CI/CD workflows ([`8e0d760`](https://github.com/fathomnet/fathomnet-py/commit/8e0d76006cec956cab009bf330a068f6e7a6adf4))
 
@@ -76,8 +103,11 @@ This is a temporary workaround for a bug in Micronaut that causes the fathomnet 
 
 ### Fix
 
-* fix: make the linter happy ([`6cc52f6`](https://github.com/fathomnet/fathomnet-py/commit/6cc52f6b6abbd1cbe1b14a435d82a9acb91e4f58))
+* fix: use worms API directly for fathomnet taxa provider
 
+This is a temporary workaround for a bug in Micronaut that causes the fathomnet taxa provider to fail for large trees (e.g., Scleractinia). ([`f887a95`](https://github.com/fathomnet/fathomnet-py/commit/f887a950cfe4741869b667410a1ceee9c92a11c9))
+
+* fix: make the linter happy ([`6cc52f6`](https://github.com/fathomnet/fathomnet-py/commit/6cc52f6b6abbd1cbe1b14a435d82a9acb91e4f58))
 
 ## v1.1.5 (2024-01-10)
 
@@ -93,7 +123,6 @@ This is a temporary workaround for a bug in Micronaut that causes the fathomnet 
 
 * fix: update activity find functions for new DTO ([`cdf5617`](https://github.com/fathomnet/fathomnet-py/commit/cdf56179cc802085ff1f8adbba2f717be550f08b))
 
-
 ## v1.1.4 (2024-01-09)
 
 ### Documentation
@@ -107,7 +136,6 @@ This is a temporary workaround for a bug in Micronaut that causes the fathomnet 
 ### Unknown
 
 * Merge branch &#39;develop&#39; ([`14988d6`](https://github.com/fathomnet/fathomnet-py/commit/14988d63186d5c60e78c9e5039b1b2ca16d03dd0))
-
 
 ## v1.1.3 (2023-09-13)
 
@@ -124,7 +152,6 @@ Closes #5 ([`1eadc8f`](https://github.com/fathomnet/fathomnet-py/commit/1eadc8ff
 Add the fathomnet.util.debug_format_response to the ValueError exception
  raised when a status code &lt; 500 and != 401 / 403 is returned. Fixes #16 ([`6b0b911`](https://github.com/fathomnet/fathomnet-py/commit/6b0b91110be90d7e41e7c2a8dab87cd29b331395))
 
-
 ## v1.1.2 (2023-09-12)
 
 ### Fix
@@ -132,7 +159,6 @@ Add the fathomnet.util.debug_format_response to the ValueError exception
 * fix: Add condition to CD workflow ([`df3432d`](https://github.com/fathomnet/fathomnet-py/commit/df3432d1b5685414c64d6a8a21b020497d1b6313))
 
 * fix: Add CD ([`8979d75`](https://github.com/fathomnet/fathomnet-py/commit/8979d75b049d39c673feb0d78153d4e5a4de11c5))
-
 
 ## v1.1.1 (2023-09-12)
 
@@ -142,13 +168,11 @@ Add the fathomnet.util.debug_format_response to the ValueError exception
 
 * fix: Version in pyproject.toml ([`dd2d9a2`](https://github.com/fathomnet/fathomnet-py/commit/dd2d9a2d3e9a27610e17c119337e821fcea8bcbc))
 
-
 ## v1.1.0 (2023-09-12)
 
 ### Feature
 
 * feat: Set up python-semantic-release ([`4019f18`](https://github.com/fathomnet/fathomnet-py/commit/4019f1811cabc207f5972eb39b8a9a7720345f95))
-
 
 ## v1.0.2 (2023-09-12)
 
@@ -162,7 +186,6 @@ Add the fathomnet.util.debug_format_response to the ValueError exception
 
 * Add req/response to server error exception message ([`00f2ff6`](https://github.com/fathomnet/fathomnet-py/commit/00f2ff64bd0b19cae74042287023d5802aee7165))
 
-
 ## v1.0.1 (2023-08-29)
 
 ### Unknown
@@ -174,7 +197,6 @@ Add the fathomnet.util.debug_format_response to the ValueError exception
 * Add page utility function ([`accad89`](https://github.com/fathomnet/fathomnet-py/commit/accad895fc4c2bb2628ac0e9a7e61e43cfab5679))
 
 * Fix taxa tests for fathomnet provider ([`dfe44fe`](https://github.com/fathomnet/fathomnet-py/commit/dfe44fe2771e6a4f962525d6f689ffa901487df2))
-
 
 ## v1.0.0 (2023-08-03)
 
@@ -197,7 +219,6 @@ Add the fathomnet.util.debug_format_response to the ValueError exception
 * Typo ([`6c786e1`](https://github.com/fathomnet/fathomnet-py/commit/6c786e18bcedc23391aacd25619bef966a22e7ad))
 
 * Bounding box comments ([`7aa63fd`](https://github.com/fathomnet/fathomnet-py/commit/7aa63fd5c68369b87bffb3a136fea1170973c78e))
-
 
 ## v0.7.0 (2023-08-03)
 
@@ -229,7 +250,6 @@ Slight tweaks to GH action linting ([`8db72d3`](https://github.com/fathomnet/fat
 
 * Add coco download section to tutorial notebook ([`40369e3`](https://github.com/fathomnet/fathomnet-py/commit/40369e387144ac8ab90b61343eef0be47c2a6262))
 
-
 ## v0.6.0 (2023-02-07)
 
 ### Unknown
@@ -250,7 +270,6 @@ Slight tweaks to GH action linting ([`8db72d3`](https://github.com/fathomnet/fat
 
 * Removed forced debug print statement ([`3ae2f69`](https://github.com/fathomnet/fathomnet-py/commit/3ae2f694c2a83688572254ca49a1954ee65fa420))
 
-
 ## v0.5.2 (2022-04-07)
 
 ### Unknown
@@ -269,7 +288,6 @@ Slight tweaks to GH action linting ([`8db72d3`](https://github.com/fathomnet/fat
 
 * Cleaned up fathomnet_generate formatting ([`2aad07b`](https://github.com/fathomnet/fathomnet-py/commit/2aad07bdf4ae6499a094eb9f70c9dc2c9ea1d0df))
 
-
 ## v0.5.1 (2022-03-31)
 
 ### Unknown
@@ -277,7 +295,6 @@ Slight tweaks to GH action linting ([`8db72d3`](https://github.com/fathomnet/fat
 * Merge branch &#39;develop&#39; into main ([`abceeea`](https://github.com/fathomnet/fathomnet-py/commit/abceeea3f483ecd549862a7bda747fba71df43dd))
 
 * Fix fathomnet-generate bug in Python 3.7 ([`df8e25a`](https://github.com/fathomnet/fathomnet-py/commit/df8e25a5e3c77508191478d88a2fe735446124b6))
-
 
 ## v0.5.0 (2022-03-31)
 
@@ -293,11 +310,11 @@ Slight tweaks to GH action linting ([`8db72d3`](https://github.com/fathomnet/fat
 
 * Removed unused cell ([`0bce7b3`](https://github.com/fathomnet/fathomnet-py/commit/0bce7b33f76cb5008a2429868647808e2ed55e95))
 
+* Changed day two order. Removed calls to Google Drive ([`56ae925`](https://github.com/fathomnet/fathomnet-py/commit/56ae925d8e19e321fa17c168a62bd6ff90de4233))
+
 * Update CoLab link to main
 
 Changed CoLab link in README to open main instead of dev branch notebook. ([`9c57174`](https://github.com/fathomnet/fathomnet-py/commit/9c571747bc6842a7d19f9e542585c9a001cd267e))
-
-* Changed day two order. Removed calls to Google Drive ([`56ae925`](https://github.com/fathomnet/fathomnet-py/commit/56ae925d8e19e321fa17c168a62bd6ff90de4233))
 
 * Workshop-ready version of tutorial notebook ([`0ca5c81`](https://github.com/fathomnet/fathomnet-py/commit/0ca5c81c04b1f652a3be645c4f9d7e5772c5de8f))
 
@@ -306,7 +323,6 @@ Changed CoLab link in README to open main instead of dev branch notebook. ([`9c5
 * Colab badge for tutorial notebook ([`e3880b5`](https://github.com/fathomnet/fathomnet-py/commit/e3880b5f2a811f371654098faeb801727c96d334))
 
 * add tutorial notebook ([`60dfa5f`](https://github.com/fathomnet/fathomnet-py/commit/60dfa5f54cb5af9854a84235d0675781ac38ce0b))
-
 
 ## v0.4.2 (2022-03-09)
 
@@ -320,8 +336,6 @@ Download function in fathomnet-generate ([`173a9ee`](https://github.com/fathomne
 
 * Merge remote-tracking branch &#39;origin/download&#39; into download ([`01cc97d`](https://github.com/fathomnet/fathomnet-py/commit/01cc97d7e1cc66b902c5b5ab3887f8112122ee03))
 
-* Add progressbar2 to deps ([`b6d914c`](https://github.com/fathomnet/fathomnet-py/commit/b6d914cc7266faa886408ed8f278d2da7eda2dde))
-
 * Context manager for image download
 
 More responsible file management for copyfilebobj
@@ -334,6 +348,8 @@ Remove debugging print of args in main
 
 Co-authored-by: Kevin Barnard &lt;kbarnard@mbari.org&gt; ([`25bc618`](https://github.com/fathomnet/fathomnet-py/commit/25bc618cdaf55fabae07af3d6dc79dfd82484dca))
 
+* Add progressbar2 to deps ([`b6d914c`](https://github.com/fathomnet/fathomnet-py/commit/b6d914cc7266faa886408ed8f278d2da7eda2dde))
+
 * Added parser argument and if-loop to run download in main ([`5111f7c`](https://github.com/fathomnet/fathomnet-py/commit/5111f7cc704593d2354624a37c75d95403407c1b))
 
 * Updated download image function to download from list ([`a07a622`](https://github.com/fathomnet/fathomnet-py/commit/a07a622bbc39b691c93831b7a9dac91ae03129ae))
@@ -342,7 +358,6 @@ Co-authored-by: Kevin Barnard &lt;kbarnard@mbari.org&gt; ([`25bc618`](https://gi
 
 * updated filename to image uuid in generate coco ([`bb71d64`](https://github.com/fathomnet/fathomnet-py/commit/bb71d6499cec0c81c8cda092b2a4fd864ba85bff))
 
-
 ## v0.4.1 (2022-02-09)
 
 ### Unknown
@@ -350,7 +365,6 @@ Co-authored-by: Kevin Barnard &lt;kbarnard@mbari.org&gt; ([`25bc618`](https://gi
 * Bump version ([`0ecaf69`](https://github.com/fathomnet/fathomnet-py/commit/0ecaf6930637e6803626879c7616dc86967572a3))
 
 * Tags API doc typo ([`aa33b81`](https://github.com/fathomnet/fathomnet-py/commit/aa33b81f0d71415275425c2f1d202c346fb0fd4a))
-
 
 ## v0.4.0 (2022-02-09)
 
@@ -367,7 +381,6 @@ Co-authored-by: Kevin Barnard &lt;kbarnard@mbari.org&gt; ([`25bc618`](https://gi
 * BBoundingBoxDTO -&gt; BoundingBoxDTO ([`3c864c6`](https://github.com/fathomnet/fathomnet-py/commit/3c864c6f1a8d3cb203f570fd10773c0406c2b91e))
 
 * Removed Python 3.6 from automated tests ([`ba34e25`](https://github.com/fathomnet/fathomnet-py/commit/ba34e25871234415848ab795c1c040c76daf8cfc))
-
 
 ## v0.3.0 (2022-02-08)
 
@@ -393,13 +406,11 @@ Co-authored-by: Kevin Barnard &lt;kbarnard@mbari.org&gt; ([`25bc618`](https://gi
 
 Co-authored-by: ecor &lt;eorenstein@mbari.org&gt; ([`5c1e799`](https://github.com/fathomnet/fathomnet-py/commit/5c1e7999859ed1afdc30fbcdb687910768c2e4e6))
 
-
 ## v0.2.1 (2021-11-30)
 
 ### Unknown
 
 * Fixed ISO8601 encoding and count on empty ([`b271f42`](https://github.com/fathomnet/fathomnet-py/commit/b271f424c947276393ab1ac6c13240931a279340))
-
 
 ## v0.2.0 (2021-11-29)
 
@@ -415,7 +426,6 @@ Co-authored-by: ecor &lt;eorenstein@mbari.org&gt; ([`5c1e799`](https://github.co
 
 * Added example fathomnet-generate script ([`ab5445c`](https://github.com/fathomnet/fathomnet-py/commit/ab5445c4062fd09aeaa4acd5331f5c20ca8582b7))
 
-
 ## v0.1.0 (2021-10-19)
 
 ### Unknown
@@ -429,7 +439,6 @@ Co-authored-by: ecor &lt;eorenstein@mbari.org&gt; ([`5c1e799`](https://github.co
 * Improved docs ([`7fbedf7`](https://github.com/fathomnet/fathomnet-py/commit/7fbedf78fd68fda66e99dd5a8a07f967215edf5a))
 
 * New test UUIDs due to data reload ([`d2b4f6d`](https://github.com/fathomnet/fathomnet-py/commit/d2b4f6d89d37aa84ee7dc195ba510d83eb74c961))
-
 
 ## v0.0.2 (2021-09-29)
 
