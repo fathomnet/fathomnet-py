@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.5.1 (2024-07-16)
+
+### Fix
+
+* fix: fix typo in -f option for fathomnet-generate ([`c304ce1`](https://github.com/fathomnet/fathomnet-py/commit/c304ce1d165e1afe9cecce932dbcd3ebe82aea2b))
+
 ## v1.5.0 (2024-07-16)
 
 ### Chore
