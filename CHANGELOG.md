@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.6.0 (2024-07-18)
+
+### Feature
+
+* feat: allow a start page number in fathomnet.util.page ([`62ca914`](https://github.com/fathomnet/fathomnet-py/commit/62ca91421765328c7c47c63962e144ce074463b1))
+
 ## v1.5.1 (2024-07-16)
 
 ### Fix
