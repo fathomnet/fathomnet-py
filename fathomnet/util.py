@@ -48,7 +48,7 @@ RESPONSE:
     return formatted_str
 
 
-def page(f: callable, size: int, *args, **kwargs):
+def page(f: callable, size: int, start_page_number: int = 0, *args, **kwargs):
     """
     Calls the given function with the given arguments, and returns a generator that will yield all results, page by page, until there are no more results.
 
@@ -57,13 +57,14 @@ def page(f: callable, size: int, *args, **kwargs):
     Args:
         f: The function to call
         size: The page size to use
+        start_page_number: The page number to start on (default 0)
         *args: The arguments to pass to the function
         **kwargs: The keyword arguments to pass to the function
 
     Returns:
         A generator that will yield all results, page by page, until there are no more results.
     """
-    number = 0
+    number = start_page_number
     while True:
         pageable = Pageable(size=size, number=number)
         page = f(pageable, *args, **kwargs)
