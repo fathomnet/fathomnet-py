@@ -82,10 +82,10 @@ class AImageDTO:
                 E.difficult("0"),
                 E.occluded(str(int(box.occluded) if box.occluded is not None else 0)),
                 E.bndbox(
-                    E.xmin(str(box.x)),
-                    E.xmax(str(box.x + box.width)),
-                    E.ymin(str(box.y)),
-                    E.ymax(str(box.y + box.height)),
+                    E.xmin(str(1 + box.x)),
+                    E.xmax(str(1 + box.x + box.width)),
+                    E.ymin(str(1 + box.y)),
+                    E.ymax(str(1 + box.y + box.height)),
                 ),
             )
             for box in boxes
