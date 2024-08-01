@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.6.1 (2024-08-01)
+
+### Fix
+
+* fix: fix bbox conversion to Pascal VOC to use 1-based pixel index ([`440afb0`](https://github.com/fathomnet/fathomnet-py/commit/440afb0f02ab5a88d3ea6827fb2b3d3e244f7653))
+
 ## v1.6.0 (2024-07-18)
 
 ### Feature
