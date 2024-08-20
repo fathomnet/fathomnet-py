@@ -1,7 +1,5 @@
 # fathomnet-py
 
----
-
 <div align="center">
 
 [![image](https://img.shields.io/pypi/v/fathomnet.svg)](https://pypi.python.org/pypi/fathomnet)
@@ -11,7 +9,7 @@
 [![Documentation Status](https://readthedocs.org/projects/fathomnet-py/badge/?version=latest)](https://fathomnet-py.readthedocs.io/en/latest/?badge=latest)
 [![Tutorial](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fathomnet/fathomnet-py/blob/main/examples/tutorial.ipynb)
 [![Rye](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/rye/main/artwork/badge.json)](https://rye.astral.sh)
-[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://docs.astral.sh/ruff/)
 
 </div>
 
