@@ -3,14 +3,16 @@
 ---
 
 <div align="center">
-    [![image](https://img.shields.io/pypi/v/fathomnet.svg)](https://pypi.python.org/pypi/fathomnet)
-    [![image](https://img.shields.io/pypi/l/fathomnet.svg)](https://github.com/fathomnet/fathomnet-py/blob/main/LICENSE)
-    [![image](https://img.shields.io/pypi/pyversions/fathomnet.svg)](https://pypi.python.org/pypi/fathomnet)
-    [![CI/CD](https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml/badge.svg)](https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml)
-    [![Documentation Status](https://readthedocs.org/projects/fathomnet-py/badge/?version=latest)](https://fathomnet-py.readthedocs.io/en/latest/?badge=latest)
-    [![Tutorial](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fathomnet/fathomnet-py/blob/main/examples/tutorial.ipynb)
-    [![Rye](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/rye/main/artwork/badge.json)](https://rye.astral.sh)
-    [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
+[![image](https://img.shields.io/pypi/v/fathomnet.svg)](https://pypi.python.org/pypi/fathomnet)
+[![image](https://img.shields.io/pypi/l/fathomnet.svg)](https://github.com/fathomnet/fathomnet-py/blob/main/LICENSE)
+[![image](https://img.shields.io/pypi/pyversions/fathomnet.svg)](https://pypi.python.org/pypi/fathomnet)
+[![CI/CD](https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml/badge.svg)](https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml)
+[![Documentation Status](https://readthedocs.org/projects/fathomnet-py/badge/?version=latest)](https://fathomnet-py.readthedocs.io/en/latest/?badge=latest)
+[![Tutorial](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fathomnet/fathomnet-py/blob/main/examples/tutorial.ipynb)
+[![Rye](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/rye/main/artwork/badge.json)](https://rye.astral.sh)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+
 </div>
 
 **`fathomnet-py`** is a client-side API to help scientists, researchers, and developers interact with [FathomNet](https://fathomnet.org/) data.
