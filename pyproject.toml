@@ -1,56 +1,53 @@
-[tool.poetry]
+[project]
 name = "fathomnet"
 version = "1.6.1"
 description = "fathomnet-py is a client-side API to help scientists, researchers, and developers interact with FathomNet data."
 license = "MIT"
-authors = ["Kevin Barnard <kbarnard@mbari.org>"]
-maintainers = ["Kevin Barnard <kbarnard@mbari.org>"]
+authors = [
+    { name = "Kevin Barnard", email = "kbarnard@mbari.org" }
+]
+maintainers = [
+    { name = "Kevin Barnard", email = "kbarnard@mbari.org" }
+]
+requires-python = ">= 3.8.1"
+dependencies = [
+    "dataclasses-json >= 0.5.4",
+    "requests >= 2.20.0",
+    "lxml >= 4.6.0",
+    "coco-lib >= 0.1.2",
+    "progressbar2 >= 3.37.0",
+    "pyyaml >= 6.0.1",
+]
 readme = "README.md"
-homepage = "https://github.com/fathomnet/fathomnet-py"
-repository = "https://github.com/fathomnet/fathomnet-py"
-documentation = "https://fathomnet-py.readthedocs.io"
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent"
 ]
 
-[tool.poetry.dependencies]
-python = "^3.8.1"
-dataclasses-json = "^0.5.4"
-requests = "^2.20.0"
-lxml = "^4.6.0"
-coco-lib = "^0.1.2"
-progressbar2 = "^3.37.0"
-pyyaml = "^6.0.1"
-appdirs = {version = "^1.4.4", optional = true}
-torch = {version = "^2.0.1", optional = true}
-opencv-python = {version = "^4.7.0", optional = true}
-pandas = {version = "^2.0.3", optional = true}
-pillow = {version = "^10.0.0", optional = true}
-psutil = {version = "^5.9.5", optional = true}
-torchvision = {version = "^0.15.2", optional = true}
-tqdm = {version = "^4.65.0", optional = true}
-ultralytics = {version = "^8.0.146", optional = true}
-gitpython = {version = "^3.1.32", optional = true}
+[project.optional-dependencies]
+models = [
+    "appdirs>=1.4.4",
+    "torch>=2.4.0",
+    "opencv-python>=4.10.0.84",
+    "pandas>=2.2.2",
+    "pillow>=10.4.0",
+    "psutil>=6.0.0",
+    "torchvision>=0.19.0",
+    "pyyaml>=6.0.2",
+    "tqdm>=4.66.5",
+    "ultralytics>=8.2.79",
+    "gitpython>=3.1.43",
+]
 
-[tool.poetry.dev-dependencies]
+[project.scripts]
+fathomnet-generate = "fathomnet.scripts.fathomnet_generate:main"
 
-[tool.poetry.extras]
-models = ["appdirs", "torch", "opencv-python", "pandas", "pillow", "psutil", "torchvision", "pyyaml", "tqdm", "ultralytics", "gitpython"]
-
-[tool.poetry.scripts]
-fathomnet-generate = 'fathomnet.scripts.fathomnet_generate:main'
-
-[tool.poetry.urls]
-"Bug Tracker" = "https://github.com/fathomnet/fathomnet-py/issues"
-
-[tool.poetry.group.dev.dependencies]
-flake8 = "^6.1.0"
-pytest = "^7.4.0"
-sphinx-rtd-theme = "^2.0.0"
-pre-commit = "^3.5.0"
-isort = "^5.13.2"
-black = "^24.4.2"
+[project.urls]
+Homepage = "https://fathomnet.org/fathomnet/#/about"
+Documentation = "https://fathomnet-py.readthedocs.io"
+Repository = "https://github.com/fathomnet/fathomnet-py.git"
+Issues = "https://github.com/fathomnet/fathomnet-py/issues"
+Changelog = "https://github.com/fathomnet/fathomnet-py/blob/main/CHANGELOG.md"
 
 [tool.semantic_release]
 assets = []
@@ -60,7 +57,7 @@ logging_use_named_masks = false
 major_on_zero = true
 tag_format = "v{version}"
 version_toml = [
-    "pyproject.toml:tool.poetry.version",
+    "pyproject.toml:project.version",
 ]
 
 [tool.semantic_release.branches.main]
@@ -111,6 +108,21 @@ upload_to_vcs_release = true
 [tool.isort]
 profile = "black"
 
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "pytest>=8.3.2",
+    "sphinx-rtd-theme>=2.0.0",
+    "pre-commit>=3.8.0",
+    "ruff>=0.6.1",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/fathomnet"]
+
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
