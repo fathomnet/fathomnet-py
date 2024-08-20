@@ -99,7 +99,7 @@ class AImageDTO:
             E.source(E.database("FathomNet")),
             E.size(E.width(str(self.width)), E.height(str(self.height)), E.depth("3")),
             E.segmented("0"),
-            *objects
+            *objects,
         )
 
         return etree.tostring(annotation, pretty_print=pretty_print).decode()
