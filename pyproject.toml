@@ -1,6 +1,6 @@
 [project]
 name = "fathomnet"
-version = "1.6.1"
+version = "1.7.0"
 description = "fathomnet-py is a client-side API to help scientists, researchers, and developers interact with FathomNet data."
 license = "MIT"
 authors = [
