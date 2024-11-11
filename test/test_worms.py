@@ -8,7 +8,6 @@ def check_for_name(node: WormsNode, name: str) -> bool:
     """Recursively check if a node or one of its descendants has a given name."""
 
     def recurse_check(node: WormsNode) -> bool:
-        print(node.name, name)
         if node.name == name:
             return True
         if not node.children:
