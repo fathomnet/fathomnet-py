@@ -153,7 +153,7 @@ If we look at a generated XML file, we can note the inclusion of other concepts:
     <annotation>
         <folder>3007</folder>
         <filename>00_10_24_26.png</filename>
-        <path>https://fathomnet.org/static/m3/framegrabs/Ventana/images/3007/00_10_24_26.png</path>
+        <path>https://database.fathomnet.org/static/m3/framegrabs/Ventana/images/3007/00_10_24_26.png</path>
         <source>
             <database>FathomNet</database>
         </source>

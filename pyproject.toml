@@ -11,12 +11,12 @@ maintainers = [
 ]
 requires-python = ">= 3.8.1"
 dependencies = [
-    "dataclasses-json >= 0.5.4",
-    "requests >= 2.20.0",
-    "lxml >= 4.6.0",
-    "coco-lib >= 0.1.2",
-    "progressbar2 >= 3.37.0",
-    "pyyaml >= 6.0.1",
+    "requests>=2.20.0",
+    "lxml>=4.6.0",
+    "coco-lib>=0.1.2",
+    "progressbar2>=3.37.0",
+    "pyyaml>=6.0.1",
+    "pydantic>=2.10.6",
 ]
 readme = "README.md"
 classifiers = [
@@ -29,37 +29,28 @@ models = [
     "appdirs>=1.4.4",
     "torch>=2.4.0",
     "opencv-python>=4.10.0.84",
-    "pandas>=2.2.2",
     "pillow>=10.4.0",
-    "psutil>=6.0.0",
     "torchvision>=0.19.0",
-    "pyyaml>=6.0.2",
-    "tqdm>=4.66.5",
     "ultralytics>=8.2.79",
-    "gitpython>=3.1.43",
 ]
 
 [project.scripts]
 fathomnet-generate = "fathomnet.scripts.fathomnet_generate:main"
 
 [project.urls]
-Homepage = "https://fathomnet.org/fathomnet/#/about"
+Homepage = "https://database.fathomnet.org/fathomnet/#/about"
 Documentation = "https://fathomnet-py.readthedocs.io"
 Repository = "https://github.com/fathomnet/fathomnet-py.git"
 Issues = "https://github.com/fathomnet/fathomnet-py/issues"
 Changelog = "https://github.com/fathomnet/fathomnet-py/blob/main/CHANGELOG.md"
 
-[tool.rye]
-managed = true
-dev-dependencies = [
-    "pytest>=8.3.2",
-    "sphinx-rtd-theme>=2.0.0",
-    "pre-commit>=3.8.0",
-    "ruff>=0.6.1",
+[dependency-groups]
+dev = [
+    "pre-commit>=3.5.0",
+    "pytest>=8.3.4",
+    "ruff>=0.9.7",
+    "sphinx-rtd-theme>=3.0.2",
 ]
-
-[tool.rye.scripts]
-docs = "make -C docs html"
 
 [tool.semantic_release]
 assets = []
@@ -126,3 +117,7 @@ packages = ["src/fathomnet"]
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+addopts = "--verbose"
+pythonpath = "src"

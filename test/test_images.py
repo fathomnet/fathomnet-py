@@ -116,7 +116,7 @@ class TestImagesAPI(TestCase):
                 self.fail()
 
     def test_find_by_url(self):
-        url = "https://fathomnet.org/static/m3/framegrabs/Ventana/images/3069/00_34_35_02.png"
+        url = "https://database.fathomnet.org/static/m3/framegrabs/Ventana/images/3069/00_34_35_02.png"
         image = images.find_by_url(url)
         self.assertIsNotNone(image)
         self.assertEqual(image.url, url)

@@ -84,15 +84,14 @@ jobs:
         with:
           python-version: 3.12
       
-      - name: Install Rye
+      - name: Install uv
         run: |
-          curl -sSf https://rye.astral.sh/get | RYE_VERSION="0.38.0" RYE_INSTALL_OPTION="--yes" bash
-          echo "PATH=${HOME}/.rye/shims:${PATH}" >> $GITHUB_ENV
+          curl -LsSf https://astral.sh/uv/install.sh | sh
       
       - name: Build
         run: |
-          rye build
+          uv build
       
       - name: Publish to PyPI
         run: |
-          rye publish --token ${{ secrets.PYPI_TOKEN }} --yes
+          uv publish --token ${{ secrets.PYPI_TOKEN }}

@@ -1,12 +1,25 @@
+from os import getenv
 from typing import List
 
 from fathomnet.api import EndpointManager
 from fathomnet.dto import WormsNames, WormsNode
 
+FATHOMNET_WORMS_API_URL_DEFAULT = "https://database.fathomnet.org/worms"
+
+
+def get_worms_api_url() -> str:
+    """
+    Get the Fast WoRMS API URL from the `FATHOMNET_WORMS_API_URL` environment variable or use the default value.
+
+    Returns:
+        str: The Fast WoRMS API base URL.
+    """
+    return getenv("FATHOMNET_WORMS_API_URL", FATHOMNET_WORMS_API_URL_DEFAULT)
+
 
 class Worms(EndpointManager):
-    ROOT = "https://fathomnet.org"
-    PATH = "worms"
+    ROOT = get_worms_api_url()
+    PATH = ""
 
 
 def count_names() -> int:

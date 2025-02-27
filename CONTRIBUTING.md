@@ -10,18 +10,18 @@ For small changes (e.g., bug fixes), feel free to open a pull request right away
 
 ### Prerequisites
 
-fathomnet-py is written in Python and uses the [rye](https://rye.astral.sh/) project management system. To contribute to fathomnet-py, you'll need to have Python 3.8 or later installed on your system. You can download Python from the [official website](https://www.python.org/downloads/).
+fathomnet-py is written in Python and uses the [uv](https://docs.astral.sh/uv/) project management system. To contribute to fathomnet-py, you'll need to have Python 3.8 or later installed on your system. You can download Python from the [official website](https://www.python.org/downloads/).
 
 ### :hammer_and_wrench: Setting up your development environment
 
 To set up your development environment, follow these steps:
 
-#### 1. Install rye
+#### 1. Install `uv`
 
-First, install rye by running the following command:
+First, install `uv` by running the following command:
 
 ```bash
-curl -sSf https://rye.astral.sh/get | bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
 #### 2. Clone the repository
@@ -37,10 +37,10 @@ git clone git@github.com:fathomnet/fathomnet-py.git
 Navigate to the project directory and install the project dependencies by running:
 
 ```bash
-rye sync
+uv sync
 ```
 
-This command will create a virtual environment and install the project dependencies. This will include the development dependencies needed to run the tests, build the documentation, lint, format, and manage the pre-commit hooks.
+This command will create a virtual environment at `.venv` and install the project dependencies. This will include the development dependencies needed to run the tests, build the documentation, lint, format, and manage the pre-commit hooks.
 
 #### 4. Activate the virtual environment
 
@@ -82,7 +82,7 @@ Now that you have your development environment set up, you can:
 To run the tests, use the following command:
 
 ```bash
-rye test
+pytest
 ```
 
 This command will run the tests in the `test` directory.
@@ -92,10 +92,10 @@ This command will run the tests in the `test` directory.
 To build the documentation, use the following command:
 
 ```bash
-rye run docs
+make -C docs html
 ```
 
-This command is a rye script that builds the documentation using [Sphinx](https://www.sphinx-doc.org/en/master/). The documentation will be built in the `docs/build/html` directory.
+This command builds the documentation using [Sphinx](https://www.sphinx-doc.org/en/master/). The documentation will be built in the `docs/build/html` directory.
 
 #### Linting and formatting the code
 

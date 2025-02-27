@@ -6,7 +6,7 @@
 fathomnet-py
 ============
 
-``fathomnet-py`` is a client-side API to help scientists, researchers, and developers interact with FathomNet_ data.
+``fathomnet-py`` is a client-side API to help scientists, researchers, and developers interact with `FathomNet Database`_ data.
 
 .. code-block:: python
 
@@ -19,7 +19,7 @@ fathomnet-py
       AImageDTO(
          id=2274942, 
          uuid='cdbfca66-284f-48ac-a36f-7b2ac2b43533', 
-         url='https://fathomnet.org/static/m3/framegrabs/MiniROV/images/0056/02_18_37_20.png', 
+         url='https://database.fathomnet.org/static/m3/framegrabs/MiniROV/images/0056/02_18_37_20.png', 
          ...
       ),
       ...
@@ -73,4 +73,4 @@ Installing fathomnet-py
 .. * :ref:`search`
 
 
-.. _FathomNet: https://fathomnet.org/
+.. _FathomNet Database: https://database.fathomnet.org/

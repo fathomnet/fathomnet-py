@@ -16,3 +16,4 @@ dist/
 demo*
 requirements*.lock
 .venv
+uv.lock

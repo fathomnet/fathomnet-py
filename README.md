@@ -8,12 +8,12 @@
 [![CI/CD](https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml/badge.svg)](https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml)
 [![Documentation Status](https://readthedocs.org/projects/fathomnet-py/badge/?version=latest)](https://fathomnet-py.readthedocs.io/en/latest/?badge=latest)
 [![Tutorial](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fathomnet/fathomnet-py/blob/main/examples/tutorial.ipynb)
-[![Rye](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/rye/main/artwork/badge.json)](https://rye.astral.sh)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://docs.astral.sh/ruff/)
 
 </div>
 
-**`fathomnet-py`** is a client-side API to help scientists, researchers, and developers interact with [FathomNet](https://fathomnet.org/) data.
+**`fathomnet-py`** is a client-side API to help scientists, researchers, and developers interact with [FathomNet Database](https://database.fathomnet.org/) data.
 
 ```python
 >>> from fathomnet.api import boundingboxes
@@ -25,7 +25,7 @@
     AImageDTO(
         id=2274942, 
         uuid='cdbfca66-284f-48ac-a36f-7b2ac2b43533', 
-        url='https://fathomnet.org/static/m3/framegrabs/MiniROV/images/0056/02_18_37_20.png', 
+        url='https://database.fathomnet.org/static/m3/framegrabs/MiniROV/images/0056/02_18_37_20.png', 
         ...
     ),
     ...

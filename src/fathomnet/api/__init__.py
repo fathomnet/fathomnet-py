@@ -1,15 +1,27 @@
 # __init__.py (fathomnet-py)
 from typing import Union
+from os import getenv
 
 import requests
 
 from fathomnet.util import debug_format_response
 
 SESSION = requests.Session()
+FATHOMNET_API_URL_DEFAULT = "https://database.fathomnet.org/api"
+
+
+def get_api_url() -> str:
+    """
+    Get the API URL from the `FATHOMNET_API_URL` environment variable or use the default value.
+
+    Returns:
+        str: The API base URL.
+    """
+    return getenv("FATHOMNET_API_URL", FATHOMNET_API_URL_DEFAULT)
 
 
 class EndpointManager:
-    ROOT = "http://fathomnet.org:8080"
+    ROOT = get_api_url()
     PATH = None
 
     @classmethod

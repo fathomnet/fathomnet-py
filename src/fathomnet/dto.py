@@ -1,18 +1,24 @@
 # dto.py (fathomnet-py)
 import os
-from dataclasses import dataclass
 from enum import Enum
-from typing import List, Optional
+from typing import Any, List, Optional
 
-from dataclasses_json import dataclass_json
+from pydantic import BaseModel
 from lxml import etree
 from lxml.builder import E
 from requests.auth import AuthBase
 
 
-@dataclass_json
-@dataclass
-class AImageDTO:
+class DTO(BaseModel):
+    @classmethod
+    def from_dict(cls, d: dict) -> "DTO":
+        return cls(**d)
+
+    def to_dict(self) -> dict[str, Any]:
+        return self.model_dump()
+
+
+class AImageDTO(DTO):
     id: Optional[int] = None
     uuid: Optional[str] = None
     url: Optional[str] = None
@@ -105,9 +111,7 @@ class AImageDTO:
         return etree.tostring(annotation, pretty_print=pretty_print).decode()
 
 
-@dataclass_json
-@dataclass
-class ATagDTO:
+class ATagDTO(DTO):
     id: Optional[int] = None
     uuid: Optional[str] = None
     key: Optional[str] = None
@@ -118,15 +122,11 @@ class ATagDTO:
     image: Optional[AImageDTO] = None
 
 
-@dataclass_json
-@dataclass
 class TagDTO(ATagDTO):
     imageUuid: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class ABoundingBoxDTO:
+class ABoundingBoxDTO(DTO):
     id: Optional[int] = None
     uuid: Optional[str] = None
     userDefinedKey: Optional[str] = None
@@ -149,15 +149,11 @@ class ABoundingBoxDTO:
     lastUpdatedTimestamp: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class ApiKey:
+class ApiKey(DTO):
     uuid: Optional[str] = None
     apiKey: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
 class AuthHeader(AuthBase):
     type: Optional[str] = None
     token: Optional[str] = None
@@ -171,21 +167,15 @@ class AuthHeader(AuthBase):
         return r
 
 
-@dataclass_json
-@dataclass
-class Authentication:
+class Authentication(DTO):
     attributes: Optional[object] = None
 
 
-@dataclass_json
-@dataclass
 class BoundingBoxDTO(ABoundingBoxDTO):
     imageUuid: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class BoundingBox:
+class BoundingBox(DTO):
     uuid: Optional[str] = None
     id: Optional[int] = None
     userDefinedKey: Optional[str] = None
@@ -207,23 +197,17 @@ class BoundingBox:
     verificationTimestamp: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class ByConceptCount:
+class ByConceptCount(DTO):
     concept: Optional[str] = None
     count: Optional[int] = None
 
 
-@dataclass_json
-@dataclass
-class ByContributorCount:
+class ByContributorCount(DTO):
     contributorsEmail: Optional[str] = None
     count: Optional[int] = None
 
 
-@dataclass_json
-@dataclass
-class BDarwinCore:
+class BDarwinCore(DTO):
     uuid: Optional[str] = None
     recordType: Optional[str] = None
     basisOfRecord: Optional[str] = None
@@ -246,9 +230,7 @@ class BDarwinCore:
     rightsHolder: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class BImageSetUploadDTO:
+class BImageSetUploadDTO(DTO):
     uuid: Optional[str] = None
     localPath: Optional[str] = None
     remoteUri: Optional[str] = None
@@ -265,16 +247,12 @@ class BImageSetUploadDTO:
     lastUpdatedTimestamp: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class Count:
+class Count(DTO):
     objectType: Optional[str] = None
     count: Optional[int] = None
 
 
-@dataclass_json
-@dataclass
-class DarwinCore:
+class DarwinCore(DTO):
     id: Optional[int] = None
     uuid: Optional[str] = None
     recordType: Optional[str] = None
@@ -299,27 +277,21 @@ class DarwinCore:
     imageSetUpload: Optional["ImageSetUpload"] = None
 
 
-@dataclass_json
-@dataclass
-class FathomnetIdAdminMutation:
+class FathomnetIdAdminMutation(DTO):
     disabled: Optional[bool] = None
     expertiseRank: Optional[str] = None
     roleData: Optional[str] = None
     organization: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class FathomnetIdMutation:
+class FathomnetIdMutation(DTO):
     jobTitle: Optional[str] = None
     organization: Optional[str] = None
     profile: Optional[str] = None
     displayName: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class FathomnetIdentity:
+class FathomnetIdentity(DTO):
     id: Optional[int] = None
     uuid: Optional[str] = None
     email: Optional[str] = None
@@ -340,9 +312,7 @@ class FathomnetIdentity:
     notificationFrequency: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class GeoImage:
+class GeoImage(DTO):
     uuid: Optional[str] = None
     url: Optional[str] = None
     latitude: Optional[float] = None
@@ -354,9 +324,7 @@ class GeoImage:
     lastValidation: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class GeoImageConstraints:
+class GeoImageConstraints(DTO):
     concept: Optional[str] = None
     taxaProviderName: Optional[str] = None
     contributorsEmail: Optional[str] = None
@@ -376,16 +344,12 @@ class GeoImageConstraints:
     offset: Optional[int] = None
 
 
-@dataclass_json
-@dataclass
-class GeoImageConstraintsCount:
+class GeoImageConstraintsCount(DTO):
     constraints: Optional[GeoImageConstraints] = None
     count: Optional[int] = None
 
 
-@dataclass_json
-@dataclass
-class Image:
+class Image(DTO):
     id: Optional[int] = None
     uuid: Optional[str] = None
     url: Optional[str] = None
@@ -414,9 +378,7 @@ class Image:
     imageSetUploads: Optional[List["ImageSetUpload"]] = None
 
 
-@dataclass_json
-@dataclass
-class ImageSetUpload:
+class ImageSetUpload(DTO):
     class Status(Enum):
         PENDING = "PENDING"
         ACCEPTED = "ACCEPTED"
@@ -444,18 +406,14 @@ class ImageSetUpload:
     lastUpdatedTimestamp: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class ImageSetUploadStats:
+class ImageSetUploadStats(DTO):
     imageSetUploadUuid: Optional[str] = None
     imageCount: Optional[int] = None
     boundingBoxCount: Optional[int] = None
     verifiedBoundingBoxCount: Optional[int] = None
 
 
-@dataclass_json
-@dataclass
-class MarineRegion:
+class MarineRegion(DTO):
     id: Optional[int] = None
     MRGID: Optional[int] = None
     name: Optional[str] = None
@@ -467,18 +425,12 @@ class MarineRegion:
     lastUpdatedTimestamp: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class Message:
+class Message(DTO):
     message: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class Sort:
-    @dataclass_json
-    @dataclass
-    class Order:
+class Sort(DTO):
+    class Order(DTO):
         class Direction(Enum):
             ASC = "ASC"
             DESC = "DESC"
@@ -492,9 +444,7 @@ class Sort:
     orderBy: Optional[List[Order]] = None
 
 
-@dataclass_json
-@dataclass
-class Pageable:
+class Pageable(DTO):
     number: Optional[int] = None
     size: Optional[int] = None
     offset: Optional[int] = None
@@ -540,9 +490,7 @@ class Roles(Enum):
     WRITE = "WRITE"
 
 
-@dataclass_json
-@dataclass
-class Tag:
+class Tag(DTO):
     uuid: Optional[str] = None
     id: Optional[int] = None
     key: Optional[str] = None
@@ -553,31 +501,23 @@ class Tag:
     lastUpdatedTimestamp: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class Taxa:
+class Taxa(DTO):
     name: Optional[str] = None
     rank: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class Badge:
+class Badge(DTO):
     name: Optional[str] = None
     since: Optional[str] = None
     data: Optional[dict] = None
 
 
-@dataclass_json
-@dataclass
-class BoundingBoxCommentContent:
+class BoundingBoxCommentContent(DTO):
     text: Optional[str] = None
     alternateConcept: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class BoundingBoxComment:
+class BoundingBoxComment(DTO):
     uuid: Optional[str] = None
     boundingBoxUuid: Optional[str] = None
     email: Optional[str] = None
@@ -588,17 +528,13 @@ class BoundingBoxComment:
     lastUpdatedTimestamp: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class Topic:
+class Topic(DTO):
     topic: Optional[str] = None
     target: Optional[str] = None
     notification: Optional[bool] = None
 
 
-@dataclass_json
-@dataclass
-class Activity:
+class Activity(DTO):
     topic: Optional[Topic] = None
     attributedTo: Optional[str] = None
     lastUpdated: Optional[str] = None
@@ -606,8 +542,6 @@ class Activity:
     data: Optional[dict] = None
 
 
-@dataclass_json
-@dataclass
 class FollowedTopic(Topic):
     uuid: Optional[str] = None
     email: Optional[str] = None
@@ -615,9 +549,7 @@ class FollowedTopic(Topic):
     lastUpdatedTimestamp: Optional[str] = None
 
 
-@dataclass_json
-@dataclass
-class WormsNode:
+class WormsNode(DTO):
     name: Optional[str] = None
     rank: Optional[str] = None
     aphiaId: Optional[int] = None
@@ -626,9 +558,7 @@ class WormsNode:
     children: Optional[List["WormsNode"]] = None
 
 
-@dataclass_json
-@dataclass
-class WormsNames:
+class WormsNames(DTO):
     aphiaId: Optional[int] = None
     name: Optional[str] = None
     acceptedName: Optional[str] = None
