@@ -1,6 +1,24 @@
 # CHANGELOG
 
 
+## v1.8.0 (2025-03-03)
+
+### Bug Fixes
+
+- Fix typing for Python 3.8, 3.9
+  ([`bb29e5f`](https://github.com/fathomnet/fathomnet-py/commit/bb29e5f3bf892ddf993fee4679d6ab71d5437ef4))
+
+### Chores
+
+- Correct syntax for setting PATH in CI/CD workflow
+  ([`a694975`](https://github.com/fathomnet/fathomnet-py/commit/a6949752624ae318b07c56a817948d556e9d7707))
+
+### Features
+
+- Migrate from fathomnet.org to database.fathomnet.org; rye -> uv; dataclasses_json -> pydantic
+  ([`fc86d07`](https://github.com/fathomnet/fathomnet-py/commit/fc86d070cb6696fa8e86803c5c48fe951baa52e6))
+
+
 ## v1.7.1 (2024-11-11)
 
 ### Bug Fixes
@@ -31,17 +49,17 @@
 
 ### Documentation
 
-- Slight tweaks to README.md
-  ([`0895d5c`](https://github.com/fathomnet/fathomnet-py/commit/0895d5c276fe00276ae4b5220401aaeb8257497a))
+- Add CONTRIBUTING.md
+  ([`befbcf0`](https://github.com/fathomnet/fathomnet-py/commit/befbcf0071ef6967729ca11d5233e404e0c601a1))
 
 - Fix badge display in README.md
   ([`7c6dd4b`](https://github.com/fathomnet/fathomnet-py/commit/7c6dd4ba56358c25e99612bca0526bdfbd667cbb))
 
+- Slight tweaks to README.md
+  ([`0895d5c`](https://github.com/fathomnet/fathomnet-py/commit/0895d5c276fe00276ae4b5220401aaeb8257497a))
+
 - Update README.md with badges
   ([`2fe5256`](https://github.com/fathomnet/fathomnet-py/commit/2fe52561d94172a345598aa6a925d33c6035a756))
-
-- Add CONTRIBUTING.md
-  ([`befbcf0`](https://github.com/fathomnet/fathomnet-py/commit/befbcf0071ef6967729ca11d5233e404e0c601a1))
 
 ### Features
 
@@ -82,16 +100,21 @@
 
 ### Chores
 
-- Apply pre-commit hook on all files
-  ([`0190345`](https://github.com/fathomnet/fathomnet-py/commit/01903453d9e16c7716d91e7aacf165857c982dbf))
+- Add formatting/linting pre-commit setup
+  ([`ca07b19`](https://github.com/fathomnet/fathomnet-py/commit/ca07b193aa8562161fd02375641ea050d7d632d7))
 
 - Add Python 3.12 to CI pipeline targets
   ([`cf979cf`](https://github.com/fathomnet/fathomnet-py/commit/cf979cf18d5db307f6adea5d7b632045e1c6e353))
 
-- Add formatting/linting pre-commit setup
-  ([`ca07b19`](https://github.com/fathomnet/fathomnet-py/commit/ca07b193aa8562161fd02375641ea050d7d632d7))
+- Apply pre-commit hook on all files
+  ([`0190345`](https://github.com/fathomnet/fathomnet-py/commit/01903453d9e16c7716d91e7aacf165857c982dbf))
 
 ### Documentation
+
+- Fix broken readthedocs build #27
+  ([`3154b79`](https://github.com/fathomnet/fathomnet-py/commit/3154b790399aa7ce6def6c00b639679f6ac3bdb9))
+
+Install the current package (fathomnet-py) prior to building the Sphinx docs via RTD
 
 - Move tutorial notebook into examples dir
   ([`c4db176`](https://github.com/fathomnet/fathomnet-py/commit/c4db176c211235a1ce7479dacba237c68c0da6fc))
@@ -101,11 +124,6 @@
 
 switched order of imports to avoid ipyleaflet error with fathomnet install and added explanation on
   running outside of colab. (#28)
-
-- Fix broken readthedocs build #27
-  ([`3154b79`](https://github.com/fathomnet/fathomnet-py/commit/3154b790399aa7ce6def6c00b639679f6ac3bdb9))
-
-Install the current package (fathomnet-py) prior to building the Sphinx docs via RTD
 
 ### Features
 
@@ -161,33 +179,33 @@ Fixes #25
 
 ### Bug Fixes
 
+- Make the linter happy
+  ([`6cc52f6`](https://github.com/fathomnet/fathomnet-py/commit/6cc52f6b6abbd1cbe1b14a435d82a9acb91e4f58))
+
 - Use worms API directly for fathomnet taxa provider
   ([`f887a95`](https://github.com/fathomnet/fathomnet-py/commit/f887a950cfe4741869b667410a1ceee9c92a11c9))
 
 This is a temporary workaround for a bug in Micronaut that causes the fathomnet taxa provider to
   fail for large trees (e.g., Scleractinia).
 
-- Make the linter happy
-  ([`6cc52f6`](https://github.com/fathomnet/fathomnet-py/commit/6cc52f6b6abbd1cbe1b14a435d82a9acb91e4f58))
-
 ### Chores
-
-- Use released ref for publish in CI/CD pipeline
-  ([`d39c482`](https://github.com/fathomnet/fathomnet-py/commit/d39c4827ea612c6ea7e8b3eabfea4f08638c98e8))
 
 - Merge CI/CD workflows
   ([`8e0d760`](https://github.com/fathomnet/fathomnet-py/commit/8e0d76006cec956cab009bf330a068f6e7a6adf4))
+
+- Use released ref for publish in CI/CD pipeline
+  ([`d39c482`](https://github.com/fathomnet/fathomnet-py/commit/d39c4827ea612c6ea7e8b3eabfea4f08638c98e8))
 
 ### Documentation
 
 - Add Sphinx RTD theme build requirement
   ([`fccd808`](https://github.com/fathomnet/fathomnet-py/commit/fccd8086997330059094baeadac5162b1d17a7e4))
 
-- Update copyright year to 2024
-  ([`1650bc5`](https://github.com/fathomnet/fathomnet-py/commit/1650bc5d836d80c6b6d8e2238e184834952cdf20))
-
 - Add sphinx-rtd-theme as a dev dependency
   ([`9be9dee`](https://github.com/fathomnet/fathomnet-py/commit/9be9deeb42636a17f0d36d37100e5406dd0778f6))
+
+- Update copyright year to 2024
+  ([`1650bc5`](https://github.com/fathomnet/fathomnet-py/commit/1650bc5d836d80c6b6d8e2238e184834952cdf20))
 
 - Update Python version and build configuration for readthedocs
   ([`ef96d8d`](https://github.com/fathomnet/fathomnet-py/commit/ef96d8d46cbf83c9c5d5d0eb03b8b927be487383))
@@ -202,17 +220,17 @@ This is a temporary workaround for a bug in Micronaut that causes the fathomnet 
 
 ### Bug Fixes
 
+- Quote boundingboxes.audit_by_concepts URL fragment, add test case
+  ([`5ea7b45`](https://github.com/fathomnet/fathomnet-py/commit/5ea7b459278c540a31fbe63e263f9208c234e123))
+
 - Quote display/org names in users find functions
   ([`591e67a`](https://github.com/fathomnet/fathomnet-py/commit/591e67a3e43af9e15ca0a0140de465a1da8018f3))
-
-- Quote provider name and concept in taxa find functions, remove print from test
-  ([`dde9eb5`](https://github.com/fathomnet/fathomnet-py/commit/dde9eb51a5da79a07a94fe5d93a7604681c035d6))
 
 - Quote observer name in boundingboxes.audit_by_observer
   ([`b94c87e`](https://github.com/fathomnet/fathomnet-py/commit/b94c87e9351fbde116dc8ef22c58867059999bec))
 
-- Quote boundingboxes.audit_by_concepts URL fragment, add test case
-  ([`5ea7b45`](https://github.com/fathomnet/fathomnet-py/commit/5ea7b459278c540a31fbe63e263f9208c234e123))
+- Quote provider name and concept in taxa find functions, remove print from test
+  ([`dde9eb5`](https://github.com/fathomnet/fathomnet-py/commit/dde9eb51a5da79a07a94fe5d93a7604681c035d6))
 
 - Update activity find functions for new DTO
   ([`cdf5617`](https://github.com/fathomnet/fathomnet-py/commit/cdf56179cc802085ff1f8adbba2f717be550f08b))
@@ -253,11 +271,11 @@ Closes #5
 
 ### Bug Fixes
 
-- Add condition to CD workflow
-  ([`df3432d`](https://github.com/fathomnet/fathomnet-py/commit/df3432d1b5685414c64d6a8a21b020497d1b6313))
-
 - Add CD
   ([`8979d75`](https://github.com/fathomnet/fathomnet-py/commit/8979d75b049d39c673feb0d78153d4e5a4de11c5))
+
+- Add condition to CD workflow
+  ([`df3432d`](https://github.com/fathomnet/fathomnet-py/commit/df3432d1b5685414c64d6a8a21b020497d1b6313))
 
 
 ## v1.1.1 (2023-09-12)
