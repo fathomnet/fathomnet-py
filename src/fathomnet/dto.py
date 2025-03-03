@@ -1,7 +1,7 @@
 # dto.py (fathomnet-py)
 import os
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel
 from lxml import etree
@@ -11,10 +11,10 @@ from requests.auth import AuthBase
 
 class DTO(BaseModel):
     @classmethod
-    def from_dict(cls, d: dict) -> "DTO":
+    def from_dict(cls, d: Dict[str, Any]) -> "DTO":
         return cls(**d)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         return self.model_dump()
 
 
