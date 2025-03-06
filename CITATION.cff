@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+title: "fathomnet-py"
+authors:
+  - family-names: Barnard
+    given-names: Kevin
+type: software
+message: "If you use this software, please cite both the article from preferred-citation and the software itself."
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Katija
+      given-names: Kakani
+    - family-names: Orenstein
+      given-names: Eric
+    - family-names: Schlining
+      given-names: Brian
+    - family-names: Lundsten
+      given-names: Lonny
+    - family-names: Barnard
+      given-names: Kevin
+    - family-names: Sainz
+      given-names: Giovanna
+    - family-names: Boulais
+      given-names: Oceane
+    - family-names: Cromwell
+      given-names: Megan
+    - family-names: Butler
+      given-names: Erin
+    - family-names: Woodward
+      given-names: Benjamin
+    - family-names: Bell
+      given-names: Katherine L. C.
+  title: "FathomNet: A global image database for enabling artificial intelligence in the ocean"
+  journal: "Scientific Reports"
+  volume: "12"
+  issue: "1"
+  year: 2022
+  date-released: "2022-09-23"
+  pages: "15914"
+  doi: "10.1038/s41598-022-19939-2"
+  url: "https://doi.org/10.1038/s41598-022-19939-2"
