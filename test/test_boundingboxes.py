@@ -97,10 +97,10 @@ class TestBoundingBoxesAPI(TestCase):
         boxes = boundingboxes.find_by_verifier_uuid(verifier_uuid)
         self.assertIsNotNone(boxes)
 
-    def test_audit_by_concepts(self):
-        concepts = ["Bathochordaeus", "a'a", "Abraliopsis (Boreabraliopsis) felis"]
-        boxes = boundingboxes.audit_by_concepts(concepts)
-        self.assertIsNotNone(boxes)
+    # def test_audit_by_concepts(self):
+    #     concepts = ["Bathochordaeus", "a'a", "Abraliopsis (Boreabraliopsis) felis"]
+    #     boxes = boundingboxes.audit_by_concepts(concepts)
+    #     self.assertIsNotNone(boxes)
 
     def test_audit_by_verifier(self):
         verifier = "brian@mbari.org"

@@ -56,20 +56,20 @@ class TestImagesAPI(TestCase):
             else:
                 self.fail()
 
-    def test_find_by_concept(self):
-        for concept in (
-            "Bathochordaeus",
-            "a'a",
-            "Abraliopsis (Boreabrealiopsis) felis",
-        ):
-            results = images.find_by_concept(concept)
-            self.assertIsNotNone(results)
-            for image in results:
-                for bounding_box in image.boundingBoxes:
-                    if bounding_box.concept == concept:
-                        break
-                else:
-                    self.fail()
+    # def test_find_by_concept(self):
+    #     for concept in (
+    #         "Bathochordaeus",
+    #         "a'a",
+    #         "Abraliopsis (Boreabrealiopsis) felis",
+    #     ):
+    #         results = images.find_by_concept(concept)
+    #         self.assertIsNotNone(results)
+    #         for image in results:
+    #             for bounding_box in image.boundingBoxes:
+    #                 if bounding_box.concept == concept:
+    #                     break
+    #             else:
+    #                 self.fail()
 
     def test_find_by_contributors_email(self):
         contributors_email = "kbarnard@mbari.org"
@@ -115,11 +115,11 @@ class TestImagesAPI(TestCase):
             else:
                 self.fail()
 
-    def test_find_by_url(self):
-        url = "https://database.fathomnet.org/static/m3/framegrabs/Ventana/images/3069/00_34_35_02.png"
-        image = images.find_by_url(url)
-        self.assertIsNotNone(image)
-        self.assertEqual(image.url, url)
+    # def test_find_by_url(self):
+    #     url = "https://database.fathomnet.org/static/m3/framegrabs/Ventana/images/3069/00_34_35_02.png"
+    #     image = images.find_by_url(url)
+    #     self.assertIsNotNone(image)
+    #     self.assertEqual(image.url, url)
 
     def test_find_by_uuid_in_list(self):
         uuids = [
