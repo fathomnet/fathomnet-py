@@ -1,6 +1,24 @@
 # CHANGELOG
 
 
+## v1.8.1 (2025-04-08)
+
+### Bug Fixes
+
+- **fathomnet-generate**: Use new DTO BaseModel syntax for model copy and JSON dump
+  ([`8611d68`](https://github.com/fathomnet/fathomnet-py/commit/8611d68e8a8df66bf1ce1a429776e10f0e348dbc))
+
+### Chores
+
+- Add CITATION.cff
+  ([`d4cc5a5`](https://github.com/fathomnet/fathomnet-py/commit/d4cc5a55881f35a1c4e0e8900f5d8f7d365b89f8))
+
+### Testing
+
+- Temporarily disable tests for broken endpoints
+  ([`efdbede`](https://github.com/fathomnet/fathomnet-py/commit/efdbede410560ad068bffb5e611b1f482e9d94ad))
+
+
 ## v1.8.0 (2025-03-03)
 
 ### Bug Fixes
