@@ -6,7 +6,7 @@ import argparse
 import datetime
 import logging
 import os
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from shutil import copyfileobj
 from typing import Iterable, List, Optional
 
@@ -54,7 +54,9 @@ def find_images_paged(
     """Find images for a given constraints object, paginating requests at a given size"""
     offset = 0
     while True:
-        constraints_page = replace(constraints, limit=page_size, offset=offset)
+        constraints_page = constraints.model_copy(
+            update={"limit": page_size, "offset": offset}
+        )
         images_page = images.find(constraints_page)
 
         for image in images_page:
@@ -70,7 +72,7 @@ def generate_constraints(
 ) -> Iterable[GeoImageConstraints]:
     """Generate GeoImageConstraints instances for a list of concepts from a base set of constraints"""
     for concept in concepts:
-        yield replace(base_constraints, concept=concept)
+        yield base_constraints.model_copy(update={"concept": concept})
 
 
 def write_voc(image: AImageDTO, filename: str):
@@ -115,7 +117,9 @@ def get_images(args: Arguments) -> Optional[List[AImageDTO]]:
             "Fetching image records for {} concept(s)...".format(len(args.concepts))
         )
         for constraints in generate_constraints(args.concepts, args.base_constraints):
-            logging.debug("Constraints: {}".format(constraints.to_json(indent=2)))
+            logging.debug(
+                "Constraints: {}".format(constraints.model_dump_json(indent=2))
+            )
             concept_images = find_images_paged(constraints)
             for image in concept_images:
                 image_uuid_dict[image.uuid] = image
