@@ -1,5 +1,3 @@
-# bases.py (fathomnet-py)
-
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import TypeVar, Union

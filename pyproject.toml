@@ -32,6 +32,9 @@ models = [
     "pillow>=10.4.0",
     "torchvision>=0.19.0",
     "ultralytics>=8.2.79",
+    "huggingface-hub>=0.30.2",
+    "dill>=0.3.9",
+    "lapx>=0.5.11.post1",
 ]
 
 [project.scripts]

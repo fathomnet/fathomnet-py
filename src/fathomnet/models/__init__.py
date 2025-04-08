@@ -7,6 +7,24 @@ except ImportError:
         "You must install the 'models' extra to use the models subpackage: pip install fathomnet[models]"
     )
 
-from fathomnet.models.yolov5 import MBARIMBBenthicModel
+from fathomnet.models.registry import (
+    MBARIMBBenthicModel,
+    MBARIMidwaterSupercategory,
+    MBARI315kYOLOv5,
+    MBARI315kYOLOv8,
+    Megalodon,
+    VulnerableMarineEcosystems,
+    TrashDetector,
+    MegaFishDetector,
+)
 
-__all__ = ["MBARIMBBenthicModel"]
+__all__ = [
+    "MBARIMBBenthicModel",
+    "MBARIMidwaterSupercategory",
+    "MBARI315kYOLOv5",
+    "MBARI315kYOLOv8",
+    "Megalodon",
+    "VulnerableMarineEcosystems",
+    "TrashDetector",
+    "MegaFishDetector",
+]

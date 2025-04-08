@@ -1,6 +1,3 @@
-# yolov5.py (fathomnet-py)
-
-
 from pathlib import Path
 from typing import Iterable
 
