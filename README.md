@@ -4,10 +4,8 @@
 
 [![image](https://img.shields.io/pypi/v/fathomnet.svg)](https://pypi.python.org/pypi/fathomnet)
 [![image](https://img.shields.io/pypi/l/fathomnet.svg)](https://github.com/fathomnet/fathomnet-py/blob/main/LICENSE)
-[![image](https://img.shields.io/pypi/pyversions/fathomnet.svg)](https://pypi.python.org/pypi/fathomnet)
 [![CI/CD](https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml/badge.svg)](https://github.com/fathomnet/fathomnet-py/actions/workflows/cicd.yml)
 [![Documentation Status](https://readthedocs.org/projects/fathomnet-py/badge/?version=latest)](https://fathomnet-py.readthedocs.io/en/latest/?badge=latest)
-[![Tutorial](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fathomnet/fathomnet-py/blob/main/examples/tutorial.ipynb)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://docs.astral.sh/ruff/)
 
@@ -54,5 +52,11 @@ The `fathomnet-py` API offers native Python interaction with the FathomNet REST 
 ```bash
 $ python -m pip install fathomnet
 ```
+
+## Examples
+
+### API Tutorial: [![Tutorial](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fathomnet/fathomnet-py/blob/main/examples/tutorial.ipynb)
+
+### FathomNet Models: [![Models](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/fathomnet/fathomnet-py/blob/main/examples/models.ipynb)
 
 ## API Reference available on [Read the Docs](https://fathomnet-py.readthedocs.io/)
