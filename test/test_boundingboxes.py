@@ -1,5 +1,6 @@
 from unittest import SkipTest, TestCase
 
+from fathomnet import dto
 from fathomnet.api import boundingboxes
 
 from . import skipIfNoAuth
@@ -30,6 +31,26 @@ class TestBoundingBoxesAPI(TestCase):
                 break
         else:
             self.fail()
+
+    def test_count_total_by_observer(self):
+        observer_counts = boundingboxes.count_total_by_observer()
+        self.assertIsNotNone(observer_counts)
+        self.assertGreater(len(observer_counts), 0)
+        # Verify the structure of the returned data
+        for observer_count in observer_counts:
+            self.assertIsNotNone(observer_count.observer)
+            self.assertIsNotNone(observer_count.count)
+            self.assertGreater(observer_count.count, 0)
+
+    def test_count_total_by_reviewer(self):
+        reviewer_counts = boundingboxes.count_total_by_reviewer()
+        self.assertIsNotNone(reviewer_counts)
+        self.assertGreater(len(reviewer_counts), 0)
+        # Verify the structure of the returned data
+        for reviewer_count in reviewer_counts:
+            self.assertIsNotNone(reviewer_count.reviewer)
+            self.assertIsNotNone(reviewer_count.count)
+            self.assertGreater(reviewer_count.count, 0)
 
     def test_find_observers(self):
         observers = boundingboxes.find_observers()
@@ -111,3 +132,35 @@ class TestBoundingBoxesAPI(TestCase):
         observer = "brian@mbari.org"
         boxes = boundingboxes.audit_by_observer(observer)
         self.assertIsNotNone(boxes)
+
+    @skipIfNoAuth
+    def test_bulk_rename(self):
+        raise SkipTest("Write tests not yet implemented")  # TODO bulk_rename test
+
+    @skipIfNoAuth
+    def test_bulk_review(self):
+        raise SkipTest("Write tests not yet implemented")  # TODO bulk_review test
+
+    def test_find(self):
+        # Test with a simple concept constraint
+        constraints = dto.BoundingBoxConstraintsDTO(
+            concept="Bathochordaeus",
+            limit=10,
+        )
+        boxes = boundingboxes.find(constraints)
+        self.assertIsNotNone(boxes)
+        # Should return a list (might be empty if no results)
+        self.assertIsInstance(boxes, list)
+        # If there are results, verify the concept matches
+        for box in boxes:
+            self.assertEqual(box.concept, "Bathochordaeus")
+
+    def test_count(self):
+        # Test with a simple concept constraint
+        constraints = dto.BoundingBoxConstraintsDTO(
+            concept="Bathochordaeus",
+            limit=10,
+        )
+        count = boundingboxes.count(constraints)
+        self.assertIsNotNone(count)
+        self.assertGreater(count.count, 0)

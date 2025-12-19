@@ -36,6 +36,18 @@ def count_total_by_concept() -> List[dto.ByConceptCount]:
     return list(map(dto.ByConceptCount.from_dict, res_json))
 
 
+def count_total_by_observer() -> List[dto.ByObserverCount]:
+    """Get a count of bounding boxes for each observer."""
+    res_json = BoundingBoxes.get("list/counts/observer")
+    return list(map(dto.ByObserverCount.from_dict, res_json))
+
+
+def count_total_by_reviewer() -> List[dto.ByReviewerCount]:
+    """Get a count of bounding boxes for each reviewer."""
+    res_json = BoundingBoxes.get("list/counts/reviewer")
+    return list(map(dto.ByReviewerCount.from_dict, res_json))
+
+
 def find_observers() -> List[str]:
     """Get a list of all observers."""
     res_json = BoundingBoxes.get("list/observers")
@@ -194,3 +206,45 @@ def audit_by_observer(
         "audit/observer/{}".format(quote(observer)), params=params
     )
     return list(map(dto.BoundingBoxDTO.from_dict, res_json))
+
+
+def bulk_rename(
+    boxes: List[dto.BoundingBoxDTO],
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> List[dto.BoundingBoxDTO]:
+    """Bulk rename bounding boxes."""
+    res_json = BoundingBoxes.put(
+        "bulk/rename",
+        json=[box.to_dict() for box in boxes],
+        auth=auth_header,
+    )
+    return list(map(dto.BoundingBoxDTO.from_dict, res_json))
+
+
+def bulk_review(
+    boxes: List[dto.BoundingBoxDTO],
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> List[dto.BoundingBoxDTO]:
+    """Bulk review bounding boxes."""
+    res_json = BoundingBoxes.put(
+        "bulk/review",
+        json=[box_review.to_dict() for box_review in boxes],
+        auth=auth_header,
+    )
+    return list(map(dto.BoundingBoxDTO.from_dict, res_json))
+
+
+def find(
+    constraints: dto.BoundingBoxConstraintsDTO,
+) -> List[dto.BoundingBoxDTO]:
+    """Query bounding boxes by constraints."""
+    res_json = BoundingBoxes.post("query", json=constraints.to_dict())
+    return list(map(dto.BoundingBoxDTO.from_dict, res_json.get("content", [])))
+
+
+def count(
+    constraints: dto.BoundingBoxConstraintsDTO,
+) -> dto.Count:
+    """Count bounding boxes by constraints."""
+    res_json = BoundingBoxes.post("query/count", json=constraints.to_dict())
+    return dto.Count.from_dict(res_json)

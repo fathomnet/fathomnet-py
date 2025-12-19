@@ -204,8 +204,59 @@ class BoundingBox(DTO):
     lastReviewedTimestamp: Optional[str] = None
 
 
+class BoundingBoxSort(DTO):
+    class Field(str, Enum):
+        UUID = "UUID"
+        CONCEPT = "CONCEPT"
+        CREATED_AT = "CREATED_AT"
+        UPDATED = "UPDATED"
+        REVIEWED = "REVIEWED"
+        IMAGE_URL = "IMAGE_URL"
+        ROI_SIZE = "ROI_SIZE"
+
+    class Direction(str, Enum):
+        ASC = "ASC"
+        DESC = "DESC"
+
+    field: Optional[Field] = None
+    direction: Optional[Direction] = None
+
+
+class BoundingBoxConstraintsDTO(DTO):
+    concept: Optional[str] = None
+    taxaProviderName: Optional[str] = None
+    contributorsEmails: Optional[List[str]] = None
+    startTimestamp: Optional[str] = None
+    endTimestamp: Optional[str] = None
+    includeUnverified: Optional[bool] = None
+    includeVerified: Optional[bool] = None
+    includeRejected: Optional[bool] = None
+    includeUnknown: Optional[bool] = None
+    minLongitude: Optional[float] = None
+    maxLongitude: Optional[float] = None
+    minLatitude: Optional[float] = None
+    maxLatitude: Optional[float] = None
+    minDepth: Optional[float] = None
+    maxDepth: Optional[float] = None
+    ownerInstitutionCodes: Optional[List[str]] = None
+    tagKeys: Optional[List[str]] = None
+    limit: Optional[int] = None
+    offset: Optional[int] = None
+    sort: Optional[BoundingBoxSort] = None
+
+
 class ByConceptCount(DTO):
     concept: Optional[str] = None
+    count: Optional[int] = None
+
+
+class ByObserverCount(DTO):
+    observer: Optional[str] = None
+    count: Optional[int] = None
+
+
+class ByReviewerCount(DTO):
+    reviewer: Optional[str] = None
     count: Optional[int] = None
 
 
@@ -570,3 +621,15 @@ class WormsNames(DTO):
     name: Optional[str] = None
     acceptedName: Optional[str] = None
     alternateNames: Optional[List[str]] = None
+
+
+class ImageSetUploadPosition(DTO):
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    imageSetUploadUuid: Optional[str] = None
+
+
+class ContributionStats(DTO):
+    ownerInstitutionCode: Optional[str] = None
+    totalUploads: Optional[int] = None
+    totalImages: Optional[int] = None
