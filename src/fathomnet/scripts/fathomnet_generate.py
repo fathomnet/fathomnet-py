@@ -276,6 +276,74 @@ def generate_coco_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
     return False
 
 
+def generate_fathomnet_dataset_from_coco_object_detection(
+    coco_raw: str,
+) -> Iterable[List[str]]:
+    """
+    Generate a Fathomnet-compatible csv file from a COCO object detection json
+
+    COCO format reference:
+    https://cocodataset.org/#format-data
+
+    Fathomnet format reference:
+    https://www.fathomnet.org/post/how-to-submit-localized-image-annotations-to-the-fathomnet-database
+
+    Parameters
+    ----------
+    coco_raw: str
+    The text contents of a coco json object detection annotation file
+    e.g. using `json.load(open('instances_val2017.json'))`
+
+    Returns
+    -------
+    Iterable[List[str]]
+    An iterable of rows in csv-reader style, including a header
+    Can be written to file with, e.g. `csv.writer(open('some_path','w')).writerows`
+
+    Examples
+    --------
+    >>> coco_raw = '''{
+    ... "licenses": [{ "id": 1, "name": "license", "url": "example.com/license" }],
+    ... "info": { "year": 2025, "version": "1.0", "description": "example", "contributor": "Arthur",
+    ...     "url": "https://example.com", "date_created": "2025/01/01"},
+    ... "images": [
+    ...     { "id": 1, "file_name": "img1.jpg", "coco_url": "example.com/img1.jpg", "flickr_url": "",
+    ...         "width": 640, "height": 480, "date_captured": "2025-01-01 00:00:00", "license": 1},
+    ...     { "id": 2, "file_name": "img2.jpg", "coco_url": "example.com/img2.jpg", "flickr_url": "",
+    ...         "width": 800, "height": 600, "date_captured": "2025-01-01 00:00:00", "license": 1}
+    ... ],
+    ... "categories": [
+    ...   { "id": 1, "name": "cat", "supercategory": "animal" },
+    ...   { "id": 2, "name": "dog", "supercategory": "animal" }
+    ... ],
+    ... "annotations": [
+    ...     { "id": 1, "image_id": 1, "category_id": 1, "bbox": [5, 4, 2, 3], "area": 6, "iscrowd": 0, "segmentation": [[]]},
+    ...     { "id": 2, "image_id": 2, "category_id": 2, "bbox": [1, 2, 3, 3], "area": 9, "iscrowd": 0, "segmentation": [[]]},
+    ...     { "id": 3, "image_id": 2, "category_id": 1, "bbox": [0, 0, 5, 1], "area": 5, "iscrowd": 0, "segmentation": [[]]}
+    ... ]
+    ... }'''
+    >>> for row in generate_fathomnet_dataset_from_coco_object_detection(coco_raw):
+    ...     print(', '.join(map(str, row)))
+    ...
+    concept, image, x, y, width, height
+    cat, example.com/img1.jpg, 5, 4, 2, 3
+    dog, example.com/img2.jpg, 1, 2, 3, 3
+    cat, example.com/img2.jpg, 0, 0, 5, 1
+    """
+
+    HEADER = ["concept", "image", "x", "y", "width", "height"]
+    yield HEADER
+
+    coco = ObjectDetectionDataset.from_json(coco_raw)
+    imgIndex = {im.id: im for im in coco.images}
+    catIndex = {cat.id: cat for cat in coco.categories}
+    for annotation in coco.annotations:
+        concept = catIndex[annotation.category_id].name
+        image = imgIndex[annotation.image_id].coco_url
+        x, y, width, height = annotation.bbox
+        yield (concept, image, x, y, width, height)
+
+
 def generate_yolo_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
     """Generate a YOLO dataset (folder of annotation TXTs)"""
     error_flag = False
