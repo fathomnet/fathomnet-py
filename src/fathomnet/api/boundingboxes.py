@@ -118,12 +118,12 @@ def find_by_observer_uuid(
     return list(map(dto.BoundingBoxDTO.from_dict, res_json.get("content", [])))
 
 
-def find_by_verifier_uuid(
+def find_by_reviewer_uuid(
     uuid: str, pageable: Optional[dto.Pageable] = None
 ) -> List[dto.BoundingBoxDTO]:
-    """Get a list of bounding boxes by verifier UUID."""
+    """Get a list of bounding boxes by reviewer UUID."""
     res_json = BoundingBoxes.get(
-        "query/verifier/{}".format(uuid),
+        "query/reviewer/{}".format(uuid),
         params=pageable.to_params() if pageable else None,
     )
     return list(map(dto.BoundingBoxDTO.from_dict, res_json.get("content", [])))
@@ -152,14 +152,14 @@ def audit_by_concepts(
     return list(map(dto.BoundingBoxDTO.from_dict, res_json))
 
 
-def audit_by_verifier(
+def audit_by_reviewer(
     uuid: str,
     start_timestamp: Optional[str] = None,
     end_timestamp: Optional[str] = None,
     limit: Optional[int] = None,
     offset: Optional[int] = None,
 ) -> List[dto.BoundingBoxDTO]:
-    """Get an audit of bounding boxes by verifier UUID."""
+    """Get an audit of bounding boxes by reviewer UUID."""
     params = {}
     if start_timestamp:
         params["startTimestamp"] = start_timestamp
@@ -169,7 +169,7 @@ def audit_by_verifier(
         params["limit"] = limit
     if offset:
         params["offset"] = offset
-    res_json = BoundingBoxes.get("audit/verifier/{}".format(uuid), params=params)
+    res_json = BoundingBoxes.get("audit/reviewer/{}".format(uuid), params=params)
     return list(map(dto.BoundingBoxDTO.from_dict, res_json))
 
 

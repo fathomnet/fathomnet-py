@@ -4,10 +4,6 @@ from fathomnet.api import taxa
 
 
 class TestTaxaAPI(TestCase):
-    def test_index(self):
-        result = taxa.index()
-        self.assertIsNotNone(result)
-
     def test_list_taxa_providers(self):
         taxa_providers = taxa.list_taxa_providers()
         self.assertIsNotNone(taxa_providers)

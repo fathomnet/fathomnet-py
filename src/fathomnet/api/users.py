@@ -142,7 +142,7 @@ def find_by_display_name(
         "query/name/{}".format(quote(display_name)),
         params=pageable.to_params() if pageable else None,
     )
-    return list(map(dto.FathomnetIdentity.from_dict, res_json))
+    return list(map(dto.FathomnetIdentity.from_dict, res_json["content"]))
 
 
 def find_by_organization(

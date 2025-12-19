@@ -92,9 +92,9 @@ class TestBoundingBoxesAPI(TestCase):
         boxes = boundingboxes.find_by_observer_uuid(observer_uuid)
         self.assertIsNotNone(boxes)
 
-    def test_find_by_verifier_uuid(self):
-        verifier_uuid = "9dba65e1-5974-46df-9276-98c461beba9f"
-        boxes = boundingboxes.find_by_verifier_uuid(verifier_uuid)
+    def test_find_by_reviewer_uuid(self):
+        reviewer_uuid = "9dba65e1-5974-46df-9276-98c461beba9f"
+        boxes = boundingboxes.find_by_reviewer_uuid(reviewer_uuid)
         self.assertIsNotNone(boxes)
 
     # def test_audit_by_concepts(self):
@@ -102,9 +102,9 @@ class TestBoundingBoxesAPI(TestCase):
     #     boxes = boundingboxes.audit_by_concepts(concepts)
     #     self.assertIsNotNone(boxes)
 
-    def test_audit_by_verifier(self):
-        verifier = "brian@mbari.org"
-        boxes = boundingboxes.audit_by_verifier(verifier)
+    def test_audit_by_reviewer(self):
+        reviewer = "brian@mbari.org"
+        boxes = boundingboxes.audit_by_reviewer(reviewer)
         self.assertIsNotNone(boxes)
 
     def test_audit_by_observer(self):

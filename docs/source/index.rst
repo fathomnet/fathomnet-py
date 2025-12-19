@@ -25,7 +25,7 @@ fathomnet-py
       ...
    ]
    >>> from fathomnet.api import taxa
-   >>> taxa.find_children('mbari', 'Bathochordaeus')
+   >>> taxa.find_children('fathomnet', 'Bathochordaeus')
    [
       Taxa(name='Bathochordaeus stygius', rank='species'), 
       Taxa(name='Bathochordaeus charon', rank='species'), 

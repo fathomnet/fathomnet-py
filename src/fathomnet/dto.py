@@ -126,6 +126,13 @@ class TagDTO(ATagDTO):
     imageUuid: Optional[str] = None
 
 
+class ReviewState(str, Enum):
+    UNVERIFIED = "UNVERIFIED"
+    VERIFIED = "VERIFIED"
+    REJECTED = "REJECTED"
+    UNKNOWN = "UNKNOWN"
+
+
 class ABoundingBoxDTO(DTO):
     id: Optional[int] = None
     uuid: Optional[str] = None
@@ -142,9 +149,9 @@ class ABoundingBoxDTO(DTO):
     x: Optional[int] = None
     y: Optional[int] = None
     rejected: Optional[bool] = None
-    verified: Optional[bool] = None
-    verifier: Optional[str] = None
-    verificationTimestamp: Optional[str] = None
+    reviewState: Optional[ReviewState] = None
+    reviewer: Optional[str] = None
+    lastReviewedTimestamp: Optional[str] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
 
@@ -192,9 +199,9 @@ class BoundingBox(DTO):
     y: Optional[int] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
-    verified: Optional[bool] = None
-    verifier: Optional[str] = None
-    verificationTimestamp: Optional[str] = None
+    reviewState: Optional[ReviewState] = None
+    reviewer: Optional[str] = None
+    lastReviewedTimestamp: Optional[str] = None
 
 
 class ByConceptCount(DTO):

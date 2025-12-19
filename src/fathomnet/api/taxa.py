@@ -10,12 +10,6 @@ class Taxa(EndpointManager):
     PATH = "taxa"
 
 
-def index() -> str:
-    """Get the taxa index page."""
-    res = Taxa.get("", parse_json=False)
-    return res.text
-
-
 def list_taxa_providers() -> List[str]:
     """Get a list of all taxa providers."""
     res_json = Taxa.get("list/providers")

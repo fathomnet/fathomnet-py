@@ -45,7 +45,7 @@ class TestImagesAPI(TestCase):
 
     def test_find(self):
         geo_image_constraints = dto.GeoImageConstraints(
-            concept="Bathochordaeus charon", taxaProviderName="mbari", limit=10
+            concept="Bathochordaeus charon", taxaProviderName="fathomnet", limit=10
         )
         results = images.find(geo_image_constraints)
         self.assertIsNotNone(results)
