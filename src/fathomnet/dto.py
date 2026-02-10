@@ -161,7 +161,7 @@ class ApiKey(DTO):
     apiKey: Optional[str] = None
 
 
-class AuthHeader(AuthBase):
+class AuthHeader(DTO, AuthBase):
     type: Optional[str] = None
     token: Optional[str] = None
 
