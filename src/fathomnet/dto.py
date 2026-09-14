@@ -1,12 +1,28 @@
 # dto.py (fathomnet-py)
 import os
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, TypeAdapter, field_validator
 from lxml import etree
 from lxml.builder import E
 from requests.auth import AuthBase
+
+_DATETIME_ADAPTER = TypeAdapter(datetime)
+
+
+def _to_rfc3339(value: Optional[str]) -> Optional[str]:
+    """Parse any RFC 3339 / ISO 8601 datetime (or bare date) string and
+    reformat it to the RFC 3339 shape the FathomNet API requires,
+    e.g. "2007-08-02T00:00:00.000Z"."""
+    if value is None:
+        return None
+    dt = _DATETIME_ADAPTER.validate_python(value)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    dt = dt.astimezone(timezone.utc)
+    return dt.strftime("%Y-%m-%dT%H:%M:%S.") + f"{dt.microsecond // 1000:03d}Z"
 
 
 class DTO(BaseModel):
@@ -244,6 +260,11 @@ class BoundingBoxConstraintsDTO(DTO):
     offset: Optional[int] = None
     sort: Optional[BoundingBoxSort] = None
 
+    @field_validator("startTimestamp", "endTimestamp")
+    @classmethod
+    def _format_timestamp(cls, value: Optional[str]) -> Optional[str]:
+        return _to_rfc3339(value)
+
 
 class ByConceptCount(DTO):
     concept: Optional[str] = None
@@ -400,6 +421,11 @@ class GeoImageConstraints(DTO):
     ownerInstitutionCodes: Optional[List[str]] = None
     limit: Optional[int] = None
     offset: Optional[int] = None
+
+    @field_validator("startTimestamp", "endTimestamp")
+    @classmethod
+    def _format_timestamp(cls, value: Optional[str]) -> Optional[str]:
+        return _to_rfc3339(value)
 
 
 class GeoImageConstraintsCount(DTO):
