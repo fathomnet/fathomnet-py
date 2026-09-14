@@ -1,9 +1,10 @@
 # dto.py (fathomnet-py)
 import os
+import re
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from lxml import etree
 from lxml.builder import E
 from requests.auth import AuthBase
@@ -400,6 +401,16 @@ class GeoImageConstraints(DTO):
     ownerInstitutionCodes: Optional[List[str]] = None
     limit: Optional[int] = None
     offset: Optional[int] = None
+
+    @field_validator("startTimestamp", "endTimestamp")
+    @classmethod
+    def _format_bare_date(cls, value: Optional[str]) -> Optional[str]:
+        """Reformat a bare date (e.g. "2007-08-02") into the full ISO-8601
+        timestamp the FathomNet API requires (e.g. "2007-08-02T00:00:00.000Z"),
+        since the API rejects date-only strings."""
+        if value is not None and re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+            value = f"{value}T00:00:00.000Z"
+        return value
 
 
 class GeoImageConstraintsCount(DTO):
