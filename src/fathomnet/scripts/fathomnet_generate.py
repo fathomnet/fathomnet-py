@@ -213,7 +213,7 @@ def generate_coco_dataset(ims: List[AImageDTO], output_dir: str) -> bool:
 
     # Set the FathomNet license
     fathomnet_license = COCOLicense(
-        id=0, name="FathomNet", url="http://fathomnet.org/fathomnet/#/license"
+        id=0, name="FathomNet", url="https://database.fathomnet.org/fathomnet/#/license"
     )
 
     # Encode categories in sorted order
