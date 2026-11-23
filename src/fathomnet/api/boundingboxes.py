@@ -1,5 +1,6 @@
 # boundingboxes.py (fathomnet-py)
-from typing import BinaryIO, List, Optional
+import json
+from typing import Any, BinaryIO, Dict, List, Optional, Union
 from urllib.parse import quote
 
 from fathomnet import dto
@@ -75,19 +76,32 @@ def find_all_user_defined_keys() -> List[str]:
 def upload_csv(
     csv_fp: BinaryIO,
     auth_header: Optional[dto.AuthHeader] = None,
+    darwin_core: Optional[Union[dto.BDarwinCore, Dict[str, Any]]] = None,
     use_contributors_email: Optional[bool] = None,
 ) -> dto.Message:
-    """Upload a CSV of bounding boxes.
+    """Upload a CSV of bounding boxes with its Darwin Core metadata.
 
-    :param use_contributors_email: Optional value for the server's ``usecontributorsemail`` query parameter
+    :param csv_fp: Open binary file handle of the CSV
+    :param auth_header: Authorization header, defaults to the session's authentication
+    :param darwin_core: Darwin Core metadata for the upload. The server rejects uploads without it.
+    :param use_contributors_email: (Admin only) Attribute the upload to the Darwin Core ``contributorsEmail`` rather than the authenticated user
     """
+    files = {"file": csv_fp}
+    if darwin_core is not None:
+        if isinstance(darwin_core, dto.DTO):
+            darwin_core = darwin_core.model_dump(mode="json", exclude_none=True)
+        files["darwincore"] = (
+            "darwincore.json",
+            json.dumps(darwin_core),
+            "application/json",
+        )
     params = (
         {"usecontributorsemail": use_contributors_email}
         if use_contributors_email is not None
         else None
     )
     res_json = BoundingBoxes.post(
-        "upload/csv", files={"csv": csv_fp}, params=params, auth=auth_header
+        "upload/csv", files=files, params=params, auth=auth_header
     )
     return dto.Message.from_dict(res_json)
 
