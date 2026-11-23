@@ -33,7 +33,9 @@ def update(
     uuid: str, tag: dto.TagDTO, auth_header: Optional[dto.AuthHeader] = None
 ) -> dto.TagDTO:
     """Update a tag."""
-    res_json = Tags.put(uuid, json=tag.to_dict(), auth=auth_header)
+    body = tag.to_dict()
+    body["uuid"] = uuid
+    res_json = Tags.put("", json=body, auth=auth_header)
     return dto.TagDTO.from_dict(res_json)
 
 

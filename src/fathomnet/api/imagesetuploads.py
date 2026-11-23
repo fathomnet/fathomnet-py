@@ -62,6 +62,6 @@ def find_by_uuid(uuid: str) -> dto.BImageSetUploadDTO:
     return dto.BImageSetUploadDTO.from_dict(res_json)
 
 
-def delete_by_uuid(uuid: str) -> None:
+def delete_by_uuid(uuid: str, auth_header: Optional[dto.AuthHeader] = None) -> None:
     """Delete an image set upload by UUID."""
-    ImageSetUploads.delete(uuid, parse_json=False)
+    ImageSetUploads.delete(uuid, parse_json=False, auth=auth_header)

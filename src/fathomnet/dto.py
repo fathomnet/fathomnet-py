@@ -194,6 +194,13 @@ class Authentication(DTO):
     attributes: Optional[object] = None
 
 
+class ParsedJwt(DTO):
+    email: Optional[str] = None
+    displayName: Optional[str] = None
+    groups: Optional[List[str]] = None
+    expiresAt: Optional[str] = None
+
+
 class BoundingBoxDTO(ABoundingBoxDTO):
     imageUuid: Optional[str] = None
 
@@ -222,9 +229,10 @@ class BoundingBox(DTO):
 
 class BoundingBoxSort(DTO):
     class Field(str, Enum):
+        CREATED = "CREATED"
+        CREATED_AT = "CREATED"  # Deprecated alias of CREATED
         UUID = "UUID"
         CONCEPT = "CONCEPT"
-        CREATED_AT = "CREATED_AT"
         UPDATED = "UPDATED"
         REVIEWED = "REVIEWED"
         IMAGE_URL = "IMAGE_URL"
@@ -608,8 +616,18 @@ class BoundingBoxComment(DTO):
     text: Optional[str] = None
     alternateConcept: Optional[str] = None
     flagged: Optional[bool] = None
-    createdTimestamp: Optional[str] = None
-    lastUpdatedTimestamp: Optional[str] = None
+    created: Optional[str] = None
+    lastUpdated: Optional[str] = None
+
+    @property
+    def createdTimestamp(self) -> Optional[str]:
+        """Deprecated alias of ``created``."""
+        return self.created
+
+    @property
+    def lastUpdatedTimestamp(self) -> Optional[str]:
+        """Deprecated alias of ``lastUpdated``."""
+        return self.lastUpdated
 
 
 class Topic(DTO):
@@ -629,8 +647,23 @@ class Activity(DTO):
 class FollowedTopic(Topic):
     uuid: Optional[str] = None
     email: Optional[str] = None
-    createdTimestamp: Optional[str] = None
-    lastUpdatedTimestamp: Optional[str] = None
+    created: Optional[str] = None
+    lastUpdated: Optional[str] = None
+
+    @property
+    def createdTimestamp(self) -> Optional[str]:
+        """Deprecated alias of ``created``."""
+        return self.created
+
+    @property
+    def lastUpdatedTimestamp(self) -> Optional[str]:
+        """Deprecated alias of ``lastUpdated``."""
+        return self.lastUpdated
+
+
+class FollowedTopics(DTO):
+    email: Optional[str] = None
+    followedTopics: Optional[List[FollowedTopic]] = None
 
 
 class WormsNode(DTO):

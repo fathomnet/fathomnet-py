@@ -69,7 +69,7 @@ def flag(
     uuid: str, value: bool, auth_header: Optional[dto.AuthHeader] = None
 ) -> dto.BoundingBoxComment:
     """Flag a comment."""
-    res_json = Comments.post(
+    res_json = Comments.put(
         "flag/{}".format(uuid), params={"flag": value}, auth=auth_header
     )
     return dto.BoundingBoxComment.from_dict(res_json)

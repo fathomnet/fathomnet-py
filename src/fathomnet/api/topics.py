@@ -50,7 +50,7 @@ def find(auth_header: Optional[dto.AuthHeader] = None) -> List[dto.FollowedTopic
 
 def find_by_email(
     email: str, auth_header: Optional[dto.AuthHeader] = None
-) -> List[dto.FollowedTopic]:
-    """(Admin) Get a list of followed topics by email."""
+) -> dto.FollowedTopics:
+    """(Admin) Get the followed topics for an email."""
     res_json = Topics.get("query/email/{}".format(email), auth=auth_header)
-    return list(map(dto.FollowedTopic.from_dict, res_json))
+    return dto.FollowedTopics.from_dict(res_json)

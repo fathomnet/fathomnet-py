@@ -128,10 +128,10 @@ def find_by_firebase_uid(
     return dto.FathomnetIdentity.from_dict(res_json)
 
 
-def verify(auth_header: Optional[dto.AuthHeader] = None) -> dto.Authentication:
+def verify(auth_header: Optional[dto.AuthHeader] = None) -> dto.ParsedJwt:
     """Get the contents of an authorization token."""
     res_json = Users.get("verification", auth=auth_header)
-    return dto.Authentication.from_dict(res_json)
+    return dto.ParsedJwt.from_dict(res_json)
 
 
 def find_by_display_name(

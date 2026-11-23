@@ -1,4 +1,5 @@
 # darwincore.py (fathomnet-py)
+import warnings
 from typing import List
 
 from fathomnet.api import EndpointManager
@@ -9,7 +10,15 @@ class DarwinCore(EndpointManager):
 
 
 def index() -> str:
-    """Get the darwin core index page."""
+    """Get the darwin core index page.
+
+    .. deprecated:: The FathomNet REST API no longer serves this endpoint.
+    """
+    warnings.warn(
+        "darwincore.index() is deprecated: the endpoint was removed from the FathomNet REST API.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     res = DarwinCore.get("", parse_json=False)
     return res.text
 
