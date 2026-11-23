@@ -2,7 +2,7 @@
 
 import requests
 
-from fathomnet.dto import Pageable
+from fathomnet.dto import Page, Pageable
 
 
 def debug_format_response(response: requests.Response) -> str:
@@ -52,7 +52,9 @@ def page(f: callable, size: int, start_page_number: int = 0, *args, **kwargs):
     """
     Calls the given function with the given arguments, and returns a generator that will yield all results, page by page, until there are no more results.
 
-    Assumes that the given function takes a Pageable as its first argument, and that the return value of the function is a list-like object that evaluates to False when there are no more results.
+    Assumes that the given function takes a Pageable as its first argument. It may return either a ``dto.Page``
+    (e.g. the ``*_page`` functions), in which case iteration stops after the last page, or a list-like object that
+    evaluates to False when there are no more results.
 
     Args:
         f: The function to call
@@ -67,10 +69,14 @@ def page(f: callable, size: int, start_page_number: int = 0, *args, **kwargs):
     number = start_page_number
     while True:
         pageable = Pageable(size=size, number=number)
-        page = f(pageable, *args, **kwargs)
+        result = f(pageable, *args, **kwargs)
 
-        if not page:
-            break
-
-        yield from page
+        if isinstance(result, Page):
+            yield from result.content
+            if result.is_last or not result.content:
+                break
+        else:
+            if not result:
+                break
+            yield from result
         number += 1

@@ -2,7 +2,7 @@
 import os
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Generic, List, Optional, TypeVar
 
 from pydantic import BaseModel, TypeAdapter, field_validator
 from lxml import etree
@@ -10,6 +10,8 @@ from lxml.builder import E
 from requests.auth import AuthBase
 
 _DATETIME_ADAPTER = TypeAdapter(datetime)
+
+T = TypeVar("T")
 
 
 def _to_rfc3339(value: Optional[str]) -> Optional[str]:
@@ -273,6 +275,8 @@ class BoundingBoxConstraintsDTO(DTO):
     annotationLicenses: Optional[List[str]] = None
     limit: Optional[int] = None
     offset: Optional[int] = None
+    pageNumber: Optional[int] = None
+    pageSize: Optional[int] = None
     sort: Optional[BoundingBoxSort] = None
 
     @field_validator("startTimestamp", "endTimestamp")
@@ -441,6 +445,8 @@ class GeoImageConstraints(DTO):
     ownerInstitutionCodes: Optional[List[str]] = None
     limit: Optional[int] = None
     offset: Optional[int] = None
+    pageNumber: Optional[int] = None
+    pageSize: Optional[int] = None
     newestFirst: Optional[bool] = None
 
     @field_validator("startTimestamp", "endTimestamp")
@@ -568,8 +574,15 @@ class Pageable(DTO):
         if self.number is not None:
             params.append(("page", self.number))
         if self.sort is not None:
-            for order in self.sort.orderBy:
-                params.append(("sort", order.property))
+            for order in self.sort.orderBy or []:
+                if order.property is None:
+                    continue
+                if order.direction is not None:
+                    params.append(
+                        ("sort", "{},{}".format(order.property, order.direction.value))
+                    )
+                else:
+                    params.append(("sort", order.property))
         return params
 
     @classmethod
@@ -578,16 +591,58 @@ class Pageable(DTO):
         size: Optional[int] = None,
         page: Optional[int] = None,
         sort_keys: Optional[List[str]] = None,
-    ):
-        """Make a Pageable instance from paging parameters."""
+    ) -> "Pageable":
+        """Make a Pageable instance from paging parameters.
+
+        Sort keys may include a direction, e.g. ``"displayName,DESC"``.
+        """
         pageable = cls()
         pageable.size = size
         pageable.number = page
         if sort_keys is not None:
             sort = Sort(orderBy=[])
             for sort_key in sort_keys:
-                sort.orderBy.append(Sort.Order(property=sort_key))
+                prop, _, direction = sort_key.partition(",")
+                sort.orderBy.append(
+                    Sort.Order(
+                        property=prop,
+                        direction=Sort.Order.Direction(direction.strip().upper())
+                        if direction
+                        else None,
+                    )
+                )
             pageable.sort = sort
+        return pageable
+
+
+class Page(DTO, Generic[T]):
+    """A page of results from a paged FathomNet REST API endpoint."""
+
+    content: List[T] = []
+    pageNumber: Optional[int] = None
+    pageSize: Optional[int] = None
+    totalPages: Optional[int] = None
+    totalItems: Optional[int] = None
+
+    @classmethod
+    def from_dict(cls, d: Any) -> "Page":
+        # Servers that predate paging on an endpoint return a bare array: treat it as one complete page.
+        if isinstance(d, list):
+            d = {
+                "content": d,
+                "pageNumber": 0,
+                "pageSize": len(d),
+                "totalPages": 1,
+                "totalItems": len(d),
+            }
+        return cls(**d)
+
+    @property
+    def is_last(self) -> bool:
+        """Whether this is the last page of results."""
+        if self.totalPages is None or self.pageNumber is None:
+            return not self.content
+        return self.pageNumber + 1 >= self.totalPages
 
 
 class Roles(Enum):

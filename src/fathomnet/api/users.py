@@ -4,34 +4,45 @@ from urllib.parse import quote
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
+from fathomnet.api._paging import page_params
 
 
 class Users(EndpointManager):
     PATH = "users"
 
 
+def find_all_page(
+    pageable: Optional[dto.Pageable] = None,
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> dto.Page[dto.FathomnetIdentity]:
+    """Get a page of all users."""
+    res_json = Users.get("list/users", params=page_params(pageable), auth=auth_header)
+    return dto.Page[dto.FathomnetIdentity].from_dict(res_json)
+
+
 def find_all(
     pageable: Optional[dto.Pageable] = None,
     auth_header: Optional[dto.AuthHeader] = None,
 ) -> List[dto.FathomnetIdentity]:
-    """Get a paged list of all users."""
-    res_json = Users.get(
-        "list/users",
-        params=pageable.to_params() if pageable else None,
-        auth=auth_header,
-    )
-    return list(map(dto.FathomnetIdentity.from_dict, res_json.get("content", [])))
+    """Get a paged list of all users (the server's default page size unless a pageable is given)."""
+    return find_all_page(pageable, auth_header).content
+
+
+def find_all_admin_page(
+    pageable: Optional[dto.Pageable] = None,
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> dto.Page[dto.FathomnetIdentity]:
+    """(Admin) Get a page of all users."""
+    res_json = Users.get("", params=page_params(pageable), auth=auth_header)
+    return dto.Page[dto.FathomnetIdentity].from_dict(res_json)
 
 
 def find_all_admin(
     pageable: Optional[dto.Pageable] = None,
     auth_header: Optional[dto.AuthHeader] = None,
 ) -> List[dto.FathomnetIdentity]:
-    """(Admin) Get a paged list of all users."""
-    res_json = Users.get(
-        "", params=pageable.to_params() if pageable else None, auth=auth_header
-    )
-    return list(map(dto.FathomnetIdentity.from_dict, res_json.get("content", [])))
+    """(Admin) Get a paged list of all users (the server's default page size unless a pageable is given)."""
+    return find_all_admin_page(pageable, auth_header).content
 
 
 def update_user_data(
@@ -134,26 +145,43 @@ def verify(auth_header: Optional[dto.AuthHeader] = None) -> dto.ParsedJwt:
     return dto.ParsedJwt.from_dict(res_json)
 
 
-def find_by_display_name(
-    display_name: str, pageable: Optional[dto.Pageable] = None
-) -> List[dto.FathomnetIdentity]:
-    """Find a user by display name."""
+def find_by_display_name_page(
+    display_name: str,
+    pageable: Optional[dto.Pageable] = None,
+) -> dto.Page[dto.FathomnetIdentity]:
+    """Get a page of users matching a display name."""
     res_json = Users.get(
-        "query/name/{}".format(quote(display_name)),
-        params=pageable.to_params() if pageable else None,
+        "query/name/{}".format(quote(display_name)), params=page_params(pageable)
     )
-    return list(map(dto.FathomnetIdentity.from_dict, res_json["content"]))
+    return dto.Page[dto.FathomnetIdentity].from_dict(res_json)
+
+
+def find_by_display_name(
+    display_name: str,
+    pageable: Optional[dto.Pageable] = None,
+) -> List[dto.FathomnetIdentity]:
+    """Get a paged list of users matching a display name (the server's default page size unless a pageable is given)."""
+    return find_by_display_name_page(display_name, pageable).content
+
+
+def find_by_organization_page(
+    organization: str,
+    pageable: Optional[dto.Pageable] = None,
+) -> dto.Page[dto.FathomnetIdentity]:
+    """Get a page of users in an organization."""
+    res_json = Users.get(
+        "query/organization/{}".format(quote(organization)),
+        params=page_params(pageable),
+    )
+    return dto.Page[dto.FathomnetIdentity].from_dict(res_json)
 
 
 def find_by_organization(
-    organization: str, pageable: Optional[dto.Pageable] = None
+    organization: str,
+    pageable: Optional[dto.Pageable] = None,
 ) -> List[dto.FathomnetIdentity]:
-    """Find a user by organization."""
-    res_json = Users.get(
-        "query/organization/{}".format(quote(organization)),
-        params=pageable.to_params() if pageable else None,
-    )
-    return list(map(dto.FathomnetIdentity.from_dict, res_json))
+    """Get a paged list of users in an organization (the server's default page size unless a pageable is given)."""
+    return find_by_organization_page(organization, pageable).content
 
 
 def find_by_uuid(uuid: str) -> dto.FathomnetIdentity:

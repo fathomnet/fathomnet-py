@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
+from fathomnet.api._paging import page_params
 
 
 class Tags(EndpointManager):
@@ -37,20 +38,34 @@ def count_distinct_keys() -> dto.Count:
     return dto.Count.from_dict(res_json)
 
 
-def find_distinct(pageable: Optional[dto.Pageable] = None) -> List[dto.SimpleTag]:
-    """Get a paged list of distinct tags (key, value, media type)."""
-    res_json = Tags.get(
-        "list/distinct", params=pageable.to_params() if pageable else None
-    )
-    return list(map(dto.SimpleTag.from_dict, res_json.get("content", [])))
+def find_distinct_page(
+    pageable: Optional[dto.Pageable] = None,
+) -> dto.Page[dto.SimpleTag]:
+    """Get a page of distinct tags (key, value, media type)."""
+    res_json = Tags.get("list/distinct", params=page_params(pageable))
+    return dto.Page[dto.SimpleTag].from_dict(res_json)
 
 
-def find_distinct_keys(pageable: Optional[dto.Pageable] = None) -> List[str]:
-    """Get a paged list of distinct tag keys."""
-    res_json = Tags.get(
-        "list/distinct/keys", params=pageable.to_params() if pageable else None
-    )
-    return res_json.get("content", [])
+def find_distinct(
+    pageable: Optional[dto.Pageable] = None,
+) -> List[dto.SimpleTag]:
+    """Get a paged list of distinct tags (key, value, media type) (the server's default page size unless a pageable is given)."""
+    return find_distinct_page(pageable).content
+
+
+def find_distinct_keys_page(
+    pageable: Optional[dto.Pageable] = None,
+) -> dto.Page[str]:
+    """Get a page of distinct tag keys."""
+    res_json = Tags.get("list/distinct/keys", params=page_params(pageable))
+    return dto.Page[str].from_dict(res_json)
+
+
+def find_distinct_keys(
+    pageable: Optional[dto.Pageable] = None,
+) -> List[str]:
+    """Get a paged list of distinct tag keys (the server's default page size unless a pageable is given)."""
+    return find_distinct_keys_page(pageable).content
 
 
 def find_by_uuid(uuid: str) -> dto.TagDTO:

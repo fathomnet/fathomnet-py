@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
+from fathomnet.api._paging import page_params
 
 
 class Regions(EndpointManager):
@@ -21,12 +22,19 @@ def count_all() -> int:
     return int(res.content)
 
 
-def find_all_paged(pageable: Optional[dto.Pageable]) -> List[dto.MarineRegion]:
-    """Get a paged list of all marine regions."""
-    res_json = Regions.get(
-        "list/all", params=pageable.to_params() if pageable else None
-    )
-    return list(map(dto.MarineRegion.from_dict, res_json.get("content", [])))
+def find_all_page(
+    pageable: Optional[dto.Pageable] = None,
+) -> dto.Page[dto.MarineRegion]:
+    """Get a page of all marine regions."""
+    res_json = Regions.get("list/all", params=page_params(pageable))
+    return dto.Page[dto.MarineRegion].from_dict(res_json)
+
+
+def find_all_paged(
+    pageable: Optional[dto.Pageable] = None,
+) -> List[dto.MarineRegion]:
+    """Get a paged list of all marine regions (the server's default page size unless a pageable is given)."""
+    return find_all_page(pageable).content
 
 
 def sync(auth_header: Optional[dto.AuthHeader] = None) -> int:

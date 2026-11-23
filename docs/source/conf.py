@@ -50,3 +50,14 @@ html_theme = "sphinx_rtd_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = []
+
+
+def _skip_parametrized_generics(app, what, name, obj, skip, options):
+    # Pydantic registers parametrized generics (e.g. Page[GeoImage]) in the calling module; don't document them.
+    if "[" in name:
+        return True
+    return None
+
+
+def setup(app):
+    app.connect("autodoc-skip-member", _skip_parametrized_generics)

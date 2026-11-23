@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
+from fathomnet.api._paging import page_params
 
 
 class ImageSetUploads(EndpointManager):
@@ -15,15 +16,19 @@ def count_all() -> dto.Count:
     return dto.Count.from_dict(res_json)
 
 
+def find_collections_page(
+    pageable: Optional[dto.Pageable] = None,
+) -> dto.Page[dto.BImageSetUploadDTO]:
+    """Get a page of all image set uploads."""
+    res_json = ImageSetUploads.get("list/all", params=page_params(pageable))
+    return dto.Page[dto.BImageSetUploadDTO].from_dict(res_json)
+
+
 def find_collections(
     pageable: Optional[dto.Pageable] = None,
 ) -> List[dto.BImageSetUploadDTO]:
-    """Get a paged list of all image set uploads."""
-    res_json = ImageSetUploads.get(
-        "list/all", params=pageable.to_params() if pageable else None
-    )
-    # Note: schema inconsistent with response, need to grab the 'content' object
-    return list(map(dto.BImageSetUploadDTO.from_dict, res_json.get("content", [])))
+    """Get a paged list of all image set uploads (the server's default page size unless a pageable is given)."""
+    return find_collections_page(pageable).content
 
 
 def find_contributors() -> List[str]:

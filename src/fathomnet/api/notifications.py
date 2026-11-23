@@ -4,16 +4,11 @@ from urllib.parse import quote
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
+from fathomnet.api._paging import page_params
 
 
 class Notifications(EndpointManager):
     PATH = "notifications"
-
-
-def _params(pageable: Optional[dto.Pageable], **extra) -> list:
-    params = pageable.to_params() if pageable else []
-    params.extend((k, v) for k, v in extra.items() if v is not None)
-    return params
 
 
 def create(
@@ -27,15 +22,37 @@ def create(
     return dto.Notification.from_dict(res_json)
 
 
+def find_mine_page(
+    pageable: Optional[dto.Pageable] = None,
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> dto.Page[dto.Notification]:
+    """Get a page of notifications for the authenticated user."""
+    res_json = Notifications.get(
+        "query/email", params=page_params(pageable), auth=auth_header
+    )
+    return dto.Page[dto.Notification].from_dict(res_json)
+
+
 def find_mine(
     pageable: Optional[dto.Pageable] = None,
     auth_header: Optional[dto.AuthHeader] = None,
 ) -> List[dto.Notification]:
-    """Get a paged list of notifications for the authenticated user."""
+    """Get a paged list of notifications for the authenticated user (the server's default page size unless a pageable is given)."""
+    return find_mine_page(pageable, auth_header).content
+
+
+def find_by_email_page(
+    email: str,
+    pageable: Optional[dto.Pageable] = None,
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> dto.Page[dto.Notification]:
+    """(Admin) Get a page of notifications for an email."""
     res_json = Notifications.get(
-        "query/email", params=_params(pageable), auth=auth_header
+        "query/email/{}".format(quote(email)),
+        params=page_params(pageable),
+        auth=auth_header,
     )
-    return list(map(dto.Notification.from_dict, res_json.get("content", [])))
+    return dto.Page[dto.Notification].from_dict(res_json)
 
 
 def find_by_email(
@@ -43,13 +60,23 @@ def find_by_email(
     pageable: Optional[dto.Pageable] = None,
     auth_header: Optional[dto.AuthHeader] = None,
 ) -> List[dto.Notification]:
-    """(Admin) Get a paged list of notifications for an email."""
+    """(Admin) Get a paged list of notifications for an email (the server's default page size unless a pageable is given)."""
+    return find_by_email_page(email, pageable, auth_header).content
+
+
+def find_by_email_since_page(
+    email: str,
+    since: str,
+    pageable: Optional[dto.Pageable] = None,
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> dto.Page[dto.Notification]:
+    """(Admin) Get a page of notifications for an email created since a timestamp (ISO 8601 / RFC 3339)."""
     res_json = Notifications.get(
-        "query/email/{}".format(quote(email)),
-        params=_params(pageable),
+        "query/email/{}/since".format(quote(email)),
+        params=page_params(pageable, {"since": since}),
         auth=auth_header,
     )
-    return list(map(dto.Notification.from_dict, res_json.get("content", [])))
+    return dto.Page[dto.Notification].from_dict(res_json)
 
 
 def find_by_email_since(
@@ -58,13 +85,23 @@ def find_by_email_since(
     pageable: Optional[dto.Pageable] = None,
     auth_header: Optional[dto.AuthHeader] = None,
 ) -> List[dto.Notification]:
-    """(Admin) Get a paged list of notifications for an email created since a timestamp (ISO 8601 / RFC 3339)."""
+    """(Admin) Get a paged list of notifications for an email created since a timestamp (ISO 8601 / RFC 3339) (the server's default page size unless a pageable is given)."""
+    return find_by_email_since_page(email, since, pageable, auth_header).content
+
+
+def find_by_email_and_topic_page(
+    email: str,
+    topic: str,
+    pageable: Optional[dto.Pageable] = None,
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> dto.Page[dto.Notification]:
+    """(Admin) Get a page of notifications for an email and topic."""
     res_json = Notifications.get(
-        "query/email/{}/since".format(quote(email)),
-        params=_params(pageable, since=since),
+        "query/email/{}/topic/{}".format(quote(email), quote(topic, safe="")),
+        params=page_params(pageable),
         auth=auth_header,
     )
-    return list(map(dto.Notification.from_dict, res_json.get("content", [])))
+    return dto.Page[dto.Notification].from_dict(res_json)
 
 
 def find_by_email_and_topic(
@@ -73,13 +110,8 @@ def find_by_email_and_topic(
     pageable: Optional[dto.Pageable] = None,
     auth_header: Optional[dto.AuthHeader] = None,
 ) -> List[dto.Notification]:
-    """(Admin) Get a paged list of notifications for an email and topic."""
-    res_json = Notifications.get(
-        "query/email/{}/topic/{}".format(quote(email), quote(topic, safe="")),
-        params=_params(pageable),
-        auth=auth_header,
-    )
-    return list(map(dto.Notification.from_dict, res_json.get("content", [])))
+    """(Admin) Get a paged list of notifications for an email and topic (the server's default page size unless a pageable is given)."""
+    return find_by_email_and_topic_page(email, topic, pageable, auth_header).content
 
 
 def find_by_uuid(

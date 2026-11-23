@@ -3,6 +3,29 @@ API Modules
 
 The ``fathomnet-py`` API is provided via the ``fathomnet.api`` package, and is broken into separate modules for the various FathomNet REST servlets.
 
+Paging
+------
+
+Many FathomNet endpoints are paged. Functions for those endpoints come in two forms:
+
+- ``<name>(..., pageable=None)`` returns a ``list`` of results. Pass a :class:`fathomnet.dto.Pageable` (``size``, ``number``) to choose a page; without one you get the server's default page (1000 items), except for functions documented to return complete lists (e.g. ``boundingboxes.find_concepts``), which fetch every page.
+- ``<name>_page(..., pageable=None)`` returns a :class:`fathomnet.dto.Page` with the ``content`` plus ``pageNumber``, ``pageSize``, ``totalPages``, and ``totalItems``.
+
+The server caps page sizes at 10000. Constraint-based queries (``geoimages.find``, ``boundingboxes.find``) page with ``pageNumber``/``pageSize`` on the constraints object. To iterate every result, use :func:`fathomnet.util.page`::
+
+    from fathomnet import dto
+    from fathomnet.api import boundingboxes
+    from fathomnet.util import page
+
+    for concept in page(boundingboxes.find_concepts_page, 1000):
+        ...
+
+    # page() passes the Pageable as the first argument, so wrap functions that take it later
+    for box in page(lambda p: boundingboxes.find_by_reviewer_uuid_page(reviewer_uuid, p), 500):
+        ...
+
+The ``limit``/``offset`` arguments on the activity, audit, and image-set-upload geo-image functions are deprecated in favor of ``pageable``.
+
 ----
 
 Bounding Boxes
@@ -34,17 +57,30 @@ List & count
 ^^^^^^^^^^^^
 
 .. autofunction:: find_concepts
+.. autofunction:: find_concepts_page
 .. autofunction:: find_observers
+.. autofunction:: find_observers_page
 .. autofunction:: find_all_user_defined_keys
 .. autofunction:: count_all
 .. autofunction:: count_by_concept
 .. autofunction:: count_total_by_concept
+.. autofunction:: count_total_by_concept_page
+.. autofunction:: count_total_by_observer
+.. autofunction:: count_total_by_observer_page
+.. autofunction:: count_total_by_reviewer
+.. autofunction:: count_total_by_reviewer_page
 
 Audit
 ^^^^^
 
 .. autofunction:: audit_by_uuid
 .. autofunction:: audit_by_user_defined_key
+.. autofunction:: audit_by_concepts
+.. autofunction:: audit_by_concepts_page
+.. autofunction:: audit_by_observer
+.. autofunction:: audit_by_observer_page
+.. autofunction:: audit_by_reviewer
+.. autofunction:: audit_by_reviewer_page
 
 ----
 
@@ -110,7 +146,9 @@ Find
 
 .. autofunction:: find
 .. autofunction:: find_all
+.. autofunction:: find_all_page
 .. autofunction:: find_all_alt
+.. autofunction:: find_all_alt_page
 .. autofunction:: find_by_concept
 .. autofunction:: find_by_contributors_email
 .. autofunction:: find_by_observer
@@ -142,6 +180,7 @@ Find
 ^^^^
 
 .. autofunction:: find_collections
+.. autofunction:: find_collections_page
 .. autofunction:: find_by_image_uuid
 .. autofunction:: find_by_contributor
 .. autofunction:: find_by_darwin_core_dataset_id
@@ -246,7 +285,9 @@ List & count
 ^^^^^^^^^^^^
 
 .. autofunction:: find_distinct
+.. autofunction:: find_distinct_page
 .. autofunction:: find_distinct_keys
+.. autofunction:: find_distinct_keys_page
 .. autofunction:: count_distinct
 .. autofunction:: count_distinct_keys
 
@@ -284,6 +325,11 @@ List & count
 ^^^^^^^^^^^^
 
 .. autofunction:: find_all
+.. autofunction:: find_all_page
+.. autofunction:: find_by_display_name
+.. autofunction:: find_by_display_name_page
+.. autofunction:: find_by_organization
+.. autofunction:: find_by_organization_page
 .. autofunction:: find_by_authentication
 .. autofunction:: find_by_email
 .. autofunction:: find_by_firebase_uid
