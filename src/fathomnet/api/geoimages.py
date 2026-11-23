@@ -41,3 +41,20 @@ def find_by_image_set_upload_uuid(
         params={"limit": limit, "offset": offset},
     )
     return list(map(dto.GeoImage.from_dict, res_json))
+
+
+def count_valid(ok: bool = True) -> dto.Count:
+    """Get a count of geo images whose URL is valid (``ok=True``) or invalid (``ok=False``)."""
+    res_json = GeoImages.get("count/valid", params={"ok": ok})
+    return dto.Count.from_dict(res_json)
+
+
+def find_valid(
+    ok: bool = True, pageable: Optional[dto.Pageable] = None
+) -> List[dto.GeoImage]:
+    """Get a paged list of geo images whose URL is valid (``ok=True``) or invalid (``ok=False``)."""
+    params = [("ok", ok)]
+    if pageable:
+        params.extend(pageable.to_params())
+    res_json = GeoImages.get("query/valid", params=params)
+    return list(map(dto.GeoImage.from_dict, res_json.get("content", [])))

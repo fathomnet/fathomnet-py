@@ -73,10 +73,22 @@ def find_all_user_defined_keys() -> List[str]:
 
 
 def upload_csv(
-    csv_fp: BinaryIO, auth_header: Optional[dto.AuthHeader] = None
+    csv_fp: BinaryIO,
+    auth_header: Optional[dto.AuthHeader] = None,
+    use_contributors_email: Optional[bool] = None,
 ) -> dto.Message:
-    """Upload a CSV of bounding boxes."""
-    res_json = BoundingBoxes.post("upload/csv", files={"csv": csv_fp}, auth=auth_header)
+    """Upload a CSV of bounding boxes.
+
+    :param use_contributors_email: Optional value for the server's ``usecontributorsemail`` query parameter
+    """
+    params = (
+        {"usecontributorsemail": use_contributors_email}
+        if use_contributors_email is not None
+        else None
+    )
+    res_json = BoundingBoxes.post(
+        "upload/csv", files={"csv": csv_fp}, params=params, auth=auth_header
+    )
     return dto.Message.from_dict(res_json)
 
 

@@ -709,3 +709,44 @@ class ContributionStats(DTO):
     ownerInstitutionCode: Optional[str] = None
     totalUploads: Optional[int] = None
     totalImages: Optional[int] = None
+
+
+class FullLicense(DTO):
+    spdxId: Optional[str] = None
+    name: Optional[str] = None
+    url: Optional[str] = None
+    selectableForImages: Optional[bool] = None
+    selectableForAnnotations: Optional[bool] = None
+
+
+class NotificationType(str, Enum):
+    ACCOUNT_CREATED = "ACCOUNT_CREATED"
+    IMAGE_SET = "IMAGE_SET"
+
+
+class NotificationContent(DTO):
+    notificationType: Optional[NotificationType] = None
+    topic: Optional[str] = None
+    message: Optional[str] = None
+    email: Optional[str] = None
+
+
+class Notification(DTO):
+    uuid: Optional[str] = None
+    notificationType: Optional[NotificationType] = None
+    topic: Optional[str] = None
+    message: Optional[str] = None
+    email: Optional[str] = None
+    createdTimestamp: Optional[str] = None
+    readTimestamp: Optional[str] = None
+
+
+class ImageSetUploadUpdate(DTO):
+    contributorsEmail: Optional[str] = None
+    contributorNotificationTimestamp: Optional[str] = None
+
+
+class SimpleTag(DTO):
+    key: Optional[str] = None
+    value: Optional[str] = None
+    mediaType: Optional[str] = None

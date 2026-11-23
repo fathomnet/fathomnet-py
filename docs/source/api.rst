@@ -144,7 +144,14 @@ Find
 .. autofunction:: find_collections
 .. autofunction:: find_by_image_uuid
 .. autofunction:: find_by_contributor
+.. autofunction:: find_by_darwin_core_dataset_id
 .. autofunction:: find_by_uuid
+
+Update & delete
+^^^^^^^^^^^^^^^
+
+.. autofunction:: update
+.. autofunction:: delete_by_uuid
 
 List & count
 ^^^^^^^^^^^^
@@ -157,6 +164,32 @@ Compute stats
 ^^^^^^^^^^^^^
 
 .. autofunction:: stats
+
+----
+
+Licenses
+--------
+
+.. module:: fathomnet.api.licenses
+
+The ``fathomnet.api.licenses`` module supports license lookup operations.
+
+.. automodule:: fathomnet.api.licenses
+    :members:
+    :noindex:
+
+----
+
+Notifications
+-------------
+
+.. module:: fathomnet.api.notifications
+
+The ``fathomnet.api.notifications`` module supports user notification operations. All operations require authentication.
+
+.. automodule:: fathomnet.api.notifications
+    :members:
+    :noindex:
 
 ----
 
@@ -199,6 +232,7 @@ Create, update, & delete
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. autofunction:: create_with_dto
+.. autofunction:: create_for_image
 .. autofunction:: update
 .. autofunction:: delete
 
@@ -207,6 +241,14 @@ Find
 
 .. autofunction:: find_by_uuid
 .. autofunction:: find_by_image_uuid_and_key
+
+List & count
+^^^^^^^^^^^^
+
+.. autofunction:: find_distinct
+.. autofunction:: find_distinct_keys
+.. autofunction:: count_distinct
+.. autofunction:: count_distinct_keys
 
 ----
 

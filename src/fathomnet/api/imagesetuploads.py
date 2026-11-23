@@ -44,6 +44,12 @@ def find_by_contributor(contributors_email: str) -> List[dto.BImageSetUploadDTO]
     return list(map(dto.BImageSetUploadDTO.from_dict, res_json))
 
 
+def find_by_darwin_core_dataset_id(dataset_id: str) -> dto.BImageSetUploadDTO:
+    """Get the image set upload for a darwin core dataset ID (UUID)."""
+    res_json = ImageSetUploads.get("query/darwincore/{}".format(dataset_id))
+    return dto.BImageSetUploadDTO.from_dict(res_json)
+
+
 def find_by_image_uuid(image_uuid: str) -> List[dto.BImageSetUploadDTO]:
     """Get an image set upload by UUID."""
     res_json = ImageSetUploads.get("query/image/{}".format(image_uuid))
@@ -60,6 +66,18 @@ def find_by_uuid(uuid: str) -> dto.BImageSetUploadDTO:
     """Get an image set upload by UUID."""
     res_json = ImageSetUploads.get(uuid)
     return dto.BImageSetUploadDTO.from_dict(res_json)
+
+
+def update(
+    uuid: str,
+    image_set_upload_update: dto.ImageSetUploadUpdate,
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> Optional[dto.BImageSetUploadDTO]:
+    """(Admin) Update an image set upload's contributor email and/or contributor notification timestamp."""
+    res_json = ImageSetUploads.put(
+        uuid, json=image_set_upload_update.to_dict(), auth=auth_header
+    )
+    return dto.BImageSetUploadDTO.from_dict(res_json) if res_json else None
 
 
 def delete_by_uuid(uuid: str, auth_header: Optional[dto.AuthHeader] = None) -> None:
