@@ -4,16 +4,26 @@ from urllib.parse import quote, quote_plus
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
+from fathomnet.api._paging import page_params
 
 
 class Images(EndpointManager):
     PATH = "images"
 
 
-def find_all_alt(pageable: Optional[dto.Pageable] = None) -> List[dto.AImageDTO]:
-    """Get a paged list of all images. (alternative endpoint)"""
-    res_json = Images.get("", params=pageable.to_params() if pageable else None)
-    return list(map(dto.AImageDTO.from_dict, res_json.get("content", [])))
+def find_all_alt_page(
+    pageable: Optional[dto.Pageable] = None,
+) -> dto.Page[dto.AImageDTO]:
+    """Get a page of all images (alternative endpoint)."""
+    res_json = Images.get("", params=page_params(pageable))
+    return dto.Page[dto.AImageDTO].from_dict(res_json)
+
+
+def find_all_alt(
+    pageable: Optional[dto.Pageable] = None,
+) -> List[dto.AImageDTO]:
+    """Get a paged list of all images (alternative endpoint) (the server's default page size unless a pageable is given)."""
+    return find_all_alt_page(pageable).content
 
 
 def create_if_not_exists(
@@ -32,11 +42,19 @@ def count_all() -> dto.Count:
     return dto.Count.from_dict(res_json)
 
 
-def find_all(pageable: Optional[dto.Pageable] = None) -> List[dto.AImageDTO]:
-    """Get a paged list of all images."""
-    res_json = Images.get("list/all", params=pageable.to_params() if pageable else None)
-    # Note: schema inconsistent with response, need to grab the 'content' object
-    return list(map(dto.AImageDTO.from_dict, res_json.get("content", [])))
+def find_all_page(
+    pageable: Optional[dto.Pageable] = None,
+) -> dto.Page[dto.AImageDTO]:
+    """Get a page of all images."""
+    res_json = Images.get("list/all", params=page_params(pageable))
+    return dto.Page[dto.AImageDTO].from_dict(res_json)
+
+
+def find_all(
+    pageable: Optional[dto.Pageable] = None,
+) -> List[dto.AImageDTO]:
+    """Get a paged list of all images (the server's default page size unless a pageable is given)."""
+    return find_all_page(pageable).content
 
 
 def find_distinct_submitter() -> List[str]:

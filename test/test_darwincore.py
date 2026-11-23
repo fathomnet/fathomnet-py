@@ -15,3 +15,8 @@ class TestDarwinCoreAPI(TestCase):
         )
         self.assertIsNotNone(owner_institutions)
         self.assertIn("MBARI", owner_institutions)
+
+    def test_find_by_dataset_id(self):
+        dataset_id = "9596e315-82e5-407f-853d-979bd5700d43"
+        darwin_core = darwincore.find_by_dataset_id(dataset_id)
+        self.assertEqual(darwin_core.datasetID, dataset_id)

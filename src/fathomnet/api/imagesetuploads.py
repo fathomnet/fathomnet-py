@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
+from fathomnet.api._paging import page_params
 
 
 class ImageSetUploads(EndpointManager):
@@ -15,15 +16,19 @@ def count_all() -> dto.Count:
     return dto.Count.from_dict(res_json)
 
 
+def find_collections_page(
+    pageable: Optional[dto.Pageable] = None,
+) -> dto.Page[dto.BImageSetUploadDTO]:
+    """Get a page of all image set uploads."""
+    res_json = ImageSetUploads.get("list/all", params=page_params(pageable))
+    return dto.Page[dto.BImageSetUploadDTO].from_dict(res_json)
+
+
 def find_collections(
     pageable: Optional[dto.Pageable] = None,
 ) -> List[dto.BImageSetUploadDTO]:
-    """Get a paged list of all image set uploads."""
-    res_json = ImageSetUploads.get(
-        "list/all", params=pageable.to_params() if pageable else None
-    )
-    # Note: schema inconsistent with response, need to grab the 'content' object
-    return list(map(dto.BImageSetUploadDTO.from_dict, res_json.get("content", [])))
+    """Get a paged list of all image set uploads (the server's default page size unless a pageable is given)."""
+    return find_collections_page(pageable).content
 
 
 def find_contributors() -> List[str]:
@@ -44,6 +49,12 @@ def find_by_contributor(contributors_email: str) -> List[dto.BImageSetUploadDTO]
     return list(map(dto.BImageSetUploadDTO.from_dict, res_json))
 
 
+def find_by_darwin_core_dataset_id(dataset_id: str) -> dto.BImageSetUploadDTO:
+    """Get the image set upload for a darwin core dataset ID (UUID)."""
+    res_json = ImageSetUploads.get("query/darwincore/{}".format(dataset_id))
+    return dto.BImageSetUploadDTO.from_dict(res_json)
+
+
 def find_by_image_uuid(image_uuid: str) -> List[dto.BImageSetUploadDTO]:
     """Get an image set upload by UUID."""
     res_json = ImageSetUploads.get("query/image/{}".format(image_uuid))
@@ -62,6 +73,18 @@ def find_by_uuid(uuid: str) -> dto.BImageSetUploadDTO:
     return dto.BImageSetUploadDTO.from_dict(res_json)
 
 
-def delete_by_uuid(uuid: str) -> None:
+def update(
+    uuid: str,
+    image_set_upload_update: dto.ImageSetUploadUpdate,
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> Optional[dto.BImageSetUploadDTO]:
+    """(Admin) Update an image set upload's contributor email and/or contributor notification timestamp."""
+    res_json = ImageSetUploads.put(
+        uuid, json=image_set_upload_update.to_dict(), auth=auth_header
+    )
+    return dto.BImageSetUploadDTO.from_dict(res_json) if res_json else None
+
+
+def delete_by_uuid(uuid: str, auth_header: Optional[dto.AuthHeader] = None) -> None:
     """Delete an image set upload by UUID."""
-    ImageSetUploads.delete(uuid, parse_json=False)
+    ImageSetUploads.delete(uuid, parse_json=False, auth=auth_header)

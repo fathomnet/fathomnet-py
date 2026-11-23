@@ -33,3 +33,11 @@ class TestGeoImagesAPI(TestCase):
         results = geoimages.find_by_image_set_upload_uuid(image_set_upload_uuid)
         self.assertIsNotNone(results)
         self.assertGreater(len(results), 0)
+
+    def test_count_valid(self):
+        count = geoimages.count_valid()
+        self.assertGreater(count.count, 0)
+
+    def test_find_valid(self):
+        results = geoimages.find_valid(pageable=dto.Pageable(size=2))
+        self.assertEqual(len(results), 2)

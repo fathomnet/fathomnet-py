@@ -52,3 +52,9 @@ class TestImageSetUploadsAPI(TestCase):
         image_set = imagesetuploads.find_by_uuid(uuid)
         self.assertIsNotNone(image_set)
         self.assertEqual(image_set.uuid, uuid)
+
+    def test_find_by_darwin_core_dataset_id(self):
+        image_set_upload = imagesetuploads.find_by_darwin_core_dataset_id(
+            "9596e315-82e5-407f-853d-979bd5700d43"
+        )
+        self.assertEqual(image_set_upload.uuid, "924b36a7-6548-42ac-8008-3aa9453cb5cd")

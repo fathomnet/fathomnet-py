@@ -4,6 +4,7 @@ from typing import List, Optional
 
 from fathomnet import dto
 from fathomnet.api import EndpointManager
+from fathomnet.api._paging import page_params
 
 
 class Comments(EndpointManager):
@@ -52,24 +53,32 @@ def find_by_bounding_box_uuid(
     return list(map(dto.BoundingBoxComment.from_dict, res_json))
 
 
+def find_by_email_page(
+    email: str,
+    pageable: Optional[dto.Pageable] = None,
+    auth_header: Optional[dto.AuthHeader] = None,
+) -> dto.Page[dto.BoundingBoxComment]:
+    """Get a page of comments by email."""
+    res_json = Comments.get(
+        "query/email", params=page_params(pageable, {"email": email}), auth=auth_header
+    )
+    return dto.Page[dto.BoundingBoxComment].from_dict(res_json)
+
+
 def find_by_email(
     email: str,
     pageable: Optional[dto.Pageable] = None,
     auth_header: Optional[dto.AuthHeader] = None,
 ) -> List[dto.BoundingBoxComment]:
-    """Get a list of comments by email."""
-    params = {"email": email}
-    if pageable:
-        params.update(pageable.to_dict())
-    res_json = Comments.get("query/email", params=params, auth=auth_header)
-    return list(map(dto.BoundingBoxComment.from_dict, res_json.get("content", [])))
+    """Get a paged list of comments by email (the server's default page size unless a pageable is given)."""
+    return find_by_email_page(email, pageable, auth_header).content
 
 
 def flag(
     uuid: str, value: bool, auth_header: Optional[dto.AuthHeader] = None
 ) -> dto.BoundingBoxComment:
     """Flag a comment."""
-    res_json = Comments.post(
+    res_json = Comments.put(
         "flag/{}".format(uuid), params={"flag": value}, auth=auth_header
     )
     return dto.BoundingBoxComment.from_dict(res_json)
