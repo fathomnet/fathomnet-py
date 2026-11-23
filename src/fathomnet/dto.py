@@ -60,6 +60,7 @@ class AImageDTO(DTO):
     boundingBoxes: Optional[List["ABoundingBoxDTO"]] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
+    imageLicense: Optional[str] = None
 
     def to_pascal_voc(
         self, path: Optional[str] = None, pretty_print: bool = False
@@ -170,6 +171,7 @@ class ABoundingBoxDTO(DTO):
     lastReviewedTimestamp: Optional[str] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
+    annotationLicense: Optional[str] = None
 
 
 class ApiKey(DTO):
@@ -225,6 +227,7 @@ class BoundingBox(DTO):
     reviewState: Optional[ReviewState] = None
     reviewer: Optional[str] = None
     lastReviewedTimestamp: Optional[str] = None
+    annotationLicense: Optional[str] = None
 
 
 class BoundingBoxSort(DTO):
@@ -263,7 +266,11 @@ class BoundingBoxConstraintsDTO(DTO):
     minDepth: Optional[float] = None
     maxDepth: Optional[float] = None
     ownerInstitutionCodes: Optional[List[str]] = None
+    collectionCodes: Optional[List[str]] = None
     tagKeys: Optional[List[str]] = None
+    imagingTypes: Optional[List[str]] = None
+    imageLicenses: Optional[List[str]] = None
+    annotationLicenses: Optional[List[str]] = None
     limit: Optional[int] = None
     offset: Optional[int] = None
     sort: Optional[BoundingBoxSort] = None
@@ -327,6 +334,7 @@ class BImageSetUploadDTO(DTO):
     status: Optional["ImageSetUpload.Status"] = None
     statusUpdaterEmail: Optional[str] = None
     statusUpdateTimestamp: Optional[str] = None
+    contributorNotificationTimestamp: Optional[str] = None
     rejectionReason: Optional[str] = None
     rejectionDetails: Optional[str] = None
     darwinCore: Optional[BDarwinCore] = None
@@ -376,6 +384,8 @@ class FathomnetIdMutation(DTO):
     organization: Optional[str] = None
     profile: Optional[str] = None
     displayName: Optional[str] = None
+    orcid: Optional[str] = None
+    notificationFrequency: Optional[str] = None
 
 
 class FathomnetIdentity(DTO):
@@ -409,6 +419,7 @@ class GeoImage(DTO):
     timestamp: Optional[str] = None
     valid: Optional[bool] = None
     lastValidation: Optional[str] = None
+    imageLicense: Optional[str] = None
 
 
 class GeoImageConstraints(DTO):
@@ -418,6 +429,7 @@ class GeoImageConstraints(DTO):
     startTimestamp: Optional[str] = None
     endTimestamp: Optional[str] = None
     imagingTypes: Optional[List[str]] = None
+    imageLicenses: Optional[List[str]] = None
     includeUnverified: Optional[bool] = None
     includeVerified: Optional[bool] = None
     minLongitude: Optional[float] = None
@@ -429,6 +441,7 @@ class GeoImageConstraints(DTO):
     ownerInstitutionCodes: Optional[List[str]] = None
     limit: Optional[int] = None
     offset: Optional[int] = None
+    newestFirst: Optional[bool] = None
 
     @field_validator("startTimestamp", "endTimestamp")
     @classmethod
@@ -468,6 +481,7 @@ class Image(DTO):
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
     imageSetUploads: Optional[List["ImageSetUpload"]] = None
+    imageLicense: Optional[str] = None
 
 
 class ImageSetUpload(DTO):
@@ -491,6 +505,7 @@ class ImageSetUpload(DTO):
     rejectionDetails: Optional[str] = None
     statusUpdaterEmail: Optional[str] = None
     statusUpdateTimestamp: Optional[str] = None
+    contributorNotificationTimestamp: Optional[str] = None
     format: Optional[UploadFormat] = None
     darwinCore: Optional[DarwinCore] = None
     images: Optional[List[Image]] = None
@@ -513,6 +528,8 @@ class MarineRegion(DTO):
     maxLatitude: Optional[float] = None
     minLongitude: Optional[float] = None
     maxLongitude: Optional[float] = None
+    centerLatitude: Optional[float] = None
+    centerLongitude: Optional[float] = None
     createdTimestamp: Optional[str] = None
     lastUpdatedTimestamp: Optional[str] = None
 
